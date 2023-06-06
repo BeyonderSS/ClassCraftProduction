@@ -1,20 +1,31 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { RxCross1, RxHamburgerMenu } from "react-icons/rx";
 import { motion } from "framer-motion";
 import { SlArrowRight } from "react-icons/sl";
 import { signIn, signOut, useSession } from "next-auth/react";
+import NavbarSkeletonLoader from "./SkeletonLoader";
 
 const Header = () => {
   const { data: session } = useSession();
   console.log("session:", session);
   const [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate loading data
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, []);
 
   const handleSideBar = () => {
     setIsOpen(!isOpen);
   };
-
+  if (loading) {
+    return <NavbarSkeletonLoader />;
+  }
   return (
     <header className="py-2 bg-blue-600 ">
       <div className=" lg:hidden block flex justify-between mx-5">
@@ -72,21 +83,27 @@ const Header = () => {
             Flourishers Edge
           </p>
           <p className="text-sm  text-gray-100 ">Admin</p>
-         {session&& <p className="text-lg  text-gray-100">{session.user.name}</p>}
+          {session && (
+            <p className="text-lg  text-gray-100">{session.user.name}</p>
+          )}
         </div>
 
         <ul className="lg:flex flex-col lg:w-full mt-4">
-       {session?(   <li
-            onClick={signOut}
-            className="flex items-center text-gray-100 py-2 px-4 cursor-pointer hover:bg-blue-700 lg:hover:bg-transparent lg:hover:text-gray-100"
-          >
-            <SlArrowRight className="pr-2 text-xl" /> SignOut
-          </li>):(   <li
-            onClick={signIn}
-            className="flex items-center text-gray-100 py-2 px-4 cursor-pointer hover:bg-blue-700 lg:hover:bg-transparent lg:hover:text-gray-100"
-          >
-            <SlArrowRight className="pr-2 text-xl" /> SignIn
-          </li>)}
+          {session ? (
+            <li
+              onClick={signOut}
+              className="flex items-center text-gray-100 py-2 px-4 cursor-pointer hover:bg-blue-700 lg:hover:bg-transparent lg:hover:text-gray-100"
+            >
+              <SlArrowRight className="pr-2 text-xl" /> SignOut
+            </li>
+          ) : (
+            <li
+              onClick={signIn}
+              className="flex items-center text-gray-100 py-2 px-4 cursor-pointer hover:bg-blue-700 lg:hover:bg-transparent lg:hover:text-gray-100"
+            >
+              <SlArrowRight className="pr-2 text-xl" /> SignIn
+            </li>
+          )}
           <li className="flex items-center text-gray-100 py-2 px-4 cursor-pointer hover:bg-blue-700 lg:hover:bg-transparent lg:hover:text-gray-100">
             <SlArrowRight className="pr-2 text-xl" /> About
           </li>
