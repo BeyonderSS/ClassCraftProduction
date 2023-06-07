@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
-import listCourses from '@/lib/listCourses';
+import listCoursesWithAnnouncements from '@/lib/listCourses';
 import createCourse from '@/lib/createCourse';
 import addStudentsToCourse from '@/lib/addStudentsToCourse';
 import inviteTeachersToCourse from '@/lib/inviteTeachersToCourse';
@@ -15,7 +15,7 @@ const CourseList = () => {
 
       async function getCourses(access_token) {
         const accessToken = access_token;
-        const courses = await listCourses(accessToken);
+        const courses = await listCoursesWithAnnouncements(accessToken);
         console.log(courses);
         setCourses(courses)
       }

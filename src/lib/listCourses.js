@@ -1,11 +1,11 @@
 'use server'
-import {google} from 'googleapis'
+import { google } from 'googleapis';
 
-async function listCourses(accessToken) {
+async function listCoursesWithAnnouncements(accessToken) {
   const auth = new google.auth.OAuth2();
-  auth.setCredentials({access_token: accessToken});
+  auth.setCredentials({ access_token: accessToken });
 
-  const classroom = google.classroom({version: 'v1', auth});
+  const classroom = google.classroom({ version: 'v1', auth });
   const res = await classroom.courses.list({});
 
   const courses = res.data.courses;
@@ -14,7 +14,18 @@ async function listCourses(accessToken) {
     return [];
   }
 
-  return courses;
+  const coursesWithAnnouncements = await Promise.all(
+    courses.map(async (course) => {
+      const announcementsRes = await classroom.courses.announcements.list({
+        courseId: course.id,
+      });
+      const announcements = announcementsRes.data.announcements || [];
+      return { ...course, announcements };
+    })
+  );
+
+  return coursesWithAnnouncements;
 }
 
-export default listCourses;
+export default listCoursesWithAnnouncements;
+
