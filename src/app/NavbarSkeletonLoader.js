@@ -10,7 +10,7 @@ const NavbarSkeletonLoader = () => {
         <div className="h-10 w-10 bg-gray-300 rounded-full "></div>
       </div>
 
-      <div className="absolute left-0 h-screen px-10 flex flex-col  animate-pulse space-y-4 bg-gray-200 ">
+      <div className="hidden lg:block absolute left-0 h-screen px-10 flex flex-col  animate-pulse space-y-4 bg-gray-200 ">
         <div className="h-6 w-40 bg-gray-300 rounded-lg"></div>
         <div className="h-6 w-40 bg-gray-300 rounded-lg "></div>
         <div className="h-6 w-40 bg-gray-300 rounded-lg "></div>
