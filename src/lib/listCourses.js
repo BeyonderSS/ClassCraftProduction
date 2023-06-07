@@ -1,7 +1,7 @@
 'use server'
 import { google } from 'googleapis';
 
-async function listCoursesWithAnnouncements(accessToken) {
+async function listCourses(accessToken) {
   const auth = new google.auth.OAuth2();
   auth.setCredentials({ access_token: accessToken });
 
@@ -14,18 +14,18 @@ async function listCoursesWithAnnouncements(accessToken) {
     return [];
   }
 
-  const coursesWithAnnouncements = await Promise.all(
-    courses.map(async (course) => {
-      const announcementsRes = await classroom.courses.announcements.list({
-        courseId: course.id,
-      });
-      const announcements = announcementsRes.data.announcements || [];
-      return { ...course, announcements };
-    })
-  );
+  // const coursesWithAnnouncements = await Promise.all(
+  //   courses.map(async (course) => {
+  //     const announcementsRes = await classroom.courses.announcements.list({
+  //       courseId: course.id,
+  //     });
+  //     const announcements = announcementsRes.data.announcements || [];
+  //     return { ...course, announcements };
+  //   })
+  // );
 
-  return coursesWithAnnouncements;
+  return courses;
 }
 
-export default listCoursesWithAnnouncements;
+export default listCourses;
 

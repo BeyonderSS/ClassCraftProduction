@@ -1,10 +1,11 @@
 'use client'
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
-import listCoursesWithAnnouncements from '@/lib/listCourses';
+import listCourses from '@/lib/listCourses';
 import createCourse from '@/lib/createCourse';
 import addStudentsToCourse from '@/lib/addStudentsToCourse';
 import inviteTeachersToCourse from '@/lib/inviteTeachersToCourse';
+import listAnnouncements from '@/lib/listAnnouncements';
 
 const CourseList = () => {
   const [courses, setCourses] = useState([]);
@@ -15,7 +16,7 @@ const CourseList = () => {
 
       async function getCourses(access_token) {
         const accessToken = access_token;
-        const courses = await listCoursesWithAnnouncements(accessToken);
+        const courses = await listCourses(accessToken);
         console.log(courses);
         setCourses(courses)
       }
@@ -26,6 +27,23 @@ const CourseList = () => {
   }, [session]);
 console.log(courses)
 
+
+useEffect(() => {
+  if(session){
+    console.log(session.accessToken)
+
+    async function getAnnouncements(access_token) {
+      const accessToken = access_token;
+      const courseId = "your course id here"
+      const announcements = await listAnnouncements(accessToken,courseId);
+      console.log("announcement of"+" "+courseId,announcements);
+     
+    }
+    
+    getAnnouncements(session.accessToken);
+    
+}
+}, [session]);
 // useEffect(() => {
 //   if (session) {
 //     async function createCourse(access_token) {
