@@ -14,7 +14,7 @@ const Header = () => {
   // console.log("session:", session);
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(true);
-  const role = "Student";
+  const role = "Admin";
   useEffect(() => {
     // Simulate loading data
     setTimeout(() => {
@@ -103,18 +103,19 @@ const Header = () => {
           </div>
           {role === "Admin" && (
             <ul className="lg:flex flex-col lg:w-full mt-4">
-              <li className="flex items-center text-gray-100 py-2 px-4 cursor-pointer hover:bg-blue-700 transition ease-in-out duration-500">
-                <SlArrowRight className="pr-2 text-xl" /> Create Course
-              </li>
-              <li className="flex items-center text-gray-100 py-2 px-4 cursor-pointer hover:bg-blue-700 transition ease-in-out duration-500">
-                <SlArrowRight className="pr-2 text-xl" /> Manage Classes
-              </li>
+              <Link href="/dashboard/createcourse">
+                <li className="flex items-center text-gray-100 py-2 px-4 cursor-pointer hover:bg-blue-700 transition ease-in-out duration-500">
+                  <SlArrowRight className="pr-2 text-xl" /> Create Course
+                </li>
+              </Link>
+              <Link href="/dashboard/courselist">
+                <li className="flex items-center text-gray-100 py-2 px-4 cursor-pointer hover:bg-blue-700 transition ease-in-out duration-500">
+                  <SlArrowRight className="pr-2 text-xl" /> View Courses
+                </li>
+              </Link>
+
               <li className="flex items-center text-gray-100 py-2 px-4 cursor-pointer hover:bg-blue-700 transition ease-in-out duration-500">
                 <SlArrowRight className="pr-2 text-xl" /> Host Meet
-              </li>
-              <li className="flex items-center text-gray-100 py-2 px-4 cursor-pointer hover:bg-blue-700 transition ease-in-out duration-500">
-                <SlArrowRight className="pr-2 text-xl" /> Appoint
-                Teacher/Student
               </li>
             </ul>
           )}
@@ -126,11 +127,9 @@ const Header = () => {
                   <SlArrowRight className="pr-2 text-xl" /> View Courses
                 </li>
               </Link>
+
               <li className="flex items-center text-gray-100 py-2 px-4 cursor-pointer hover:bg-blue-700 transition ease-in-out duration-500">
-                <SlArrowRight className="pr-2 text-xl" /> Enroll in Course
-              </li>
-              <li className="flex items-center text-gray-100 py-2 px-4 cursor-pointer hover:bg-blue-700 transition ease-in-out duration-500">
-                <SlArrowRight className="pr-2 text-xl" /> View Schedule
+                <SlArrowRight className="pr-2 text-xl" /> Lectures
               </li>
             </ul>
           )}
@@ -149,10 +148,10 @@ const Header = () => {
           {role === "Teacher" && (
             <ul className="lg:flex flex-col lg:w-full mt-4">
               <li className="flex items-center text-gray-100 py-2 px-4 cursor-pointer hover:bg-blue-700 transition ease-in-out duration-500">
-                <SlArrowRight className="pr-2 text-xl" /> Create Course
+                <SlArrowRight className="pr-2 text-xl" /> Courses
               </li>
               <li className="flex items-center text-gray-100 py-2 px-4 cursor-pointer hover:bg-blue-700 transition ease-in-out duration-500">
-                <SlArrowRight className="pr-2 text-xl" /> Manage Classes
+                <SlArrowRight className="pr-2 text-xl" /> Upload Lectures
               </li>
             </ul>
           )}
@@ -217,17 +216,19 @@ const Header = () => {
 
         {role === "Admin" && (
           <ul className="lg:flex flex-col lg:w-full mt-4">
-            <li className="flex items-center text-gray-100 py-2 px-4 cursor-pointer hover:bg-blue-700 transition ease-in-out duration-500">
-              <SlArrowRight className="pr-2 text-xl" /> Create Course
-            </li>
-            <li className="flex items-center text-gray-100 py-2 px-4 cursor-pointer hover:bg-blue-700 transition ease-in-out duration-500">
-              <SlArrowRight className="pr-2 text-xl" /> Manage Classes
-            </li>
+            <Link href="/dashboard/createcourse">
+              <li className="flex items-center text-gray-100 py-2 px-4 cursor-pointer hover:bg-blue-700 transition ease-in-out duration-500">
+                <SlArrowRight className="pr-2 text-xl" /> Create Course
+              </li>
+            </Link>
+            <Link href="/dashboard/courselist">
+              <li className="flex items-center text-gray-100 py-2 px-4 cursor-pointer hover:bg-blue-700 transition ease-in-out duration-500">
+                <SlArrowRight className="pr-2 text-xl" /> View Courses
+              </li>
+            </Link>
+
             <li className="flex items-center text-gray-100 py-2 px-4 cursor-pointer hover:bg-blue-700 transition ease-in-out duration-500">
               <SlArrowRight className="pr-2 text-xl" /> Host Meet
-            </li>
-            <li className="flex items-center text-gray-100 py-2 px-4 cursor-pointer hover:bg-blue-700 transition ease-in-out duration-500">
-              <SlArrowRight className="pr-2 text-xl" /> Appoint Teacher/Student
             </li>
           </ul>
         )}
@@ -239,11 +240,9 @@ const Header = () => {
                 <SlArrowRight className="pr-2 text-xl" /> View Courses
               </li>
             </Link>
+
             <li className="flex items-center text-gray-100 py-2 px-4 cursor-pointer hover:bg-blue-700 transition ease-in-out duration-500">
-              <SlArrowRight className="pr-2 text-xl" /> Enroll in Course
-            </li>
-            <li className="flex items-center text-gray-100 py-2 px-4 cursor-pointer hover:bg-blue-700 transition ease-in-out duration-500">
-              <SlArrowRight className="pr-2 text-xl" /> View Schedule
+              <SlArrowRight className="pr-2 text-xl" /> Lectures
             </li>
           </ul>
         )}
@@ -262,10 +261,10 @@ const Header = () => {
         {role === "Teacher" && (
           <ul className="lg:flex flex-col lg:w-full mt-4">
             <li className="flex items-center text-gray-100 py-2 px-4 cursor-pointer hover:bg-blue-700 transition ease-in-out duration-500">
-              <SlArrowRight className="pr-2 text-xl" /> Create Course
+              <SlArrowRight className="pr-2 text-xl" /> Courses
             </li>
             <li className="flex items-center text-gray-100 py-2 px-4 cursor-pointer hover:bg-blue-700 transition ease-in-out duration-500">
-              <SlArrowRight className="pr-2 text-xl" /> Manage Classes
+              <SlArrowRight className="pr-2 text-xl" /> Upload Lectures
             </li>
           </ul>
         )}

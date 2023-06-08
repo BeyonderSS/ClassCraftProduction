@@ -5,6 +5,7 @@ import CourseCard from "../CourseCard";
 import { useSession } from "next-auth/react";
 import listCourses from "@/lib/listCourses";
 import CourseCardSkeleton from "../CourseCardSkeleton";
+import CourseCardItem from "../CourseCard";
 
 const Courses = () => {
   const [course, setCourse] = useState([]);
@@ -26,7 +27,7 @@ const Courses = () => {
       getCourses(session.accessToken);
     }
   }, [session]);
-  const role = "Teacher";
+  const role = "Admin";
   if (loading) {
     return (
       <div className="lg:pl-80 pt-20">
@@ -58,8 +59,11 @@ const Courses = () => {
           fallback={
             <p className="flex justify-center items-center">loading....</p>
           }
-        >
-          <CourseCard courses={course} role={role} />
+        ><div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {course.map((course) => (
+          <CourseCardItem key={course.id} course={course} role={role} />
+        ))}
+      </div>
         </Suspense>
       </div>
     </div>

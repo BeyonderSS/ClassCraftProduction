@@ -47,7 +47,7 @@ async function inviteStudentsToCourse(accessToken, courseId, students) {
         requestBody: {
           courseId: courseId,
           role: 'STUDENT',
-          userId: student,
+          userId:student,
         },
       });
 
