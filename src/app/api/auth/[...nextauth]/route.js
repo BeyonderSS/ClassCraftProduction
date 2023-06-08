@@ -1,6 +1,4 @@
-// app/api/auth/[...nextauth]/route.js
-
-import NextAuth, { AuthOptions } from "next-auth";
+import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import axios from "axios";
 
@@ -22,6 +20,7 @@ async function refreshAccessToken(refreshToken) {
     return null;
   }
 }
+
 export const authOptions = {
   providers: [
     GoogleProvider({
@@ -47,21 +46,25 @@ export const authOptions = {
       if (account) {
         token.accessToken = account.access_token;
         token.refreshToken = account.refresh_token;
-        token.expiresAt = Date.now() + account.expires_in * 1000;
-      } else if (token.expiresAt && Date.now() > token.expiresAt) {
+        token.expiresAt = Date.now() + 60 * 60 * 1000; // Set expiry time to 1 hour from login time
+      } else if (token.expiresAt && Date.now() > token.expiresAt - 5 * 60 * 1000) { // Check if expiry time is getting near (within 5 minutes)
         const refreshedTokens = await refreshAccessToken(token.refreshToken);
         if (refreshedTokens) {
           token.accessToken = refreshedTokens.access_token;
           token.expiresAt = Date.now() + refreshedTokens.expires_in * 1000;
+          console.log("token is refrshed and new token is now active")
         }
       }
 
       return token;
     },
-
     session: async ({ session, token }) => {
       session.accessToken = token.accessToken;
       session.refreshToken = token.refreshToken;
+      session.expiresAt = token.expiresAt;
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('expiryTime', token.expiresAt);
+      }
       console.log(session.refreshToken);
       return session;
     },
