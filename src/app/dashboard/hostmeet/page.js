@@ -101,13 +101,16 @@ const HostMeet = () => {
       [e.target.name]: e.target.value,
     });
   };
-  if (skeletonLoading ) {
+  if (skeletonLoading) {
     return <SkeletonLoaderHostmeet />;
   }
   return (
     <div className="lg:pl-80 pt-20">
-      <h1 className="text-3xl font-bold mb-4">HostMeet</h1>
-
+      <div className="flex justify-center items-center lg:text-5xl text-4xl text-white/90 font-semibold m-4 my-4 ">
+        <h1 className=" p-3 px-6 rounded-lg bg-blue-400 flex justify-center items-center">
+          HostMeet &amp; Push Announcements
+        </h1>
+      </div>
       {courses.length > 0 && (
         <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 mb-4">
           {courses.map((course) => (
@@ -120,6 +123,11 @@ const HostMeet = () => {
               <p>{course.description}</p>
             </div>
           ))}
+        </div>
+      )}
+      {courses.length == 0 && (
+        <div className="flex justify-center items-center text-2xl lg:text-3xl font-semibold text-gray-800/75">
+          <h1>Opps it Looks Like you are not enrolled in any courses!</h1>
         </div>
       )}
 

@@ -18,8 +18,11 @@ const SkeletonLoaderHostmeet = () => {
 
   return (
     <div className="lg:pl-80 pt-20">
-      <h1 className="text-3xl font-bold mb-4">HostMeet</h1>
-
+      <div className="flex justify-center items-center lg:text-5xl text-4xl text-white/90 font-semibold m-4 my-4 ">
+        <h1 className=" p-3 px-6 rounded-lg bg-blue-400 flex justify-center items-center">
+          HostMeet &amp; Push Announcements
+        </h1>
+      </div>
       <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 mb-4">
         {Array.from(Array(20).keys()).map((index) => (
           <motion.div
