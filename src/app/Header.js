@@ -29,7 +29,7 @@ const Header = () => {
     return <NavbarSkeletonLoader />;
   }
   return (
-    <header className="py-2 bg-blue-600 fixed top-0 w-full">
+    <header className="py-2 bg-blue-600 fixed top-0 w-full z-50">
       <div className=" lg:hidden block flex justify-between ">
         <button
           onClick={handleSideBar}
@@ -113,10 +113,11 @@ const Header = () => {
                   <SlArrowRight className="pr-2 text-xl" /> View Courses
                 </li>
               </Link>
-
-              <li className="flex items-center text-gray-100 py-2 px-4 cursor-pointer hover:bg-blue-700 transition ease-in-out duration-500">
-                <SlArrowRight className="pr-2 text-xl" /> Host Meet
-              </li>
+              <Link href="/dashboard/hostmeet">
+                <li className="flex items-center text-gray-100 py-2 px-4 cursor-pointer hover:bg-blue-700 transition ease-in-out duration-500">
+                  <SlArrowRight className="pr-2 text-xl" /> Host Meet
+                </li>
+              </Link>
             </ul>
           )}
 
@@ -158,7 +159,7 @@ const Header = () => {
         </nav>
       </div>
 
-      <div className=" flex justify-between mx-4">
+      <div className="pl-80 flex justify-between mx-4">
         <div></div>
         <h1 className="hidden lg:block text-3xl font-semibold py-2 pb-2 text-gray-100">
           ClassCraft
@@ -226,10 +227,11 @@ const Header = () => {
                 <SlArrowRight className="pr-2 text-xl" /> View Courses
               </li>
             </Link>
-
-            <li className="flex items-center text-gray-100 py-2 px-4 cursor-pointer hover:bg-blue-700 transition ease-in-out duration-500">
-              <SlArrowRight className="pr-2 text-xl" /> Host Meet
-            </li>
+            <Link href="/dashboard/hostmeet">
+              <li className="flex items-center text-gray-100 py-2 px-4 cursor-pointer hover:bg-blue-700 transition ease-in-out duration-500">
+                <SlArrowRight className="pr-2 text-xl" /> Host Meet
+              </li>
+            </Link>
           </ul>
         )}
 
