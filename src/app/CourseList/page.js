@@ -6,6 +6,7 @@ import createCourse from '@/lib/createCourse';
 import addStudentsToCourse from '@/lib/addStudentsToCourse';
 import inviteTeachersToCourse from '@/lib/inviteTeachersToCourse';
 import listAnnouncements from '@/lib/listAnnouncements';
+import generateMeeting from '@/lib/GenerateMeeting';
 
 const CourseList = () => {
   const [courses, setCourses] = useState([]);
@@ -28,22 +29,58 @@ const CourseList = () => {
 console.log(courses)
 
 
-useEffect(() => {
-  if(session){
-    console.log(session.accessToken)
+// useEffect(() => {
+//   if(session){
+//     console.log(session.accessToken)
 
-    async function getAnnouncements(access_token) {
-      const accessToken = access_token;
-      const courseId = "your course id here"
-      const announcements = await listAnnouncements(accessToken,courseId);
-      console.log("announcement of"+" "+courseId,announcements);
+//     async function getAnnouncements(access_token) {
+//       const accessToken = access_token;
+//       const courseId = "your course id here"
+//       const announcements = await listAnnouncements(accessToken,courseId);
+//       console.log("announcement of"+" "+courseId,announcements);
      
-    }
+//     }
     
-    getAnnouncements(session.accessToken);
+//     getAnnouncements(session.accessToken);
     
-}
-}, [session]);
+// }
+// }, [session]);
+
+
+const handleGenerateMeeting = async () => {
+  // setIsLoading(true);
+  // setErrorMessage("");
+  // setIsSuccess(false);
+
+  try {
+    const dummyMeetingData = {
+      summary: "Test Meeting",
+      location: "Online",
+      description: "This is a test meeting.",
+      startDateTime: new Date().toISOString(),
+      endDateTime: new Date(new Date().getTime() + 60 * 60 * 1000).toISOString(),
+      timeZone: "America/New_York",
+      // attendees: [
+      //   { email: "attendee1@example.com" },
+      //   { email: "attendee2@example.com" },
+      // ],
+    };
+    console.log(dummyMeetingData.startDateTime)
+    const meetingResult = await generateMeeting(session.accessToken, dummyMeetingData);
+    // setIsSuccess(true);
+    // setResult(meetingResult);
+    console.log(meetingResult);
+    // Do something with the meetingResult if needed
+  } catch (error) {
+    // setErrorMessage("Failed to generate the meeting.");
+    console.log(error)
+  }
+
+  // setIsLoading(false);
+};
+
+
+
 // useEffect(() => {
 //   if (session) {
 //     async function createCourse(access_token) {
@@ -112,13 +149,15 @@ useEffect(() => {
 
   return (
     <div>
-    <h1>Courses</h1>
+    {/* <h1>Courses</h1>
     {courses.map((course) => (
       <div key={course.id}>
         <h2>{course.name}</h2>
         <p>{course.id}</p>
       </div>
-    ))}
+    ))} */}
+
+    <button onClick={handleGenerateMeeting}>Generate Meeting</button>
   </div>
   );
 };
