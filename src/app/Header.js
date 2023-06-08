@@ -8,6 +8,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import NavbarSkeletonLoader from "./NavbarSkeletonLoader";
 import { CgLogIn } from "react-icons/cg";
 import ProfileDropdown from "./ProfileDropdown";
+import Link from "next/link";
 const Header = () => {
   const { data: session } = useSession();
   // console.log("session:", session);
@@ -28,7 +29,7 @@ const Header = () => {
     return <NavbarSkeletonLoader />;
   }
   return (
-    <header className="py-2 bg-blue-600 ">
+    <header className="py-2 bg-blue-600 fixed top-0 w-full">
       <div className=" lg:hidden block flex justify-between ">
         <button
           onClick={handleSideBar}
@@ -36,7 +37,9 @@ const Header = () => {
         >
           {isOpen ? <RxCross1 /> : <RxHamburgerMenu />}
         </button>
-        <p className="text-2xl font-semibold text-gray-100">ClassCraft</p>
+        <p className="text-2xl font-semibold text-gray-100 flex justify-center items-center">
+          ClassCraft
+        </p>
         <div className="px-2">
           {" "}
           {session ? (
@@ -118,9 +121,11 @@ const Header = () => {
 
           {role === "Student" && (
             <ul className="lg:flex flex-col lg:w-full mt-4">
-              <li className="flex items-center text-gray-100 py-2 px-4 cursor-pointer hover:bg-blue-700 transition ease-in-out duration-500">
-                <SlArrowRight className="pr-2 text-xl" /> View Courses
-              </li>
+              <Link href="/dashboard/courselist">
+                <li className="flex items-center text-gray-100 py-2 px-4 cursor-pointer hover:bg-blue-700 transition ease-in-out duration-500">
+                  <SlArrowRight className="pr-2 text-xl" /> View Courses
+                </li>
+              </Link>
               <li className="flex items-center text-gray-100 py-2 px-4 cursor-pointer hover:bg-blue-700 transition ease-in-out duration-500">
                 <SlArrowRight className="pr-2 text-xl" /> Enroll in Course
               </li>
@@ -180,7 +185,7 @@ const Header = () => {
           </div>
         )}
       </div>
-      <nav className="lg:block hidden bg-blue-600 w-80 absolute left-0 top-0 py-2 h-screen">
+      <nav className="lg:block hidden bg-blue-600 w-80 absolute top-0 left-0  py-2 h-screen  ">
         <div className="absolute bottom-0 flex justify-center items-center w-full  bg-gray-800 hover:bg-gray-900 hover:text-blue-700">
           {session ? (
             <div
@@ -229,9 +234,11 @@ const Header = () => {
 
         {role === "Student" && (
           <ul className="lg:flex flex-col lg:w-full mt-4">
-            <li className="flex items-center text-gray-100 py-2 px-4 cursor-pointer hover:bg-blue-700 transition ease-in-out duration-500">
-              <SlArrowRight className="pr-2 text-xl" /> View Courses
-            </li>
+            <Link href="/dashboard/courselist">
+              <li className="flex items-center text-gray-100 py-2 px-4 cursor-pointer hover:bg-blue-700 transition ease-in-out duration-500">
+                <SlArrowRight className="pr-2 text-xl" /> View Courses
+              </li>
+            </Link>
             <li className="flex items-center text-gray-100 py-2 px-4 cursor-pointer hover:bg-blue-700 transition ease-in-out duration-500">
               <SlArrowRight className="pr-2 text-xl" /> Enroll in Course
             </li>
