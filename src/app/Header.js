@@ -37,9 +37,11 @@ const Header = () => {
         >
           {isOpen ? <RxCross1 /> : <RxHamburgerMenu />}
         </button>
-        <p className="text-2xl font-semibold text-gray-100 flex justify-center items-center">
-          ClassCraft
-        </p>
+        <Link href="/dashboard">
+          <p className="text-2xl font-semibold text-gray-100 flex justify-center items-center">
+            ClassCraft
+          </p>
+        </Link>
         <div className="px-2">
           {" "}
           {session ? (
@@ -161,9 +163,11 @@ const Header = () => {
 
       <div className="pl-80 flex justify-between mx-4">
         <div></div>
-        <h1 className="hidden lg:block text-3xl font-semibold py-2 pb-2 text-gray-100">
-          ClassCraft
-        </h1>
+        <Link href="/dashboard">
+          <h1 className="hidden lg:block text-3xl font-semibold py-2 pb-2 text-gray-100">
+            ClassCraft
+          </h1>
+        </Link>
         {session ? (
           <div className="lg:block hidden">
             <ProfileDropdown user={session?.user} />
