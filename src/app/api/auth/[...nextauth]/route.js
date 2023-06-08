@@ -32,7 +32,7 @@ export const authOptions = {
           access_type: "offline",
           prompt: "consent",
           scope:
-            "openid profile email https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/classroom.courses.readonly https://www.googleapis.com/auth/classroom.courses https://www.googleapis.com/auth/classroom.rosters https://www.googleapis.com/auth/classroom.announcements.readonly",
+            "openid profile email https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/classroom.courses.readonly https://www.googleapis.com/auth/classroom.courses https://www.googleapis.com/auth/classroom.rosters https://www.googleapis.com/auth/classroom.announcements.readonly https://www.googleapis.com/auth/calendar",
         },
       },
     }),
