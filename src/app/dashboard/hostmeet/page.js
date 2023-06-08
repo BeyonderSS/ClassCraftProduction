@@ -8,12 +8,19 @@ import { CgClose } from "react-icons/cg";
 import generateMeeting from "@/lib/generateMeeting";
 import listCourses from "@/lib/listCourses";
 import createAnnouncement from "@/lib/createAnnouncement";
+import { BarLoader } from "react-spinners";
+import SkeletonLoaderHostmeet from "./SkeletonLoaderHostmeet";
 
 const HostMeet = () => {
   const { data: session } = useSession();
   const [courses, setCourses] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const [skeletonLoading, setSkeletonLoading] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
+  const [successMessage, setSuccessMessage] = useState(null); // New state for success message
+
   const [meetingData, setMeetingData] = useState({
     summary: "",
     location: "Online",
@@ -25,10 +32,12 @@ const HostMeet = () => {
 
   useEffect(() => {
     if (session) {
+      setSkeletonLoading(true);
       async function fetchCourses(accessToken) {
         try {
           const courses = await listCourses(accessToken);
           setCourses(courses);
+          setSkeletonLoading(false);
         } catch (error) {
           console.log("Failed to fetch courses:", error);
         }
@@ -40,6 +49,7 @@ const HostMeet = () => {
 
   const handleGenerateMeeting = async () => {
     try {
+      setLoading(true);
       if (!selectedCourse) {
         console.log("No course selected.");
         return;
@@ -71,7 +81,11 @@ const HostMeet = () => {
       console.log(announcementResult);
 
       console.log("Meeting result:", meetingResult);
+      setLoading(false);
+      setSuccessMessage("Announcement Created Successfully");
     } catch (error) {
+      setSuccessMessage("Failed To Create Announcement Please Retry!");
+
       console.log("Failed to generate meeting:", error);
     }
   };
@@ -87,13 +101,15 @@ const HostMeet = () => {
       [e.target.name]: e.target.value,
     });
   };
-
+  if (skeletonLoading ) {
+    return <SkeletonLoaderHostmeet />;
+  }
   return (
     <div className="lg:pl-80 pt-20">
       <h1 className="text-3xl font-bold mb-4">HostMeet</h1>
 
       {courses.length > 0 && (
-        <div className="grid grid-cols-3 gap-4 mb-4">
+        <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 mb-4">
           {courses.map((course) => (
             <div
               key={course.id}
@@ -109,10 +125,10 @@ const HostMeet = () => {
 
       {showPopup && (
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          className="fixed inset-0 flex items-center justify-center z-50"
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.5 }}
+          className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-opacity-75 backdrop-blur-sm bg-gray-900  z-50"
         >
           <div className="bg-white p-6 rounded-lg shadow-md w-96">
             <div className="flex items-center justify-between mb-4">
@@ -136,7 +152,7 @@ const HostMeet = () => {
                 <p>End Time: {new Date(meetingData.endDateTime).toString()}</p>
               </div>
               <div>
-                <label className="font-bold">Summary</label>
+                <label className="font-bold">Topic</label>
                 <input
                   className="border border-gray-300 rounded-md p-2 w-full"
                   type="text"
@@ -146,7 +162,7 @@ const HostMeet = () => {
                 />
               </div>
               <div>
-                <label className="font-bold">Description</label>
+                <label className="font-bold">Batch</label>
                 <input
                   className="border border-gray-300 rounded-md p-2 w-full"
                   type="text"
@@ -160,10 +176,19 @@ const HostMeet = () => {
               className="bg-blue-500 text-white py-2 px-4 rounded-md mt-6"
               onClick={handleGenerateMeeting}
             >
-              Host Meet &amp; Push Announcement
+              {loading ? ( // Display loader when loading
+                <div className="flex justify-center items-center">
+                  <BarLoader color="#ffffff" loading={loading} />
+                </div>
+              ) : (
+                "  Host Meet & Push Announcement"
+              )}
             </button>
           </div>
         </motion.div>
+      )}
+      {successMessage && ( // Display success message
+        <div className="mt-4 text-green-600">{successMessage}</div>
       )}
     </div>
   );
