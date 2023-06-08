@@ -7,6 +7,7 @@ import addStudentsToCourse from '@/lib/addStudentsToCourse';
 import inviteTeachersToCourse from '@/lib/inviteTeachersToCourse';
 import listAnnouncements from '@/lib/listAnnouncements';
 import generateMeeting from '@/lib/GenerateMeeting';
+import createAnnouncement from '@/lib/createAnnouncement';
 
 const CourseList = () => {
   const [courses, setCourses] = useState([]);
@@ -60,24 +61,37 @@ const handleGenerateMeeting = async () => {
       startDateTime: new Date().toISOString(),
       endDateTime: new Date(new Date().getTime() + 60 * 60 * 1000).toISOString(),
       timeZone: "America/New_York",
-      // attendees: [
-      //   { email: "attendee1@example.com" },
-      //   { email: "attendee2@example.com" },
-      // ],
     };
-    console.log(dummyMeetingData.startDateTime)
+    console.log(dummyMeetingData.startDateTime);
     const meetingResult = await generateMeeting(session.accessToken, dummyMeetingData);
+
+    // Create announcement with meeting link, title, and start time as an attachment
+    const courseId = "613338763303";
+    const announcementData = {
+      text: `Meeting: ${meetingResult.summary}\nStart Time: ${meetingResult.start.dateTime}`,
+      materials: [
+        {
+          link: {
+            url: meetingResult.hangoutLink,
+            title: "Meeting Link",
+          },
+        },
+      ],
+    };
+    const announcementResult = await createAnnouncement(session.accessToken, courseId, announcementData);
+    console.log(announcementResult);
+
     // setIsSuccess(true);
     // setResult(meetingResult);
     console.log(meetingResult);
-    // Do something with the meetingResult if needed
   } catch (error) {
     // setErrorMessage("Failed to generate the meeting.");
-    console.log(error)
+    console.log(error);
   }
 
   // setIsLoading(false);
 };
+
 
 
 
