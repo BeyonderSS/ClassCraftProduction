@@ -21,7 +21,7 @@ function Dashboard() {
   };
 
   return (
-    <div className=" overflow-x-hidden">
+    <div className=" overflow-x-hidden bg-blue-200">
       {session && (
         <div>
           <motion.img
@@ -52,9 +52,7 @@ function Dashboard() {
                 <p className="font-sans font-semibold  text-lg sm:text-xl md:text-2xl mb-8 text-gray-800/75">
                   {slogans[role]}
                 </p>
-                {/* <button className="bg-white hover:bg-gray-200 text-gray-800 font-bold py-3 md:py-4 px-6 md:px-8 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1">
-        Learn More
-      </button> */}
+                
               </div>
             </motion.div>
           </div>

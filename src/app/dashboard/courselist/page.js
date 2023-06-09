@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import listCourses from "@/lib/listCourses";
 import CourseCardSkeleton from "../CourseCardSkeleton";
 import CourseCardItem from "../CourseCard";
+import { motion } from "framer-motion";
 
 const Courses = () => {
   const [course, setCourse] = useState([]);
@@ -49,22 +50,18 @@ const Courses = () => {
   }
   return (
     <div className="lg:pl-80 pt-20 overflow-x-hidden bg-blue-200 py-6 h-screen">
-      <div className="mx-10">
+      <div className="lg:mx-10 mx-2">
         <div className="flex justify-center items-center lg:text-5xl text-4xl text-white/90 font-semibold m-4  ">
           <h1 className=" p-3 px-6 rounded-lg bg-blue-400 flex justify-center items-center">
             Your Courses
           </h1>
         </div>
-        <Suspense
-          fallback={
-            <p className="flex justify-center items-center">loading....</p>
-          }
-        ><div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {course.map((course) => (
-          <CourseCardItem key={course.id} course={course} role={role} />
-        ))}
-      </div>
-        </Suspense>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {course.map((course) => (
+            <CourseCardItem key={course.id} course={course} role={role} />
+          ))}
+        </div>
       </div>
     </div>
   );

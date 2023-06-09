@@ -127,7 +127,7 @@ const Header = () => {
             <ul className="lg:flex flex-col lg:w-full mt-4">
               <Link href="/dashboard/courselist">
                 <li className="flex items-center text-gray-100 py-2 px-4 cursor-pointer hover:bg-blue-700 transition ease-in-out duration-500">
-                  <SlArrowRight className="pr-2 text-xl" /> View Courses
+                  <SlArrowRight className="pr-2 text-xl" /> Your Courses
                 </li>
               </Link>
 
@@ -151,7 +151,7 @@ const Header = () => {
           {role === "Teacher" && (
             <ul className="lg:flex flex-col lg:w-full mt-4">
               <li className="flex items-center text-gray-100 py-2 px-4 cursor-pointer hover:bg-blue-700 transition ease-in-out duration-500">
-                <SlArrowRight className="pr-2 text-xl" /> Courses
+                <SlArrowRight className="pr-2 text-xl" />Your Courses
               </li>
               <li className="flex items-center text-gray-100 py-2 px-4 cursor-pointer hover:bg-blue-700 transition ease-in-out duration-500">
                 <SlArrowRight className="pr-2 text-xl" /> Upload Lectures
@@ -243,7 +243,7 @@ const Header = () => {
           <ul className="lg:flex flex-col lg:w-full mt-4">
             <Link href="/dashboard/courselist">
               <li className="flex items-center text-gray-100 py-2 px-4 cursor-pointer hover:bg-blue-700 transition ease-in-out duration-500">
-                <SlArrowRight className="pr-2 text-xl" /> View Courses
+                <SlArrowRight className="pr-2 text-xl" /> Your Courses
               </li>
             </Link>
 

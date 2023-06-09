@@ -17,7 +17,7 @@ const SkeletonLoaderHostmeet = () => {
   };
 
   return (
-    <div className="lg:pl-80 pt-20">
+    <div className="lg:pl-80 pt-20 lg:mx-6 md:mx-4 mx-2">
       <div className="flex justify-center items-center lg:text-5xl text-4xl text-white/90 font-semibold m-4 my-4 ">
         <h1 className=" p-3 px-6 rounded-lg bg-blue-400 flex justify-center items-center">
           HostMeet &amp; Push Announcements
