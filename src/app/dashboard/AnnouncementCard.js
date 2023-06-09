@@ -46,6 +46,17 @@ const AnnouncementCard = ({ announcements }) => {
                     {material.driveFile.driveFile.title}
                   </span>
                 </a>
+              ) : null || material.link ? (
+                <a
+                  key={material.link.title}
+                  href={material.link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center text-blue-500 mt-2"
+                >
+                  <FiExternalLink />
+                  <span className="ml-1">{material.link.title}</span>
+                </a>
               ) : null
             )}
         </motion.div>
