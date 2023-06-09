@@ -29,7 +29,15 @@ const Header = () => {
     return <NavbarSkeletonLoader />;
   }
   return (
-    <header className="py-2 bg-blue-600 fixed top-0 w-full z-50">
+    <motion.header
+      initial={{ opacity: 0 }}
+      animate={{
+        opacity: 1,
+        y: [-50, 0],
+        transition: { delay: 0, duration: 0.5 },
+      }}
+      className="py-2 bg-blue-600 fixed top-0 w-full z-50 rounded-b-xl"
+    >
       <div className=" lg:hidden block flex justify-between ">
         <button
           onClick={handleSideBar}
@@ -151,7 +159,8 @@ const Header = () => {
           {role === "Teacher" && (
             <ul className="lg:flex flex-col lg:w-full mt-4">
               <li className="flex items-center text-gray-100 py-2 px-4 cursor-pointer hover:bg-blue-700 transition ease-in-out duration-500">
-                <SlArrowRight className="pr-2 text-xl" />Your Courses
+                <SlArrowRight className="pr-2 text-xl" />
+                Your Courses
               </li>
               <li className="flex items-center text-gray-100 py-2 px-4 cursor-pointer hover:bg-blue-700 transition ease-in-out duration-500">
                 <SlArrowRight className="pr-2 text-xl" /> Upload Lectures
@@ -161,7 +170,7 @@ const Header = () => {
         </nav>
       </div>
 
-      <div className="pl-80 flex justify-between mx-4">
+      <motion.div className="pl-80 flex justify-between mx-4">
         <div></div>
         <Link href="/dashboard">
           <h1 className="hidden lg:block text-3xl font-semibold py-2 pb-2 text-gray-100">
@@ -188,8 +197,16 @@ const Header = () => {
             </svg>
           </div>
         )}
-      </div>
-      <nav className="lg:block hidden bg-blue-600 w-80 absolute top-0 left-0  py-2 h-screen  ">
+      </motion.div>
+      <motion.nav
+        initial={{ opacity: 0 }}
+        animate={{
+          opacity: 1,
+          x: [-350, 0],
+          transition: { delay: 1.5, duration: 0.5 },
+        }}
+        className="lg:block hidden bg-blue-600 w-80 absolute top-0 left-0  py-2 h-screen rounded-r-xl "
+      >
         <div className="absolute bottom-0 flex justify-center items-center w-full  bg-gray-800 hover:bg-gray-900 hover:text-blue-700">
           {session ? (
             <div
@@ -274,8 +291,8 @@ const Header = () => {
             </li>
           </ul>
         )}
-      </nav>
-    </header>
+      </motion.nav>
+    </motion.header>
   );
 };
 
