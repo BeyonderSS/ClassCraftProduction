@@ -6,9 +6,9 @@ import Head from "next/head";
 import Image from "next/image";
 const SignIn = () => {
   return (
-    <div>
+    <div className="">
       <motion.div
-        className="min-h-screen  bg-gradient-to-br from-[#210062] to-[#2196F3] flex flex-col  items-center justify-center"
+        className="min-h-screen  bg-gradient-to-br from-[#210062] to-[#2196F3] flex flex-col  items-center  justify-center "
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
@@ -18,7 +18,7 @@ const SignIn = () => {
         </Head>
 
         <motion.div
-          className="bg-white w-full max-w-md p-8 rounded-lg shadow-lg relative z-10"
+          className="bg-white w-full max-w-md p-8 rounded-lg shadow-lg relative z-10  "
           initial={{ y: "-50%", opacity: 0 }}
           animate={{ y: "0%", opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.5 }}
@@ -36,7 +36,7 @@ const SignIn = () => {
           </div>
 
           <button
-            className="mt-6 w-full flex justify-center items-center btn py-2 px-4 font-sans "
+            className="mt-6 w-full flex justify-center items-center btn-login py-2 px-4 font-sans "
             onClick={() => signIn("google")}
           >
             <img src="/google.png" alt="logo" className="h-7 w-9 pr-2 " />
