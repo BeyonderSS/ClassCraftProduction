@@ -2,3 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+    .btn {
+        @apply font-[bold] tracking-[5px] uppercase text-[#2c9caf] transition-all duration-1000 text-[15px] relative overflow-hidden px-[2em] py-[1em] rounded-[5px] border-[none];
+        outline: 2px solid #2c9caf;
+    }
+
+    .btn:hover {
+        @apply text-white shadow-[4px_5px_17px_-4px_#268391] scale-110;
+        outline: 2px solid #70bdca;
+    }
+
+    .btn::before {
+        @apply content-[""] absolute left-[-50px] w-0 h-full bg-[#2c9caf] skew-x-[45deg] z-[-1] transition-[width] duration-1000 top-0;
+    }
+
+    .btn:hover::before {
+        @apply w-[250%];
+    }
+}
