@@ -28,7 +28,7 @@ const Courses = () => {
       getCourses(session.accessToken);
     }
   }, [session]);
-  const role = "Student";
+  const role = "Admin";
   if (loading) {
     return (
       <div className="lg:pl-80 pt-20">
