@@ -37,6 +37,10 @@ export const authOptions = {
       },
     }),
   ],
+  pages: {
+    signIn: "/auth/signin",
+
+  },
   httpTimeout: 10000,
   jwt: {
     secret: process.env.JWT_SECRET,
@@ -47,12 +51,16 @@ export const authOptions = {
         token.accessToken = account.access_token;
         token.refreshToken = account.refresh_token;
         token.expiresAt = Date.now() + 60 * 60 * 1000; // Set expiry time to 1 hour from login time
-      } else if (token.expiresAt && Date.now() > token.expiresAt - 5 * 60 * 1000) { // Check if expiry time is getting near (within 5 minutes)
+      } else if (
+        token.expiresAt &&
+        Date.now() > token.expiresAt - 5 * 60 * 1000
+      ) {
+        // Check if expiry time is getting near (within 5 minutes)
         const refreshedTokens = await refreshAccessToken(token.refreshToken);
         if (refreshedTokens) {
           token.accessToken = refreshedTokens.access_token;
           token.expiresAt = Date.now() + refreshedTokens.expires_in * 1000;
-          console.log("token is refrshed and new token is now active")
+          console.log("token is refrshed and new token is now active");
         }
       }
 
@@ -62,8 +70,8 @@ export const authOptions = {
       session.accessToken = token.accessToken;
       session.refreshToken = token.refreshToken;
       session.expiresAt = token.expiresAt;
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('expiryTime', token.expiresAt);
+      if (typeof window !== "undefined") {
+        localStorage.setItem("expiryTime", token.expiresAt);
       }
       console.log(session.refreshToken);
       return session;
