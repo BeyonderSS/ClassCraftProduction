@@ -15,7 +15,7 @@ const FAQ = () => {
                                 </span>
                             </h2>
                             <p className="text-gray-900 mb-12">
-                                Didn't find your answer in the FAQ? Contact our
+                                Didn&apos;t find your answer in the FAQ? Contact our
                                 sales team.
                             </p>
                             <form>

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React from "react";
 import Footer from "../Footer";
 import CCHeader from "../CCNavbar";
@@ -6,7 +6,7 @@ import CCHeader from "../CCNavbar";
 export default function TermsAndConditions() {
   return (
     <>
-    <CCHeader/>
+      <CCHeader />
       {/* Container for demo purpose */}
       <div className="container my-24 px-6 mx-auto">
         {/* Section: Design Block */}
@@ -15,7 +15,7 @@ export default function TermsAndConditions() {
             <div className="mb-6 md:mb-0">
               <h2 className="text-3xl font-bold mb-6">Terms And Conditions</h2>
               <p className="text-gray-500">
-                Didn't you want to contact ?
+                Didn&apos;t you want to contact ?
                 <a
                   href="/Support/ContactUs"
                   className="text-blue-600 hover:text-blue-700 focus:text-blue-700 active:text-blue-800 transition duration-300"
@@ -38,12 +38,12 @@ export default function TermsAndConditions() {
                 <br />
                 <br />
                 Your use of the FLOURISHERS EDGE website and its services and
-                tools are governed by the following terms and conditions ("Terms
-                of Use") as applicable to FLOURISHERS EDGE including the
-                applicable policies which are incorporated herein by way of
-                reference. By mere use of FLOURISHERS EDGE, You shall be
-                contracting with AppItSimple Infotek Pvt. Ltd, the owner of the
-                FLOURISHERS EDGE Website. Moreover, AppItSimple Infotek Pvt.
+                tools are governed by the following terms and conditions
+                (&quot;Terms of Use&quot;) as applicable to FLOURISHERS EDGE
+                including the applicable policies which are incorporated herein
+                by way of reference. By mere use of FLOURISHERS EDGE, You shall
+                be contracting with AppItSimple Infotek Pvt. Ltd, the owner of
+                the FLOURISHERS EDGE Website. Moreover, AppItSimple Infotek Pvt.
                 Ltd. has a collection agent in the U.S. namely Bueno
                 Technologies Inc. These terms and conditions including the
                 policies constitute your binding obligations, with FLOURISHERS
@@ -69,38 +69,40 @@ export default function TermsAndConditions() {
                 FLOURISHERS EDGEs control, whether partial or otherwise
                 including and limited to www.flourishersedge.com, the Website
                 from which these terms of use were accessed from and include the
-                FLOURISHERS EDGE Services. The term "FLOURISHERS EDGE", "We",
-                "Us", "Our" shall mean AppItSimple Infotek Pvt. Ltd, and its
-                affiliates.
+                FLOURISHERS EDGE Services. The term &quot;FLOURISHERS
+                EDGE&quot;, &quot;We&quot;, &quot;Us&quot;, &quot;Our&quot;
+                shall mean AppItSimple Infotek Pvt. Ltd, and its affiliates.
                 <br />
                 <br />
                 FLOURISHERS EDGE Services- are defined as the services offered
                 by FLOURISHERS EDGE, including suggestion to
                 Businesses/Organisations/Professionals in selecting desired
                 Software Solution and other services that FLOURISHERS EDGE
-                offers through its website (collectively, “FLOURISHERS EDGE
-                Services”).
+                offers through its website (collectively, &ldquo;FLOURISHERS
+                EDGE Services&ldquo;).
                 <br />
                 <br />
                 “User/ Users” include anyone who Uses/Registers to use the
                 website or uses the services provided and those who register to
                 avail the above mentioned services. For the purpose of these
-                Terms of Use, wherever the context so requires "You" or "User"
-                shall mean any natural or legal person who has agreed to become
-                a user on FLOURISHERS EDGE Website by providing data while
-                registering on the Website as Registered User.
+                Terms of Use, wherever the context so requires &ldquo;You&ldquo;
+                or &ldquo;User&ldquo; shall mean any natural or legal person who
+                has agreed to become a user on FLOURISHERS EDGE Website by
+                providing data while registering on the Website as Registered
+                User.
               </p>
               <p className="font-bold mb-4">
                 2. RELEVANT CONDITIONS FOR USER (TERMS OF SERVICE)
               </p>
               <p className="text-gray-500 mb-12">
                 o Your use of the Service, including any content, information or
-                functionality contained within it, is provided 'as is' and 'as
-                available' with no representations or warranties of any kind,
-                either expressed or implied, including but not limited to, the
-                implied warranties of merchantability, fitness for a particular
-                purpose, and non-infringement. You assume total responsibility
-                and risk for your use of this Service.
+                functionality contained within it, is provided &apos;as is&apos;
+                and &apos;as available&apos; with no representations or
+                warranties of any kind, either expressed or implied, including
+                but not limited to, the implied warranties of merchantability,
+                fitness for a particular purpose, and non-infringement. You
+                assume total responsibility and risk for your use of this
+                Service.
                 <br />
                 <br />
                 o You will not use the service to store, host, or send
@@ -269,18 +271,18 @@ export default function TermsAndConditions() {
                 <br />
                 i. Identity Check : Our team of experts see to it that the right
                 person gives the review. To ensure this, they check upon the
-                reviewer's Name, Job Title, or Email Address. If the team fails
-                in verifying the reviewer's identity, we won't
+                reviewer&apos;s Name, Job Title, or Email Address. If the team
+                fails in verifying the reviewer&apos;s identity, we won&apos;t
                 <br />
                 ii. Conflict of Interest : Our team will verify the name and
                 company of the reviewer against the product he/she reviews. If
                 in any way, he/she is found associated with the vendor or
-                identified as a vendor's direct competitor, we won't publish the
-                review.
+                identified as a vendor&apos;s direct competitor, we won&apos;t
+                publish the review.
                 <br />
                 iii. Content Check : Each review gets evaluated by our team of
                 experts to ensure that it is authentic and meets our quality
-                standards. If the content doesn't match our Content Quality
+                standards. If the content doesn&apos;t match our Content Quality
                 Standards, we wont publish the review.
                 <br />
                 ▪ Our Content Quality Standards (which includes the following,
@@ -333,19 +335,19 @@ export default function TermsAndConditions() {
                 clauses in customer contracts. Inclusion of any such clause is
                 viewed as an attempt to inflate reviews or ratings by
                 Flourishersedge. If any vendor involves such clauses to inflate
-                the reviews/ratings, penalties will apply to the vendor's
+                the reviews/ratings, penalties will apply to the vendor&apos;s
                 portal. Also, we reserve the right to take down reviews on that
                 basis.
                 <br />
                 ii. Vendors must not review their or a competitors product
                 Flourishersedge strictly prohibits vendors from reviewing their
-                own product or posting a review on the customer's behalf. More
-                so over, vendors must not post any reviews that direct any kind
-                of strategic or financial benefit.Vendors are not allowed to
-                collect a host of reviews for our site. Only the users can
+                own product or posting a review on the customer&apos;s behalf.
+                More so over, vendors must not post any reviews that direct any
+                kind of strategic or financial benefit.Vendors are not allowed
+                to collect a host of reviews for our site. Only the users can
                 submit reviews directly to our website via the review form. We
-                do not allow vendors to review their competitor's product even
-                though it is based on the actual experience of using the
+                do not allow vendors to review their competitor&apos;s product
+                even though it is based on the actual experience of using the
                 product.
                 <br />
                 iii. Vendors must not harass reviewers based on their ratings or
@@ -361,15 +363,15 @@ export default function TermsAndConditions() {
                 reviews flagged as violating our Review Guidelines. However, if
                 we have a reason to suspect that the vendor is trying to abuse
                 our system by unnecessarily flagging reviews for investigation,
-                we may, at our discretion, impose penalties on the vendor's
+                we may, at our discretion, impose penalties on the vendor&apos;s
                 account.
                 <br />
-                These vendor's guidelines are applied equally to all vendors
-                regardless of their account status. Any violation of these
-                guidelines is subject to penalties imposed by Flourishersedge
-                and the law. We reserve the right to decide the penalties, which
-                may include a comment on Vendor's profile or suspension of
-                services.
+                These vendor&apos;s guidelines are applied equally to all
+                vendors regardless of their account status. Any violation of
+                these guidelines is subject to penalties imposed by
+                Flourishersedge and the law. We reserve the right to decide the
+                penalties, which may include a comment on Vendor&apos;s profile
+                or suspension of services.
                 <br />
                 <br />
               </p>
@@ -421,8 +423,8 @@ export default function TermsAndConditions() {
                 or objectionable or otherwise unlawful in any manner whatsoever;
                 or which consists of or contains software viruses, political
                 campaigning, commercial solicitation, chain letters, mass
-                mailings or any "spam” to cause annoyance, inconvenience or
-                needless anxiety.s
+                mailings or any &quot;spam&quot; to cause annoyance,
+                inconvenience or needless anxiety.s
               </p>
               <p className="font-bold mb-4">10. LINKS</p>
               <p className="text-gray-500 mb-12">
@@ -617,15 +619,15 @@ export default function TermsAndConditions() {
                 <br />
                 o The Vendor agrees and acknowledges that FLOURISHERS EDGE may
                 re-use the Names as well as to use the Trademarks, Service marks
-                and Logos ("marks"), of the Softwares listed on the Website for
-                various purposes, including but not limited to lead-generation
-                purpose and the Vendors or itsLicensors, shall not claim any
-                action for wrongful use against FLOURISHERS EDGE for the said
-                use.
+                and Logos (&quot;marks&quot;), of the Softwares listed on the
+                Website for various purposes, including but not limited to
+                lead-generation purpose and the Vendors or itsLicensors, shall
+                not claim any action for wrongful use against FLOURISHERS EDGE
+                for the said use.
                 <br />
                 <br />o The vendor agree to grant Flourishersedge, permission to
-                direct clicks from Flourishersedge's affiliate websites by
-                opting for Flourishersedge's services
+                direct clicks from Flourishersedge&apos;s affiliate websites by
+                opting for Flourishersedge&apos;s services
                 <br />
                 <br />
                 o FLOURISHERS EDGE specifically disclaims ownership over the
