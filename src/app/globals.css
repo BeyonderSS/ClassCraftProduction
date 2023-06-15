@@ -39,4 +39,7 @@
   .btn-courselist:hover span {
     @apply translate-x-[7px];
   }
+  .sidebarTile {
+    @apply  font-semibold p-2 rounded-2xl  text-gray-400 hover:text-white hover:bg-[#7EA8EB] transition ease-in-out duration-500 cursor-pointer;
+  }
 }

@@ -28,19 +28,19 @@ const Courses = () => {
       getCourses(session.accessToken);
     }
   }, [session]);
-  const role = "Admin";
+  const role = "Student";
   if (loading) {
     return (
-      <div className="lg:pl-80 pt-20">
+      <div className="lg:pl-28 pt-24 bg-[#F4F6F8]">
         <CourseCardSkeleton />
       </div>
     );
   }
   if (course.length == 0) {
     return (
-      <div className="lg:pl-80 pt-20 h-screen bg-blue-200">
-        <div className="flex justify-center items-center lg:text-5xl text-4xl text-white/90 font-semibold m-4  ">
-          <h1 className=" p-3 px-6 rounded-lg bg-blue-400 flex justify-center items-center">
+      <div className="lg:pl-28 pt-24 h-screen bg-[#F4F6F8]">
+        <div className="flex justify-center items-center lg:text-5xl text-4xl text-white font-semibold m-4  ">
+          <h1 className=" p-3 px-6 rounded-lg bg-[#7EA8EB] flex justify-center items-center">
             Your Courses
           </h1>
         </div>
@@ -49,10 +49,10 @@ const Courses = () => {
     );
   }
   return (
-    <div className="lg:pl-80 pt-20 overflow-x-hidden bg-blue-200 py-6 h-screen">
+    <div className="lg:pl-28 pt-24 overflow-x-hidden bg-[#F4F6F8] py-6 h-screen">
       <div className="lg:mx-10 mx-2">
-        <div className="flex justify-center items-center lg:text-5xl text-4xl text-white/90 font-semibold m-4  ">
-          <h1 className=" p-3 px-6 rounded-lg bg-blue-400 flex justify-center items-center">
+        <div className="flex justify-center items-center lg:text-5xl text-4xl text-white font-semibold m-4  ">
+          <h1 className=" p-3 px-6 rounded-lg bg-[#7EA8EB] flex justify-center items-center">
             Your Courses
           </h1>
         </div>

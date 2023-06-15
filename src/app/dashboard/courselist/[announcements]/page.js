@@ -32,7 +32,7 @@ const Announcements = (props) => {
   console.log(courseName);
   if (loading) {
     return (
-      <div className=" lg:pl-80 pt-20 bg-blue-200 h-screen">
+      <div className=" lg:pl-28 pt-24 bg-[#F4F6F8] h-screen">
         {" "}
         <AnnouncementsSkeleton courseName={courseName}/>
       </div>
@@ -40,9 +40,9 @@ const Announcements = (props) => {
   }
   if (announcements.length == 0) {
     return (
-      <div className="lg:pl-80 pt-20 h-screen bg-blue-200">
+      <div className="lg:pl-28 pt-24 h-screen bg-[#F4F6F8]">
         <div className="flex flex-col justify-center items-center lg:text-5xl text-4xl text-white/90 font-semibold m-4  ">
-          <h1 className=" p-3 px-6 rounded-lg bg-blue-400 flex justify-center items-center">
+          <h1 className=" p-3 px-6 rounded-lg bg-[#7EA8EB] flex justify-center items-center">
             Announcements
           </h1>
           <h1 className="text-gray-800/60 text-3xl lg:text-4xl my-2">
@@ -56,9 +56,9 @@ const Announcements = (props) => {
     );
   }
   return (
-    <div className="lg:pl-80 pt-20 overflow-x-hidden bg-blue-200 py-6  h-screen  ">
+    <div className="lg:pl-28 pt-24 overflow-x-hidden bg-[#F4F6F8] py-6  h-screen  ">
       <div className="flex flex-col justify-center items-center lg:text-5xl text-4xl text-white/90 font-semibold m-4  ">
-        <h1 className=" p-3 px-6 rounded-lg bg-blue-400 flex justify-center items-center">
+        <h1 className=" p-3 px-6 rounded-lg bg-[#7EA8EB] flex justify-center items-center">
           Announcements
         </h1>
         <h1 className="text-gray-800/60 text-3xl lg:text-4xl my-2">

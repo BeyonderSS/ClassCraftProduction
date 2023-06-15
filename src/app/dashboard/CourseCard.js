@@ -65,7 +65,7 @@ const CourseCardItem = ({ course, role }) => {
             <>
               <button
                 onClick={() => setShowPopup(true)}
-                className="inline-block flex justify-center items-center bg-blue-500/80 hover:bg-blue-600/80 text-white font-bold p-2 rounded-full focus:outline-none focus:shadow-outline mr-2"
+                className="inline-block flex justify-center items-center bg-blue-500 hover:bg-blue-600/80 text-white font-bold p-2 rounded-full focus:outline-none focus:shadow-outline mr-2"
               >
                 <LuMailPlus className=" lg:text-3xl md:text-2xl text-2xl" />
               </button>

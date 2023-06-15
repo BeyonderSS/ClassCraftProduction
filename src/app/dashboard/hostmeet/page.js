@@ -106,109 +106,112 @@ const HostMeet = () => {
     return <SkeletonLoaderHostmeet />;
   }
   return (
-    <motion.div
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="lg:pl-80 pt-20 lg:mx-6 md:mx-4 mx-2"
-    >
-      <div className="flex justify-center items-center lg:text-5xl text-4xl text-white/90 font-semibold m-4 my-4 ">
-        <h1 className=" p-3 px-6 rounded-lg bg-blue-400 flex justify-center items-center">
-          HostMeet &amp; Push Announcements
-        </h1>
-      </div>
-      {courses.length > 0 && (
-        <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 mb-4">
-          {courses.map((course) => (
-            <div
-              key={course.id}
-              className="p-4 bg-blue-200  rounded-md cursor-pointer hover:bg-blue-300"
-              onClick={() => handleCourseSelect(course)}
+    <div className=" bg-[#F4F6F8]">
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="lg:pl-28 pt-24 lg:mx-6 md:mx-4 mx-2"
+      >
+        <div className="flex justify-center items-center lg:text-5xl text-4xl text-white font-semibold m-4 my-4 ">
+          <h1 className=" p-3 px-6 rounded-lg bg-[#7EA8EB] flex justify-center items-center">
+            HostMeet &amp; Push Announcements
+          </h1>
+        </div>
+        {courses.length > 0 && (
+          <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 mb-4">
+            {courses.map((course) => (
+              <div
+                key={course.id}
+                className="p-4 bg-blue-200  rounded-md cursor-pointer hover:bg-blue-300"
+                onClick={() => handleCourseSelect(course)}
+              >
+                <p className="text-lg font-bold">{course.name}</p>
+                <p>{course.description}</p>
+              </div>
+            ))}
+          </div>
+        )}
+        {courses.length == 0 && (
+          <div className="flex justify-center items-center text-2xl lg:text-3xl font-semibold text-gray-800/75 h-screen bg-[#F4F6F8]">
+            <h1>Opps it Looks Like you are not enrolled in any courses!</h1>
+          </div>
+        )}
+        <AnimatePresence>
+          {showPopup && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0 }}
+              className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-opacity-75 backdrop-blur-sm  bg-gray-900  z-50"
             >
-              <p className="text-lg font-bold">{course.name}</p>
-              <p>{course.description}</p>
-            </div>
-          ))}
-        </div>
-      )}
-      {courses.length == 0 && (
-        <div className="flex justify-center items-center text-2xl lg:text-3xl font-semibold text-gray-800/75">
-          <h1>Opps it Looks Like you are not enrolled in any courses!</h1>
-        </div>
-      )}
-      <AnimatePresence>
-        {showPopup && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0 }}
-            className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-opacity-75 backdrop-blur-sm  bg-gray-900  z-50"
-          >
-            <div className="bg-white p-6 rounded-lg shadow-md w-96">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-bold">
-                  Schedule Meeting - {courseName}
-                </h2>
+              <div className="bg-white p-6 rounded-lg shadow-md w-96">
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-xl font-bold">
+                    Schedule Meeting - {courseName}
+                  </h2>
+                  <button
+                    className="text-gray-500 hover:text-gray-700"
+                    onClick={() => setShowPopup(false)}
+                  >
+                    <CgClose size={20} />
+                  </button>
+                </div>
+                <div className="space-y-4">
+                  <div className="flex items-center space-x-4">
+                    <AiOutlineClockCircle size={24} />
+                    <p>
+                      Start Time:{" "}
+                      {new Date(meetingData.startDateTime).toString()}
+                    </p>
+                  </div>
+                  <div className="flex items-center space-x-4">
+                    <BiCalendarPlus size={24} />
+                    <p>
+                      End Time: {new Date(meetingData.endDateTime).toString()}
+                    </p>
+                  </div>
+                  <div>
+                    <label className="font-bold">Topic</label>
+                    <input
+                      className="border border-gray-300 rounded-md p-2 w-full"
+                      type="text"
+                      name="summary"
+                      value={meetingData.summary}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div>
+                    <label className="font-bold">Batch</label>
+                    <input
+                      className="border border-gray-300 rounded-md p-2 w-full"
+                      type="text"
+                      name="description"
+                      value={meetingData.description}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                </div>
                 <button
-                  className="text-gray-500 hover:text-gray-700"
-                  onClick={() => setShowPopup(false)}
+                  className="bg-blue-500 text-white py-2 px-4 rounded-md mt-6"
+                  onClick={handleGenerateMeeting}
                 >
-                  <CgClose size={20} />
+                  {loading ? ( // Display loader when loading
+                    <div className="flex justify-center items-center">
+                      <BarLoader color="#ffffff" loading={loading} />
+                    </div>
+                  ) : (
+                    "  Host Meet & Push Announcement"
+                  )}
                 </button>
               </div>
-              <div className="space-y-4">
-                <div className="flex items-center space-x-4">
-                  <AiOutlineClockCircle size={24} />
-                  <p>
-                    Start Time: {new Date(meetingData.startDateTime).toString()}
-                  </p>
-                </div>
-                <div className="flex items-center space-x-4">
-                  <BiCalendarPlus size={24} />
-                  <p>
-                    End Time: {new Date(meetingData.endDateTime).toString()}
-                  </p>
-                </div>
-                <div>
-                  <label className="font-bold">Topic</label>
-                  <input
-                    className="border border-gray-300 rounded-md p-2 w-full"
-                    type="text"
-                    name="summary"
-                    value={meetingData.summary}
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <div>
-                  <label className="font-bold">Batch</label>
-                  <input
-                    className="border border-gray-300 rounded-md p-2 w-full"
-                    type="text"
-                    name="description"
-                    value={meetingData.description}
-                    onChange={handleInputChange}
-                  />
-                </div>
-              </div>
-              <button
-                className="bg-blue-500 text-white py-2 px-4 rounded-md mt-6"
-                onClick={handleGenerateMeeting}
-              >
-                {loading ? ( // Display loader when loading
-                  <div className="flex justify-center items-center">
-                    <BarLoader color="#ffffff" loading={loading} />
-                  </div>
-                ) : (
-                  "  Host Meet & Push Announcement"
-                )}
-              </button>
-            </div>
-          </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+        {successMessage && ( // Display success message
+          <div className="mt-4 text-green-600">{successMessage}</div>
         )}
-      </AnimatePresence>
-      {successMessage && ( // Display success message
-        <div className="mt-4 text-green-600">{successMessage}</div>
-      )}
-    </motion.div>
+      </motion.div>
+    </div>
   );
 };
 

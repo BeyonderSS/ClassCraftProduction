@@ -3,9 +3,9 @@ import { motion } from "framer-motion";
 
 const CourseCardSkeleton = () => {
   return (
-    <div>
-      <div className="flex justify-center items-center lg:text-5xl text-4xl text-white/90 font-semibold m-4">
-        <h1 className="p-3 px-6 rounded-lg bg-blue-400 flex justify-center items-center">
+    <div className="">
+      <div className="flex justify-center items-center lg:text-5xl text-4xl text-white font-semibold m-4 lg:mx-6 md:mx-4 mx-2">
+        <h1 className="p-3 px-6 rounded-lg bg-[#7EA8EB] flex justify-center items-center">
           Your Courses
         </h1>
       </div>
