@@ -11,8 +11,8 @@ const SideBar = ({ role }) => {
   const currentPath = usePathname();
 
   return (
-    <nav className="fixed left-0">
-      <div className="bg-white absolute top-0 left-0 mx-3 p-6 rounded-3xl my-4 lg:h-[740px] md:h-full  lg:block md:block shadow-lg ">
+    <nav className="fixed left-0 ">
+      <div className="bg-white absolute top-0 left-0 mx-3 p-6 rounded-3xl my-4 h-auto lg:block md:block shadow-lg ">
         <Link href="/dashboard/test">
           <div
             className={`flex justify-center items-center font-semibold p-2 rounded-2xl text-white bg-[#7EA8EB] transition ease-in-out duration-500 `}
@@ -20,7 +20,7 @@ const SideBar = ({ role }) => {
             CC
           </div>
         </Link>
-        <ul className="space-y-8 md:my-28 my-16">
+        <ul className="space-y-8 md:my-[23vh] my-16 ">
           <Tooltip text={"Home"}>
             <Link href="/dashboard">
               <li
