@@ -1,4 +1,3 @@
-/** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -12,7 +11,13 @@ module.exports = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      screens: {
+        'md': {'raw': '(min-height: 768px)'},
+      },
+      margin: {
+        'screen/2': '50vh',
+      },
     },
   },
-  plugins: [  require('tailwind-scrollbar'),],
+  plugins: [require('tailwind-scrollbar')],
 }

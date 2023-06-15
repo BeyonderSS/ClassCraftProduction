@@ -2,13 +2,30 @@
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import listCourses from "@/lib/listCourses";
 
 function Dashboard() {
+  const role = "Teacher";
+  const [course, setCourse] = useState([]);
   const { data: session } = useSession();
-  const role = "Admin";
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
-    console.log("test overload");
+    if (session) {
+      setLoading(true);
+      console.log(session.accessToken);
+
+      async function getCourses(access_token) {
+        const accessToken = access_token;
+        const courses = await listCourses(session?.accessToken);
+        console.log(courses);
+        setCourse(courses);
+        setLoading(false);
+      }
+
+      getCourses(session.accessToken);
+    }
   }, [session]);
+  console.log(course);
   console.log("ses", session);
   const colors = {
     Student: "bg-gradient-to-r from-[#6DA9E4] to-[#009FBD]",
@@ -22,41 +39,51 @@ function Dashboard() {
   };
 
   return (
-    <div className="overflow-x-hidden bg-[#F4F6F8]">
-      {session && (
-        <div>
-          {/* <motion.img
-            initial={{ opacity: 0, y: -100 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1 }}
-            src="hero.svg"
-            className="absolute md:top-0 w-full h-full md:h-screen"
-            alt=""
-          /> */}
+    <div className=" bg-[#F4F6F8] flex justify-between items-center">
+      <div className="h-screen lg:pl-32 py-10  ">
+        <div className="flex">
           <div className="">
-            <motion.div
-              initial={{ opacity: 0, y: 100 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.3, delay: 0.2 }}
-              className={`lg:pl-28 flex items-center justify-center h-screen text-gray-400 ${colors[role]}`}
-            >
-              <div className="z-10 text-center">
-                <h1 className="font-sans text-4xl md:text-5xl lg:text-8xl font-extrabold mb-4 text-white/80">
-                  ClassCraft
-                </h1>
-                {session && (
-                  <p className="font-sans font-semibold text-lg md:text-xl lg:text-2xl mb-8 text-white">
-                    Welcome back, {session?.user?.name}!
-                  </p>
-                )}
-                <p className="font-sans font-semibold text-lg sm:text-xl md:text-2xl mb-8 text-gray-800/75">
-                  {slogans[role]}
-                </p>
-              </div>
-            </motion.div>
+            <h1 className="text-sm text-gray-600">
+              Hi, {session?.user?.name.split(" ")[0]}
+            </h1>
+            <div className="my-10 mx-10">
+              <h1 className=" text-6xl text-gray-700">Become The Best</h1>
+              <h1 className=" text-6xl text-gray-700">Version Of Your Self</h1>
+            </div>
+            <button className="font-semibold text-sm text-white bg bg-gray-800 hover:bg-gray-900 rounded-full p-10 mx-10 my-8 transition ease-in-out duration-500">
+              Get Started!
+            </button>
           </div>
+          <img src="/dashHome.svg" alt="" className="h-[50vh] w-[50vh] mx-32" />
         </div>
-      )}
+      </div>
+
+      <div className="h-screen bg bg-gray-200 w-[50vh] py-8 rounded-xl flex flex-col items-center justify-between overflow-hidden">
+        <div className="flex flex-col justify-center items-center">
+          <img
+            src={session?.user?.image}
+            alt=""
+            className="rounded-full h-36 w-36"
+          />
+          <h1 className="text-2xl my-7  text-gray-600">
+            {session?.user?.name}
+          </h1>
+        </div>
+        {course.length != 0 && (
+          <div class="card h-[50vh] w-96">
+            <div class="card__img">
+              <img src="/landingCard.svg" alt="" />
+            </div>
+            <div class="card__title">{course[0].name}</div>
+            <div class="card__subtitle">{course[0].section}</div>
+            <div class="card__wrapper ">
+              <button className="bg-yellow-300 p-2 px-5 my-2 rounded-full">
+                View more
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

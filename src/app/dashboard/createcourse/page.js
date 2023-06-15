@@ -55,7 +55,7 @@ const CreateCourse = () => {
     <motion.div
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0, transition: { delay: 0.1, duration: 0.5 } }}
-      className="lg:pl-80 pt-24  bg-blue-200 h-screen"
+      className="lg:pl-28 pt-24  bg-blue-200 h-screen"
     >
       <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-lg lg:my-40">
         <h1 className="text-2xl font-bold mb-4">Create Course</h1>
