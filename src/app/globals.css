@@ -25,7 +25,7 @@
     @apply flex items-center font-medium text-[17px] text-[white] tracking-wider pl-[0.9em] pr-[1.3em] py-[0.8em] rounded-2xl border-[none];
     font-family: inherit;
     background: #ad5389;
-    background: linear-gradient(to right, #2563EB, #2563EB, #2563EB);
+    background: linear-gradient(to right, #2563eb, #2563eb, #2563eb);
   }
   .btn-courselist svg {
     @apply rotate-[30deg] transition-transform duration-[0.5s] ease-[cubic-bezier(0.76,0,0.24,1)] mr-[3px];
@@ -40,37 +40,380 @@
     @apply translate-x-[7px];
   }
   .sidebarTile {
-    @apply  font-semibold p-2 rounded-2xl  text-gray-400 hover:text-white hover:bg-[#7EA8EB] transition ease-in-out duration-500 cursor-pointer;
+    @apply font-semibold p-2 rounded-2xl  text-gray-400 hover:text-white hover:bg-[#7EA8EB] transition ease-in-out duration-500 cursor-pointer;
   }
 
 
 
+  .get-started-button {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    background: #183153;
+    font-family: "Montserrat", sans-serif;
+    box-shadow: 0px 6px 24px 0px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    border: none;
+   }
+   
+   .get-started-button:after {
+    content: " ";
+    width: 0%;
+    height: 100%;
+    background: #FFD401;
+    position: absolute;
+    transition: all 0.4s ease-in-out;
+    right: 0;
+   }
+   
+   .get-started-button:hover::after {
+    right: auto;
+    left: 0;
+    width: 100%;
+   }
+   
+   .get-started-button span {
+    text-align: center;
+    text-decoration: none;
+    width: 100%;
+    padding: 18px 25px;
+    color: #fff;
+    font-size: 1.125em;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    z-index: 20;
+    transition: all 0.3s ease-in-out;
+   }
+   
+   .get-started-button:hover span {
+    color: #183153;
+    animation: scaleUp 0.3s ease-in-out;
+   }
+   
+   @keyframes scaleUp {
+    0% {
+     transform: scale(1);
+    }
+   
+    50% {
+     transform: scale(0.95);
+    }
+   
+    100% {
+     transform: scale(1);
+    }
+   }
+   
 
+
+  .fancy {
+    background-color: transparent;
+    border: 2px solid #FFC71A;
+    border-radius: 0;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    float: right;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    margin: 0;
+    outline: none;
+    overflow: visible;
+    padding: 1.25em 2em;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    text-transform: none;
+    transition: all 0.3s ease-in-out;
+    user-select: none;
+    font-size: 13px;
+   }
+   
+   .fancy::before {
+    content: " ";
+    width: 1.5625rem;
+    height: 2px;
+    background: #FFC71A;
+    top: 50%;
+    left: 1.5em;
+    position: absolute;
+    transform: translateY(-50%);
+    transform-origin: center;
+    transition: background 0.3s linear, width 0.3s linear;
+   }
+   
+   .fancy .text {
+    font-size: 1.125em;
+    line-height: 1.33333em;
+    padding-left: 2em;
+    display: block;
+    text-align: left;
+    transition: all 0.3s ease-in-out;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #FFC71A;
+   }
+   
+   .fancy .top-key {
+    height: 2px;
+    width: 1.5625rem;
+    top: -2px;
+    left: 0.625rem;
+    position: absolute;
+    background: #e8e8e8;
+    transition: width 0.5s ease-out, left 0.3s ease-out;
+   }
+   
+   .fancy .bottom-key-1 {
+    height: 2px;
+    width: 1.5625rem;
+    right: 1.875rem;
+    bottom: -2px;
+    position: absolute;
+    background: #e8e8e8;
+    transition: width 0.5s ease-out, right 0.3s ease-out;
+   }
+   
+   .fancy .bottom-key-2 {
+    height: 2px;
+    width: 0.625rem;
+    right: 0.625rem;
+    bottom: -2px;
+    position: absolute;
+    background: #e8e8e8;
+    transition: width 0.5s ease-out, right 0.3s ease-out;
+   }
+   
+   .fancy:hover {
+    color: white;
+    background: #FFC71A;
+   }
+   
+   .fancy:hover::before {
+    width: 0.9375rem;
+    background: white;
+   }
+   
+   .fancy:hover .text {
+    color: white;
+    padding-left: 1.5em;
+   }
+   
+   .fancy:hover .top-key {
+    left: -2px;
+    width: 0px;
+   }
+   
+   .fancy:hover .bottom-key-1,
+    .fancy:hover .bottom-key-2 {
+    right: 0;
+    width: 0;
+   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  .learnmore.button {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    outline: none;
+    border: 0;
+    vertical-align: middle;
+    text-decoration: none;
+    background: transparent;
+    padding: 0;
+    font-size: inherit;
+    font-family: inherit;
+  }
+
+  .learnmore.button {
+    width: 12rem;
+    height: auto;
+  }
+
+  .learnmore.button .circle {
+    transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+    position: relative;
+    display: block;
+    margin: 0;
+    width: 3rem;
+    height: 3rem;
+    background: #FFC71A;
+    border-radius: 1.625rem;
+  }
+
+  .learnmore.button .circle .icon {
+    transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    background: #fff;
+  }
+
+  .learnmore.button .circle .icon.arrow {
+    transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+    left: 0.625rem;
+    width: 1.125rem;
+    height: 0.125rem;
+    background: none;
+  }
+
+  .learnmore.button .circle .icon.arrow::before {
+    position: absolute;
+    content: "";
+    top: -0.29rem;
+    right: 0.0625rem;
+    width: 0.625rem;
+    height: 0.625rem;
+    border-top: 0.125rem solid #fff;
+    border-right: 0.125rem solid #fff;
+    transform: rotate(45deg);
+  }
+
+  .learnmore.button .button-text {
+    transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0.75rem 0;
+    margin: 0 0 0 1.85rem;
+    color: #FFC71A;
+    font-weight: 700;
+    line-height: 1.6;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .learnmore.button:hover .circle {
+    width: 100%;
+  }
+
+  .learnmore.button:hover .circle .icon.arrow {
+    background: #fff;
+    transform: translate(1rem, 0);
+  }
+
+  .learnmore.button:hover .button-text {
+    color: #fff;
+  }
+
+  .progressCard {
+    background: #313131;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    transition: 0.2s ease-in-out;
+  }
+
+  .progressImg {
+    position: absolute;
+    transition: 0.2s ease-in-out;
+    z-index: 1;
+  }
+
+  .progressTextBox {
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    transition: 0.2s ease-in-out;
+    z-index: 2;
+  }
+
+  .progressTextBox > .text {
+    font-weight: bold;
+  }
+
+  .progressTextBox > .head {
+    font-size: 20px;
+  }
+
+  .progressTextBox > .price {
+    font-size: 17px;
+  }
+
+  .progressTextBox > span {
+    font-size: 12px;
+    color: lightgrey;
+  }
+
+  .progressCard:hover > .progressTextBox {
+    opacity: 1;
+  }
+
+  .progressCard:hover > .progressImg {
+    height: 65%;
+    filter: blur(7px);
+    animation: anim 3s infinite;
+  }
+
+  @keyframes anim {
+    0% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-20px);
+    }
+
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+  .progressCard:hover {
+    transform: scale(1.04) rotate(-1deg);
+  }
 
   .card {
     --main-color: #000;
-    --submain-color: #78858F;
+    --submain-color: #78858f;
     --bg-color: #fff;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+      sans-serif;
     position: relative;
-  
+
     display: flex;
     flex-direction: column;
     align-items: center;
     border-radius: 20px;
     background: var(--bg-color);
   }
-  
+
   .card__img {
     height: 192px;
     width: 100%;
   }
-  
+
   .card__img svg {
     height: 100%;
     border-radius: 20px 20px 0 0;
   }
-  
+
   .card__avatar {
     position: absolute;
     width: 114px;
@@ -82,26 +425,26 @@
     align-items: center;
     top: calc(50% - 57px);
   }
-  
+
   .card__avatar svg {
     width: 100px;
     height: 100px;
   }
-  
+
   .card__title {
     margin-top: 60px;
     font-weight: 500;
     font-size: 18px;
     color: var(--main-color);
   }
-  
+
   .card__subtitle {
     margin-top: 10px;
     font-weight: 400;
     font-size: 15px;
     color: var(--submain-color);
   }
-  
+
   .card__btn {
     margin-top: 15px;
     width: 76px;
@@ -115,19 +458,19 @@
     text-transform: uppercase;
     transition: all 0.3s;
   }
-  
+
   .card__btn-solid {
     background: var(--main-color);
     color: var(--bg-color);
   }
-  
+
   .card__btn:hover {
     background: var(--main-color);
     color: var(--bg-color);
   }
-  
+
   .card__btn-solid:hover {
     background: var(--bg-color);
     color: var(--main-color);
-  }  
+  }
 }
