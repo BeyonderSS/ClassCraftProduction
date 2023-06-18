@@ -47,7 +47,6 @@ function Dashboard() {
 
   return (
     <div className="  flex justify-between items-center">
-    
       <div className="h-screen  lg:pl-32 py-10  ">
         <div className="flex justify-between">
           <div className="flex flex-col">
@@ -55,12 +54,8 @@ function Dashboard() {
               Hi, {session?.user?.name.split(" ")[0]}
             </h1>
             <div className="my-10 mx-10">
-              <h1 className=" text-6xl text-gray-700">
-                Become The Best
-              </h1>
-              <h1 className="text-6xl text-gray-700">
-                Version Of Your Self
-              </h1>
+              <h1 className=" text-6xl text-gray-700">Become The Best</h1>
+              <h1 className="text-6xl text-gray-700">Version Of Your Self</h1>
             </div>
             <Link
               class="fancy w-52 p-6 my-10 rounded-full flex justify-center items-center  mx-10"
@@ -71,11 +66,13 @@ function Dashboard() {
               <span class="bottom-key-1"></span>
               <span class="bottom-key-2"></span>
             </Link>
-
-           
           </div>
           <div className="flex justify-end items-center">
-            <img src="/dashHome.svg" alt="" className="h-96 lg:block md:block hidden " />
+            <img
+              src="/dashHome.svg"
+              alt=""
+              className="h-96 lg:block md:block hidden "
+            />
           </div>
         </div>
         <div className="flex justify-center items-center">
@@ -109,7 +106,7 @@ function Dashboard() {
           </div>
         </div>
       </div>
-      <div className="fixed  right-0 md:block hidden">
+      <div className="fixed  right-0 md:block hidden z-50">
         <div className=" h-screen bg bg-gray-200 w-[50vh] py-8 rounded-xl flex flex-col items-center justify-between overflow-hidden">
           <div className="flex flex-col justify-center items-center">
             <img
@@ -131,7 +128,10 @@ function Dashboard() {
           >
             {course.length != 0 &&
               course.map((course) => (
-                <div className="flex justify-center items-center">
+                <div
+                  key={course.id}
+                  className="flex justify-center items-center"
+                >
                   <div className="card h-[50vh] w-80 flex justify-center item">
                     <div className="card__img">
                       <img src="/landingCard.svg" alt="" />
