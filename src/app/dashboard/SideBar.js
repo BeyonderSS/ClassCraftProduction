@@ -6,20 +6,24 @@ import Tooltip from "./Tooltip";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FaPenNib } from "react-icons/fa";
+import { RxCross2 } from "react-icons/rx";
 
-const SideBar = ({ role }) => {
+const SideBar = ({ role, toggle }) => {
   const currentPath = usePathname();
 
   return (
     <nav className="fixed left-0 ">
       <div className="bg-white absolute top-0 left-0 mx-3 p-6 rounded-3xl my-4 h-auto lg:block md:block shadow-lg ">
-        <Link href="/dashboard/test">
-          <div
-            className={`flex justify-center items-center font-semibold p-2 rounded-2xl text-white bg-[#7EA8EB] transition ease-in-out duration-500 `}
-          >
-            CC
-          </div>
-        </Link>
+        <button onClick={() => toggle()} className="absolute top-0 left-0 lg:hidden">
+          <RxCross2 size={30} className=" text-gray-600 text-2xl p-1 bg-[#7EA8EB] rounded-2xl" />
+        </button>
+        {/* <Link href="/dashboard/test"> */}
+        <div
+          className={`flex justify-center items-center font-semibold p-2 rounded-2xl text-white bg-[#7EA8EB] transition ease-in-out duration-500 `}
+        >
+          CC
+        </div>
+        {/* </Link> */}
         <ul className="space-y-8 md:my-[23vh] my-16 ">
           <Tooltip text={"Home"}>
             <Link href="/dashboard">

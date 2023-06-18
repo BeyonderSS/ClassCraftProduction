@@ -5,6 +5,7 @@ import { motion, progress } from "framer-motion";
 import listCourses from "@/lib/listCourses";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import Link from "next/link";
 function Dashboard() {
   const role = "Teacher";
   const progresses = [
@@ -45,43 +46,50 @@ function Dashboard() {
   };
 
   return (
-    <div className=" bg-[#F4F6F8] flex justify-between items-center">
-      <div className="h-screen bg-[#F4F6F8] lg:pl-32 py-10  ">
+    <div className="  flex justify-between items-center">
+    
+      <div className="h-screen  lg:pl-32 py-10  ">
         <div className="flex justify-between">
           <div className="flex flex-col">
             <h1 className="text-sm text-gray-600">
               Hi, {session?.user?.name.split(" ")[0]}
             </h1>
             <div className="my-10 mx-10">
-              <h1 className=" text-6xl text-gray-700">Become The Best</h1>
-              <h1 className=" text-6xl text-gray-700">Version Of Your Self</h1>
+              <h1 className=" text-6xl text-gray-700">
+                Become The Best
+              </h1>
+              <h1 className="text-6xl text-gray-700">
+                Version Of Your Self
+              </h1>
             </div>
-            <a
+            <Link
               class="fancy w-52 p-6 my-10 rounded-full flex justify-center items-center  mx-10"
-              href="#"
+              href="/"
             >
               <span class="top-key"></span>
               <span class="text">Get Started</span>
               <span class="bottom-key-1"></span>
               <span class="bottom-key-2"></span>
-            </a>
+            </Link>
 
-            {/* <button className="get-started-button w-52 mx-10 rounded-full p-2">
-              <span>Get Started</span>
-            </button> */}
+           
           </div>
           <div className="flex justify-end items-center">
-            <img src="/dashHome.svg" alt="" className="h-96 " />
+            <img src="/dashHome.svg" alt="" className="h-96 lg:block md:block hidden " />
           </div>
         </div>
         <div className="flex justify-center items-center">
           <div className="grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 ">
-            {progresses.map((progress) => (
+            {progresses.map((progress, index) => (
               <div
                 key={progress.id}
-                className="progressCard md:h-56 h-40 w-72 md:w-96 m-6"
+                className="progressCard md:h-60 h-44 w-72 md:w-96 m-6"
               >
-                <img className="progressImg h-40" src="/eth.svg" alt="" />
+                <img
+                  className="progressImg h-52"
+                  src={`/progressCard${index + 1}.svg`}
+                  alt=""
+                />
                 <div className="progressTextBox">
                   <p className="text head">{progress.Name}</p>
                   <span>{progress.courseName}</span>
@@ -89,8 +97,9 @@ function Dashboard() {
                 </div>
               </div>
             ))}
-            <div className="progressCard md:h-56 h-40 w-72 md:w-96 m-6">
-              <img className="progressImg h-40" src="/eth.svg" alt="" />
+
+            <div className="progressCard md:h-60 h-40 w-72 md:w-96 m-6">
+              <img className="progressImg h-52" src="/learnMore.svg" alt="" />
               <div className="progressTextBox">
                 <p className="text head">Explore</p>
                 <span>Possibilities</span>
@@ -112,23 +121,23 @@ function Dashboard() {
               {session?.user?.name}
             </h1>
           </div>
-          {/* <Carousel
+          <Carousel
             autoPlay
             infiniteLoop
             showStatus={false}
             showIndicators={false}
             showThumbs={false}
-            interval={5000}
-          > */}
-           
+            interval={4000}
+          >
             {course.length != 0 &&
-              
-              <div className="card h-[50vh] w-80">
+              course.map((course) => (
+                <div className="flex justify-center items-center">
+                  <div className="card h-[50vh] w-80 flex justify-center item">
                     <div className="card__img">
                       <img src="/landingCard.svg" alt="" />
                     </div>
-                    <div className="card__title">{course[0].name}</div>
-                    <div className="card__subtitle">{course[0].section}</div>
+                    <div className="card__title">{course.name}</div>
+                    <div className="card__subtitle">{course.section}</div>
                     <div className="card__wrapper ">
                       <button class="learnmore button">
                         <span class="circle" aria-hidden="true">
@@ -138,9 +147,9 @@ function Dashboard() {
                       </button>
                     </div>
                   </div>
-              
-              }
-          {/* </Carousel> */}
+                </div>
+              ))}
+          </Carousel>
         </div>
       </div>
     </div>

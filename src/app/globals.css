@@ -110,7 +110,7 @@
 
   .fancy {
     background-color: transparent;
-    border: 2px solid #FFC71A;
+    border: 2px solid #7EA8EB;
     border-radius: 0;
     box-sizing: border-box;
     color: #fff;
@@ -136,7 +136,7 @@
     content: " ";
     width: 1.5625rem;
     height: 2px;
-    background: #FFC71A;
+    background: #7EA8EB;
     top: 50%;
     left: 1.5em;
     position: absolute;
@@ -154,7 +154,7 @@
     transition: all 0.3s ease-in-out;
     text-transform: uppercase;
     text-decoration: none;
-    color: #FFC71A;
+    color: #7EA8EB;
    }
    
    .fancy .top-key {
@@ -189,7 +189,7 @@
    
    .fancy:hover {
     color: white;
-    background: #FFC71A;
+    background: #7EA8EB;
    }
    
    .fancy:hover::before {
@@ -253,7 +253,7 @@
     margin: 0;
     width: 3rem;
     height: 3rem;
-    background: #FFC71A;
+    background: #7EA8EB;
     border-radius: 1.625rem;
   }
 
@@ -295,7 +295,7 @@
     bottom: 0;
     padding: 0.75rem 0;
     margin: 0 0 0 1.85rem;
-    color: #FFC71A;
+    color: #7EA8EB;
     font-weight: 700;
     line-height: 1.6;
     text-align: center;
