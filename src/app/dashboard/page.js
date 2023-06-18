@@ -58,13 +58,13 @@ function Dashboard() {
               <h1 className="text-6xl text-gray-700">Version Of Your Self</h1>
             </div>
             <Link
-              class="fancy w-52 p-6 my-10 rounded-full flex justify-center items-center  mx-10"
+              className="fancy w-52 p-6 my-10 rounded-full flex justify-center items-center  mx-10"
               href="/"
             >
-              <span class="top-key"></span>
-              <span class="text">Get Started</span>
-              <span class="bottom-key-1"></span>
-              <span class="bottom-key-2"></span>
+              <span className="top-key"></span>
+              <span className="text">Get Started</span>
+              <span className="bottom-key-1"></span>
+              <span className="bottom-key-2"></span>
             </Link>
           </div>
           <div className="flex justify-end items-center">
@@ -139,11 +139,11 @@ function Dashboard() {
                     <div className="card__title">{course.name}</div>
                     <div className="card__subtitle">{course.section}</div>
                     <div className="card__wrapper ">
-                      <button class="learnmore button">
-                        <span class="circle" aria-hidden="true">
-                          <span class="icon arrow"></span>
+                      <button className="learnmore button">
+                        <span className="circle" aria-hidden="true">
+                          <span className="icon arrow"></span>
                         </span>
-                        <span class="button-text">Learn More</span>
+                        <span className="button-text">Learn More</span>
                       </button>
                     </div>
                   </div>
