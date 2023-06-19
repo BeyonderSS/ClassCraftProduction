@@ -6,6 +6,7 @@ import { FiAlertTriangle, FiX } from "react-icons/fi";
 import { motion } from "framer-motion";
 import createCourse from "@/lib/createCourse";
 import Link from "next/link";
+import { BarLoader } from "react-spinners";
 
 const CreateCourse = () => {
   const { data: session } = useSession();
@@ -53,57 +54,92 @@ const CreateCourse = () => {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0, transition: { delay: 0.1, duration: 0.5 } }}
-      className="lg:pl-28 pt-24  bg-blue-200 h-screen"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1, transition: { delay: 0.1, duration: 0.5 } }}
+      className="  bg-blue-200 flex justify-center items-center h-screen"
     >
-      <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-lg lg:my-40">
+      <div className="w-96 mx-auto bg-white p-6 rounded-lg shadow-lg  ">
         <h1 className="text-2xl font-bold mb-4">Create Course</h1>
-        <div className="mb-4">
-          <label className="block text-gray-700">Course Name</label>
-          <input
-            type="text"
-            className="border border-gray-300 rounded p-2 w-full"
-            name="name"
-            value={courseData.name}
-            onChange={handleChange}
-          />
+        <div className="w-full space-y-5 m-2">
+          <div className="inputbox w-full">
+            <input
+              required="required"
+              name="name"
+              value={courseData.name}
+              onChange={handleChange}
+              type="text"
+            />
+            <span>Course Name </span>
+            <i />
+          </div>
+
+          <div className="inputbox w-full">
+            <input
+              required="required"
+              name="section"
+              value={courseData.section}
+              onChange={handleChange}
+              type="text"
+            />
+            <span>Section</span>
+            <i />
+          </div>
+
+          <div className="inputbox w-full">
+            <input
+              required="required"
+              name="room"
+              value={courseData.room}
+              onChange={handleChange}
+              type="text"
+            />
+            <span>Room</span>
+            <i />
+          </div>
+          <div className="textarea-box w-full">
+            <textarea
+              className="textarea-box__input"
+              name="description"
+              value={courseData.description}
+              onChange={handleChange}
+              required
+            ></textarea>
+            <span className="textarea-box__span">Description</span>
+            <i className="textarea-box__i"></i>
+          </div>
         </div>
-        <div className="mb-4">
-          <label className="block text-gray-700">Section</label>
-          <input
-            type="text"
-            className="border border-gray-300 rounded p-2 w-full"
-            name="section"
-            value={courseData.section}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700">Description</label>
-          <textarea
-            className="border border-gray-300 rounded p-2 w-full"
-            name="description"
-            value={courseData.description}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700">Room</label>
-          <input
-            type="text"
-            className="border border-gray-300 rounded p-2 w-full"
-            name="room"
-            value={courseData.room}
-            onChange={handleChange}
-          />
-        </div>
+
         <button
-          className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded disabled:opacity-50"
+          className="cta inline-flex items-center justify-center"
           onClick={handleCreateCourse}
           disabled={isLoading}
         >
-          {isLoading ? "Creating..." : "Create Course"}
+          <span className="hover-underline-animation">
+            {" "}
+            {isLoading ? <BarLoader color="#FFFFFF" /> : "Create"}{" "}
+          </span>
+          <svg
+            height="25px"
+            viewBox="0 0 50 50"
+            width="25px"
+            xmlSpace="preserve"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill="#234567"
+              stroke="#234567"
+              strokeMiterlimit={10}
+              strokeWidth={4}
+              d="M9 25L41 25"
+            />
+            <path
+              fill="#234567"
+              stroke="#234567"
+              strokeMiterlimit={10}
+              strokeWidth={4}
+              d="M25 9L25 41"
+            />
+          </svg>
         </button>
       </div>
       {isSuccess && (

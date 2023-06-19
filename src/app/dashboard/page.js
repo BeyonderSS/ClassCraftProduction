@@ -6,6 +6,7 @@ import listCourses from "@/lib/listCourses";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Link from "next/link";
+import WifiLoader from "../WifiLoader";
 function Dashboard() {
   const role = "Teacher";
   const progresses = [
@@ -17,7 +18,9 @@ function Dashboard() {
   const { data: session } = useSession();
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    if (session) {
+    if (!session) {
+      setLoading(true);
+    } else {
       setLoading(true);
       console.log(session.accessToken);
 
@@ -44,9 +47,20 @@ function Dashboard() {
     Teacher: "Plant the seeds of knowledge and watch them flourish!",
     Admin: "Make managing your garden a breeze with us!",
   };
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <WifiLoader text={"Loading..."} />
+      </div>
+    );
+  }
 
   return (
-    <div className="  flex justify-between items-center">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="  flex justify-between items-center"
+    >
       <div className="h-screen  lg:pl-32 py-10  ">
         <div className="flex justify-between">
           <div className="flex flex-col">
@@ -118,41 +132,60 @@ function Dashboard() {
               {session?.user?.name}
             </h1>
           </div>
-          <Carousel
+          {/* <Carousel
             autoPlay
             infiniteLoop
             showStatus={false}
             showIndicators={false}
             showThumbs={false}
             interval={4000}
-          >
-            {course.length != 0 &&
-              course.map((course) => (
-                <div
-                  key={course.id}
-                  className="flex justify-center items-center"
-                >
-                  <div className="card h-[50vh] w-80 flex justify-center item">
-                    <div className="card__img">
-                      <img src="/landingCard.svg" alt="" />
+          > */}
+          {course.length != 0 && (
+            <Link
+              href={`/dashboard/courselist/${course[0].id}?name=${course[0].name}`}
+            >
+              <article className="article-wrapper">
+                <img src="/landingCard.svg" alt="" className="rounded-lg" />
+
+                <div className="project-info">
+                  <div className="flex-pr">
+                    <div className="project-title text-nowrap">
+                      {course[0].name}
                     </div>
-                    <div className="card__title">{course.name}</div>
-                    <div className="card__subtitle">{course.section}</div>
-                    <div className="card__wrapper ">
-                      <button className="learnmore button">
-                        <span className="circle" aria-hidden="true">
-                          <span className="icon arrow"></span>
-                        </span>
-                        <span className="button-text">Learn More</span>
-                      </button>
+                    <div className="project-hover">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="2em"
+                        height="2em"
+                        color="#000"
+                        strokeLinejoin="round"
+                        strokeLinecap="round"
+                        viewBox="0 0 24 24"
+                        strokeWidth={2}
+                        fill="none"
+                        stroke="currentColor"
+                      >
+                        <path d="M5 12L19 12" />
+                        <path d="M12 5L19 12 12 19" />
+                      </svg>
                     </div>
                   </div>
+                  <div className="types">
+                    <span className="project-type">
+                      • {course[0].courseState}
+                    </span>
+                    <span className="project-type">
+                      • Section - {course[0].section}
+                    </span>
+                  </div>
                 </div>
-              ))}
-          </Carousel>
+              </article>
+            </Link>
+          )}
+          {/* </Carousel> */}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

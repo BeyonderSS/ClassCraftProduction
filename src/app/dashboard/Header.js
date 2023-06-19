@@ -6,6 +6,7 @@ import SideBar from "./SideBar";
 import { useSession } from "next-auth/react";
 import { RxCross2 } from "react-icons/rx";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const Header = () => {
   const [isOpen, toggleOpen] = useCycle(false, true);
@@ -13,6 +14,7 @@ const Header = () => {
   const role = "Admin";
   const currentPath = usePathname();
   console.log(currentPath);
+
   return (
     <nav>
       <AnimatePresence>

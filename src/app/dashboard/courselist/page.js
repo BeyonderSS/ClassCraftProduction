@@ -7,13 +7,16 @@ import listCourses from "@/lib/listCourses";
 import CourseCardSkeleton from "../CourseCardSkeleton";
 import CourseCardItem from "../CourseCard";
 import { motion } from "framer-motion";
+import WifiLoader from "@/app/WifiLoader";
 
 const Courses = () => {
   const [course, setCourse] = useState([]);
   const { data: session } = useSession();
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    if (session) {
+    if (!session) {
+      setLoading(true);
+    } else {
       setLoading(true);
       console.log(session.accessToken);
 
@@ -28,11 +31,11 @@ const Courses = () => {
       getCourses(session.accessToken);
     }
   }, [session]);
-  const role = "Student";
+  const role = "Admin";
   if (loading) {
     return (
-      <div className="lg:pl-28 pt-24 bg-[#F4F6F8]">
-        <CourseCardSkeleton />
+      <div className="flex justify-center items-center h-screen bg-[#F4F6F8]">
+        <WifiLoader text={"Loading..."} />
       </div>
     );
   }
@@ -57,7 +60,7 @@ const Courses = () => {
           </h1>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 space-y-4">
           {course.map((course) => (
             <CourseCardItem key={course.id} course={course} role={role} />
           ))}

@@ -10,6 +10,7 @@ import listCourses from "@/lib/listCourses";
 import createAnnouncement from "@/lib/createAnnouncement";
 import { BarLoader } from "react-spinners";
 import SkeletonLoaderHostmeet from "./SkeletonLoaderHostmeet";
+import WifiLoader from "@/app/WifiLoader";
 
 const HostMeet = () => {
   const { data: session } = useSession();
@@ -103,7 +104,7 @@ const HostMeet = () => {
     });
   };
   if (skeletonLoading) {
-    return <SkeletonLoaderHostmeet />;
+    return <div className="flex justify-center items-center h-screen"> <WifiLoader text={"Loading..."}/></div>;
   }
   return (
     <div className=" bg-[#F4F6F8]">
@@ -117,16 +118,69 @@ const HostMeet = () => {
             HostMeet &amp; Push Announcements
           </h1>
         </div>
+
         {courses.length > 0 && (
           <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 mb-4">
             {courses.map((course) => (
-              <div
-                key={course.id}
-                className="p-4 bg-blue-200  rounded-md cursor-pointer hover:bg-blue-300"
-                onClick={() => handleCourseSelect(course)}
-              >
-                <p className="text-lg font-bold">{course.name}</p>
-                <p>{course.description}</p>
+              <div key={course.id} className="host-meet-cards w-full">
+                <div className="host-meet-cards__img"></div>
+                <div className="host-meet-cards__subtitle">
+                  {course.section}
+                </div>
+                <div className="host-meet-cards__wrapper">
+                  <div className="host-meet-cards__title">{course.name}</div>
+                  <button
+                    onClick={() => handleCourseSelect(course)}
+                    className="host-meet-cards__icon"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 256 256"
+                      style={{
+                        userSelect: "none",
+                        width: "100%",
+                        height: "100%",
+                        display: "inline-block",
+                        fill: "rgb(224, 223, 220)",
+                        flexShrink: 0,
+                        cursor: "auto",
+                      }}
+                      color="rgb(224, 223, 220)"
+                    >
+                      <g color="rgb(224, 223, 220)">
+                        <circle cx={128} cy={128} r={96} opacity="0.2" />
+                        <circle
+                          cx={128}
+                          cy={128}
+                          r={96}
+                          fill="none"
+                          stroke="rgb(224, 223, 220)"
+                          strokeMiterlimit={10}
+                          strokeWidth={16}
+                        />
+                        <polyline
+                          points="134.1 161.9 168 128 134.1 94.1"
+                          fill="none"
+                          stroke="rgb(224, 223, 220)"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={16}
+                        />
+                        <line
+                          x1={88}
+                          y1={128}
+                          x2={168}
+                          y2={128}
+                          fill="none"
+                          stroke="rgb(224, 223, 220)"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={16}
+                        />
+                      </g>
+                    </svg>
+                  </button>
+                </div>
               </div>
             ))}
           </div>
