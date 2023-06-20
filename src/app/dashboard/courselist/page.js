@@ -31,7 +31,7 @@ const Courses = () => {
       getCourses(session.accessToken);
     }
   }, [session]);
-  const role = "Admin";
+  const role = "Student";
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen bg-[#F4F6F8]">
@@ -60,7 +60,7 @@ const Courses = () => {
           </h1>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 space-y-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 ">
           {course.map((course) => (
             <CourseCardItem key={course.id} course={course} role={role} />
           ))}

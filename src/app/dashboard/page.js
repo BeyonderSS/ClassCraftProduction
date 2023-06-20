@@ -144,7 +144,7 @@ function Dashboard() {
             <Link
               href={`/dashboard/courselist/${course[0].id}?name=${course[0].name}`}
             >
-              <article className="article-wrapper">
+              <article className="article-wrapper w-80">
                 <img src="/landingCard.svg" alt="" className="rounded-lg" />
 
                 <div className="project-info">

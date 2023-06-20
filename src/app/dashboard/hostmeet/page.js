@@ -104,7 +104,12 @@ const HostMeet = () => {
     });
   };
   if (skeletonLoading) {
-    return <div className="flex justify-center items-center h-screen"> <WifiLoader text={"Loading..."}/></div>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        {" "}
+        <WifiLoader text={"Loading..."} />
+      </div>
+    );
   }
   return (
     <div className=" bg-[#F4F6F8]">
@@ -113,75 +118,57 @@ const HostMeet = () => {
         animate={{ opacity: 1, y: 0 }}
         className="lg:pl-28 pt-24 lg:mx-6 md:mx-4 mx-2"
       >
-        <div className="flex justify-center items-center lg:text-5xl text-4xl text-white font-semibold m-4 my-4 ">
+        <div className="flex justify-center items-center lg:text-5xl text-4xl text-white font-semibold m-4 my-10 ">
           <h1 className=" p-3 px-6 rounded-lg bg-[#7EA8EB] flex justify-center items-center">
             HostMeet &amp; Push Announcements
           </h1>
         </div>
 
         {courses.length > 0 && (
-          <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 mb-4">
+          <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-10 mb-4">
             {courses.map((course) => (
-              <div key={course.id} className="host-meet-cards w-full">
-                <div className="host-meet-cards__img"></div>
-                <div className="host-meet-cards__subtitle">
-                  {course.section}
-                </div>
-                <div className="host-meet-cards__wrapper">
-                  <div className="host-meet-cards__title">{course.name}</div>
-                  <button
-                    onClick={() => handleCourseSelect(course)}
-                    className="host-meet-cards__icon"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 256 256"
-                      style={{
-                        userSelect: "none",
-                        width: "100%",
-                        height: "100%",
-                        display: "inline-block",
-                        fill: "rgb(224, 223, 220)",
-                        flexShrink: 0,
-                        cursor: "auto",
-                      }}
-                      color="rgb(224, 223, 220)"
+              <motion.article
+                initial={{ opacity: 0 }}
+                animate={{
+                  opacity: 1,
+                  transition: { delay: 0.1, duration: 0.5 },
+                }}
+                key={course.id}
+                className="article-wrapper lg:w-96 w-auto"
+              >
+                <div className="project-info">
+                  <div className="flex-pr">
+                    <div className="project-title text-nowrap">
+                      {course.name}
+                    </div>
+                    <button
+                      onClick={() => handleCourseSelect(course)}
+                      className="project-hover"
                     >
-                      <g color="rgb(224, 223, 220)">
-                        <circle cx={128} cy={128} r={96} opacity="0.2" />
-                        <circle
-                          cx={128}
-                          cy={128}
-                          r={96}
-                          fill="none"
-                          stroke="rgb(224, 223, 220)"
-                          strokeMiterlimit={10}
-                          strokeWidth={16}
-                        />
-                        <polyline
-                          points="134.1 161.9 168 128 134.1 94.1"
-                          fill="none"
-                          stroke="rgb(224, 223, 220)"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={16}
-                        />
-                        <line
-                          x1={88}
-                          y1={128}
-                          x2={168}
-                          y2={128}
-                          fill="none"
-                          stroke="rgb(224, 223, 220)"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={16}
-                        />
-                      </g>
-                    </svg>
-                  </button>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="2em"
+                        height="2em"
+                        color="#000"
+                        strokeLinejoin="round"
+                        strokeLinecap="round"
+                        viewBox="0 0 24 24"
+                        strokeWidth={2}
+                        fill="none"
+                        stroke="currentColor"
+                      >
+                        <path d="M5 12L19 12" />
+                        <path d="M12 5L19 12 12 19" />
+                      </svg>
+                    </button>
+                  </div>
+                  <div className="types">
+                    <span className="project-type">
+                      • Section - {course.section}
+                    </span>
+                  </div>
                 </div>
-              </div>
+              </motion.article>
             ))}
           </div>
         )}
