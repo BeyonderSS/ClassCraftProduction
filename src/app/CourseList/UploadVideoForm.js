@@ -1,45 +1,88 @@
-"use client";
-import React, { useRef, useState } from "react";
-import axios from "axios";
-import { useSession } from "next-auth/react";
-import uploadVideoToYouTube from "@/lib/uploadVideoToYouTube"; 
-function UploadVideoForm() {
-  const { data: session } = useSession();
-  const [successMessage, setSuccessMessage] = useState();
-  const [loading, setLoading] = useState(false);
-  const handleUploadVideo = async () => {
-    try {
-      setLoading(true);
+import { useSession } from 'next-auth/react';
+import { useState } from 'react';
 
-      const videoData = {
-        title: "My video title",
-        description: "My video description",
-        tags: ["tag1", "tag2", "tag3"],
-        categoryId: "22", // Category ID for Education
-        privacyStatus: "unlisted", // You can set this to 'public', 'unlisted' or 'private'
-        path: "/home/beyonder/Videos/Screencasts/Screencast\ from\ 2023-06-11\ 19-33-54.webm",
-      };
+const UploadVideoForm = () => {
+  const [file, setFile] = useState(null);
+  const {data :session}=useSession();
+  const [videoMetadata, setVideoMetadata] = useState({
+    title: '',
+    description: '',
+    privacyStatus: ''
+  });
 
-      const videoResult = await uploadVideoToYouTube(
-        session.accessToken,
-        videoData
-      );
-
-      console.log("Video result:", videoResult);
-      setLoading(false);
-      setSuccessMessage("Video Uploaded Successfully");
-    } catch (error) {
-      setSuccessMessage("Failed To Upload Video Please Retry!");
-
-      console.log("Failed to upload video:", error);
-    }
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
   };
 
+
+
+  const handleMetadataChange = (e) => {
+    const { name, value } = e.target;
+    setVideoMetadata((prevMetadata) => ({
+      ...prevMetadata,
+      [name]: value
+    }));
+  };
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('accessToken', session.accessToken);
+    formData.append('videoMetadata', JSON.stringify(videoMetadata));
+  
+    try {
+      const response = await fetch('https://youtube-backend-mc7i.onrender.com/upload', {
+        method: 'POST',
+        body: formData
+      });
+  
+      if (response.ok) {
+        const videoData = await response.json();
+        // Access the video details from the response
+        const videoTitle = videoData.snippet.title;
+        const videoId = videoData.id;
+        console.log(videoData)
+        // Handle the retrieved video details as needed
+        console.log('Video uploaded!');
+        console.log('Title:', videoTitle);
+        console.log('Video ID:', videoId);
+      } else {
+        console.error('Failed to upload video');
+        console.log(await videoMetadata)
+      }
+    } catch (error) {
+      console.error('Error uploading video:', error);
+    }
+  };
+  
   return (
-    <div>
-      <button onClick={handleUploadVideo}>upload</button>
-    </div>
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label htmlFor="file">Video File:</label>
+        <input type="file" id="file" onChange={handleFileChange} required />
+      </div>
+   
+      <div>
+        <label htmlFor="title">Title:</label>
+        <input type="text" id="title" name="title" value={videoMetadata.title} onChange={handleMetadataChange} required />
+      </div>
+      <div>
+        <label htmlFor="description">Description:</label>
+        <textarea id="description" name="description" value={videoMetadata.description} onChange={handleMetadataChange} required />
+      </div>
+      <div>
+        <label htmlFor="privacyStatus">Privacy Status:</label>
+        <select id="privacyStatus" name="privacyStatus" value={videoMetadata.privacyStatus} onChange={handleMetadataChange}>
+          <option value="private">Private</option>
+          <option value="public">Public</option>
+          <option value="unlisted">Unlisted</option>
+        </select>
+      </div>
+      <button type="submit">Upload Video</button>
+    </form>
   );
-}
+};
 
 export default UploadVideoForm;

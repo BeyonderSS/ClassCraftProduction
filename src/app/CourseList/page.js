@@ -166,6 +166,7 @@ const CourseList = () => {
         <p>{course.id}</p>
       </div>
     ))} */}
+    {/* <YouTubePlayer videoId={'hT72jo5ItJ8'}/> */}
       <UploadVideoForm />
       <button onClick={handleGenerateMeeting}>Generate Meeting</button>
     </div>
