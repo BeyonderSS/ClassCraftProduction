@@ -43,9 +43,9 @@ function Dashboard() {
     Admin: "bg-gradient-to-r from-[#3282B8] to-[#0F4C75]",
   };
   const slogans = {
-    Student: "Discover new horizons and grow with us!",
-    Teacher: "Plant the seeds of knowledge and watch them flourish!",
-    Admin: "Make managing your garden a breeze with us!",
+    Student: "Unleash your potential, embrace excellence.",
+    Teacher: "Inspire minds, ignite lifelong learning.",
+    Admin: "Efficiency empowered, systems perfected.",
   };
   if (loading) {
     return (
@@ -61,43 +61,44 @@ function Dashboard() {
       animate={{ opacity: 1 }}
       className="  flex justify-between items-center"
     >
-      <div className="h-screen  lg:pl-32 py-10  ">
+      <div className="h-screen  lg:pl-32 py-10 mx-auto pr-[50vh] w-full  ">
         <div className="flex justify-between">
-          <div className="flex flex-col">
+          <div className="flex flex-col w-[70vh]">
             <h1 className="text-sm text-gray-600">
               Hi, {session?.user?.name.split(" ")[0]}
             </h1>
             <div className="my-10 mx-10">
-              <h1 className=" text-6xl text-gray-700">Become The Best</h1>
-              <h1 className="text-6xl text-gray-700">Version Of Your Self</h1>
+              <p className=" lg:text-8xl text-6xl font-semibold opacity-80 text-gray-700">
+                {slogans[role]}
+              </p>
             </div>
             <Link
-              className="fancy w-52 p-6 my-10 rounded-full flex justify-center items-center  mx-10"
+              className="fancy w-72 p-10 my-10 rounded-full flex justify-center items-center  mx-10"
               href="/"
             >
               <span className="top-key"></span>
-              <span className="text">Get Started</span>
+              <span className="text text-2xl">Get Started</span>
               <span className="bottom-key-1"></span>
               <span className="bottom-key-2"></span>
             </Link>
           </div>
-          <div className="flex justify-end items-center">
+          <div className="flex justify-end items-center w-[60vh]">
             <img
               src="/dashHome.svg"
               alt=""
-              className="h-96 lg:block md:block hidden "
+              className="h-[60vh] lg:block md:block hidden "
             />
           </div>
         </div>
-        <div className="flex justify-center items-center">
-          <div className="grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 ">
+        <div className="flex justify-center items-center w-full ">
+          <div className="grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 w-full ">
             {progresses.map((progress, index) => (
               <div
                 key={progress.id}
-                className="progressCard md:h-60 h-44 w-72 md:w-96 m-6"
+                className="progressCard md:h-80 h-40 w-72 md:w-[55vh] m-6"
               >
                 <img
-                  className="progressImg h-52"
+                  className="progressImg md:h-72 h-36"
                   src={`/progressCard${index + 1}.svg`}
                   alt=""
                 />
@@ -109,8 +110,12 @@ function Dashboard() {
               </div>
             ))}
 
-            <div className="progressCard md:h-60 h-40 w-72 md:w-96 m-6">
-              <img className="progressImg h-52" src="/learnMore.svg" alt="" />
+            <div className="progressCard md:h-80 h-40 w-72 md:w-[55vh] m-6">
+              <img
+                className="progressImg md:h-72 h-36"
+                src="/learnMore.svg"
+                alt=""
+              />
               <div className="progressTextBox">
                 <p className="text head">Explore</p>
                 <span>Possibilities</span>
@@ -142,7 +147,11 @@ function Dashboard() {
           > */}
           {course.length != 0 && (
             <Link
-              href={`/dashboard/courselist/${course[0].id}?name=${course[0].name}`}
+              href={`${
+                role === "Student"
+                  ? `/dashboard/courselist/${course[0].id}?name=${course[0].name}`
+                  : `${course[0].alternateLink}`
+              }`}
             >
               <article className="article-wrapper w-80">
                 <img src="/landingCard.svg" alt="" className="rounded-lg" />
@@ -152,7 +161,9 @@ function Dashboard() {
                     <div className="project-title text-nowrap">
                       {course[0].name}
                     </div>
-                    <div className="project-hover">
+                    <button
+                      className="project-hover"
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="2em"
@@ -168,7 +179,7 @@ function Dashboard() {
                         <path d="M5 12L19 12" />
                         <path d="M12 5L19 12 12 19" />
                       </svg>
-                    </div>
+                    </button>
                   </div>
                   <div className="types">
                     <span className="project-type">

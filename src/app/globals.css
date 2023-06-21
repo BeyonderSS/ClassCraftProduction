@@ -142,8 +142,8 @@
   }
 
   .fancy .text {
-    font-size: 1.125em;
-    line-height: 1.33333em;
+   @apply lg:text-xl text-sm ;
+    line-height: 2em;
     padding-left: 2em;
     display: block;
     text-align: left;
@@ -444,15 +444,15 @@
   }
 
   .progressTextBox > .head {
-    font-size: 20px;
+    @apply text-3xl;
   }
 
   .progressTextBox > .price {
-    font-size: 17px;
+    @apply text-xl;
   }
 
   .progressTextBox > span {
-    font-size: 12px;
+    @apply text-sm;
     color: lightgrey;
   }
 
@@ -1009,15 +1009,15 @@
     transform: scale(0.95);
   }
 
-
   /* Host meet cards  */
   .host-meet-cards {
     --main-color: #323232;
     --sub-color: #5b5b5b;
     --bg-color: #7facf5;
-    --accent-color: #242C88;
+    --accent-color: #242c88;
     position: relative;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
     width: 270px;
     padding: 25px;
     border-radius: 25px;
@@ -1029,9 +1029,9 @@
     cursor: pointer;
     box-shadow: 0px 0px 5px -1.5px #000;
   }
-  
+
   .host-meet-cards::before {
-    content: '';
+    content: "";
     width: 99%;
     height: 99%;
     background: var(--sub-color);
@@ -1042,76 +1042,74 @@
     border-radius: 25px;
     transition: all 0.3s;
   }
-  
+
   .host-meet-cards__wrapper {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
   }
-  
+
   .host-meet-cards__img {
     width: 100%;
   }
-  
+
   .host-meet-cards__title {
     color: var(--main-color);
     font-weight: 900;
     font-size: 25px;
   }
-  
+
   .host-meet-cards__subtitle {
     color: var(--sub-color);
     font-weight: 600;
     font-size: 20px;
   }
-  
+
   .host-meet-cards__icon {
     width: 40px;
     height: 40px;
     transform: rotate(-45deg);
     transition: all 0.3s;
   }
-  
+
   .host-meet-cards__icon svg {
     width: 100%;
     height: 100%;
   }
-  
+
   .host-meet-cards__icon g {
     fill: var(--main-color);
   }
-  
+
   .host-meet-cards__icon circle,
   .host-meet-cards__icon polyline,
   .host-meet-cards__icon line {
     stroke: var(--main-color);
   }
-  
+
   .host-meet-cards:hover .host-meet-cards__icon {
     transform: rotate(0);
   }
-  
+
   .host-meet-cards:hover .host-meet-cards__icon circle,
   .host-meet-cards:hover .host-meet-cards__icon polyline,
   .host-meet-cards:hover .host-meet-cards__icon line {
     stroke: var(--accent-color);
   }
-  
+
   .host-meet-cards:hover .host-meet-cards__icon g {
     fill: var(--accent-color);
   }
-  
+
   .host-meet-cards:hover {
     box-shadow: 0px 0px 20px -5px #000;
   }
-  
+
   .host-meet-cards:hover::before {
     transform: rotate(10deg);
     box-shadow: 0px 0px 20px -5px #000;
   }
-  
+
   /* remove svg from class="host-meet-cards__img" and last styles below css code before use */
- 
-  
 }
