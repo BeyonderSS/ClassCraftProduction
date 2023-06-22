@@ -1,5 +1,5 @@
 'use server'
-const { execFile } = require('child_process');
+import { execFile } from 'child_process';
 
 export async function getYoutubeVideoUrl(url) {
   return new Promise((resolve, reject) => {
@@ -16,4 +16,3 @@ export async function getYoutubeVideoUrl(url) {
     });
   });
 }
-
