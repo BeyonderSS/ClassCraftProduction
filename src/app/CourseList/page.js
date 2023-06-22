@@ -169,7 +169,7 @@ const CourseList = () => {
       </div>
     ))} */}
      
-    <VideoPlayer videoUrl={'https://www.youtube.com/watch?v=mNEUkkoUoIA'}/>
+    <VideoPlayer videoUrl={'https://www.youtube.com/watch?v=fLh4jYrPjNM'}/>
       <UploadVideoForm />
       <button onClick={handleGenerateMeeting}>Generate Meeting</button>
     </div>
