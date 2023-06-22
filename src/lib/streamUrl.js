@@ -1,18 +1,13 @@
 'use server'
-import { execFile } from 'child_process';
+import ytdl from 'ytdl-core';
 
 export async function getYoutubeVideoUrl(url) {
-  return new Promise((resolve, reject) => {
-    const ytDlpPath = './node_modules/youtube-dl-exec/bin/yt-dlp';
-    const args = [url, '--simulate', '--get-url', '-f', 'best'];
-
-    execFile(ytDlpPath, args, (error, stdout, stderr) => {
-      if (error) {
-        reject(error);
-        return;
-      }
-
-      resolve(stdout.trim());
-    });
-  });
+  try {
+    const info = await ytdl.getInfo(url);
+    const format = ytdl.chooseFormat(info.formats, { quality: 'highest' });
+    return format.url;
+  } catch (error) {
+    throw error;
+  }
 }
+
