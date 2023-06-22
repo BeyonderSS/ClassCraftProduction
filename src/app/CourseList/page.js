@@ -9,6 +9,8 @@ import listAnnouncements from "@/lib/listAnnouncements";
 import generateMeeting from "@/lib/generateMeeting"; 
 import createAnnouncement from "@/lib/createAnnouncement";
 import UploadVideoForm from "./UploadVideoForm";
+import VideoPlayer from "./VideoPlayer";
+import ReactPlayer from "react-player";
 
 const CourseList = () => {
   const [courses, setCourses] = useState([]);
@@ -166,7 +168,8 @@ const CourseList = () => {
         <p>{course.id}</p>
       </div>
     ))} */}
-    {/* <YouTubePlayer videoId={'hT72jo5ItJ8'}/> */}
+     
+    <VideoPlayer videoUrl={'https://www.youtube.com/watch?v=mNEUkkoUoIA'}/>
       <UploadVideoForm />
       <button onClick={handleGenerateMeeting}>Generate Meeting</button>
     </div>
