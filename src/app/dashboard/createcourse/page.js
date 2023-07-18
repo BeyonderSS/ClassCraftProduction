@@ -81,7 +81,7 @@ const CreateCourse = () => {
               onChange={handleChange}
               type="text"
             />
-            <span>Section</span>
+            <span>Batch</span>
             <i />
           </div>
 
@@ -93,7 +93,7 @@ const CreateCourse = () => {
               onChange={handleChange}
               type="text"
             />
-            <span>Room</span>
+            <span>University</span>
             <i />
           </div>
           <div className="textarea-box w-full">
