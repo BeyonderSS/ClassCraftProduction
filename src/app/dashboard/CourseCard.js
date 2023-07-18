@@ -47,7 +47,7 @@ const CourseCardItem = ({ course, role }) => {
             </div>
             <div className="types">
               <span className="project-type">• {course.courseState}</span>
-              <span className="project-type">• Section - {course.section}</span>
+              <span className="project-type">• Batch - {course.section}</span>
             </div>
           </div>
         </motion.article>

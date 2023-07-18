@@ -13,6 +13,8 @@ const Courses = () => {
   const [course, setCourse] = useState([]);
   const { data: session } = useSession();
   const [loading, setLoading] = useState(true);
+  const [university, setUniversity] = useState("Test");
+  const [batch, setBatch] = useState("Test");
   useEffect(() => {
     if (!session) {
       setLoading(true);
@@ -24,13 +26,20 @@ const Courses = () => {
         const accessToken = access_token;
         const courses = await listCourses(accessToken);
         console.log(courses);
-        setCourse(courses);
+
+        // Filter courses based on room and batch condition
+        const filteredCourses = courses.filter((course) => {
+          return course.room === university && course.section === batch;
+        });
+
+        setCourse(filteredCourses);
         setLoading(false);
       }
 
       getCourses(session.accessToken);
     }
-  }, [session]);
+  }, [session, university, batch]);
+
   const role = "Student";
   if (loading) {
     return (
