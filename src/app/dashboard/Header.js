@@ -21,10 +21,10 @@ const Header = () => {
         {isOpen && (
           <motion.section
             key="sidebar"
-            initial={{ x: "-100%", opacity: 0 }}
+            initial={{ x: -100, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
-            exit={{ x: "-100%", opacity: 0 }}
-            transition={{ duration: 0.5 }}
+            exit={{ x: -100, opacity: 0 }}
+            transition={{ duration: 0.2 }}
             className="fixed left-0 z-50 md:hidden "
           >
             <SideBar toggle={toggleOpen} role={role} />
