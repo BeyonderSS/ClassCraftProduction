@@ -11,6 +11,7 @@ import createAnnouncement from "@/lib/createAnnouncement";
 import { BarLoader } from "react-spinners";
 import SkeletonLoaderHostmeet from "./SkeletonLoaderHostmeet";
 import WifiLoader from "@/app/WifiLoader";
+import Link from "next/link";
 
 const HostMeet = () => {
   const { data: session } = useSession();
@@ -21,7 +22,7 @@ const HostMeet = () => {
   const [skeletonLoading, setSkeletonLoading] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [successMessage, setSuccessMessage] = useState(null); // New state for success message
-
+  const [meetLink, setMeetLink] = useState();
   const [meetingData, setMeetingData] = useState({
     summary: "",
     location: "Online",
@@ -63,6 +64,7 @@ const HostMeet = () => {
         session.accessToken,
         meetingData
       );
+
       const announcementData = {
         text: `Meeting: ${meetingResult.summary}\nStart Time: ${meetingResult.start.dateTime}`,
         materials: [
@@ -74,14 +76,34 @@ const HostMeet = () => {
           },
         ],
       };
+
       const announcementResult = await createAnnouncement(
         session.accessToken,
         selectedCourse.id,
         announcementData
       );
-      console.log(announcementResult);
 
+      console.log(announcementResult);
       console.log("Meeting result:", meetingResult);
+
+      setMeetLink(meetingResult.hangoutLink);
+
+      // Make a request to the `/hostmeet` API endpoint
+      const hostMeetRequest = await fetch("/api/hostmeet", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          courseId: selectedCourse.id,
+          meetlink: meetingResult.hangoutLink,
+        }),
+      });
+
+      if (!hostMeetRequest.ok) {
+        throw new Error("Failed to request hostmeet API");
+      }
+
       setLoading(false);
       setSuccessMessage("Announcement Created Successfully");
     } catch (error) {
@@ -244,13 +266,23 @@ const HostMeet = () => {
                     "  Host Meet & Push Announcement"
                   )}
                 </button>
+                {successMessage && (
+                  <h1 className="text-green-600">{successMessage}!</h1>
+                )}
+                {meetLink && successMessage && (
+                  <h1 className="text-gray-600">
+                    <Link href={meetLink}>
+                      <span className="cursor-pointer underline text-blue-600">
+                        Click Here
+                      </span>{" "}
+                    </Link>
+                    to Join the meet.
+                  </h1>
+                )}
               </div>
             </motion.div>
           )}
         </AnimatePresence>
-        {successMessage && ( // Display success message
-          <div className="mt-4 text-green-600">{successMessage}</div>
-        )}
       </motion.div>
     </div>
   );
