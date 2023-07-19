@@ -10,8 +10,15 @@ import CCFAQ from "./CCFAQ";
 
 import CCExplore from "./CCExplore";
 import Footer from "./Footer";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const {data:session}= useSession()
+  const router =useRouter()
+  if(session){
+    router.replace('/dashboard')
+  }
   return (
     <div className="bg-gradient-to-tr from-blue-400 to-purple-900">
       <Head>
