@@ -28,7 +28,7 @@ const CreateCourse = () => {
     setIsSuccess(false);
 
     try {
-      const url = "http://localhost:3000/api/createcourse";
+      const url = "/api/createcourse";
       const params = new URLSearchParams({
         name: courseData.name,
         section: courseData.section,
@@ -36,6 +36,7 @@ const CreateCourse = () => {
         room: courseData.room,
         ownerId: courseData.ownerId,
         accessToken: session.accessToken,
+        uniId: session?.user.university,
       });
 
       const response = await fetch(`${url}?${params}`, {
@@ -103,17 +104,6 @@ const CreateCourse = () => {
             <i />
           </div>
 
-          <div className="inputbox w-full">
-            <input
-              required="required"
-              name="room"
-              value={courseData.room}
-              onChange={handleChange}
-              type="text"
-            />
-            <span>University </span>
-            <i />
-          </div>
           <div className="textarea-box w-full">
             <textarea
               className="textarea-box__input"
@@ -160,40 +150,40 @@ const CreateCourse = () => {
           </svg>
         </button>
       </div>
-          {isSuccess && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.5 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.5 }}
-              className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-opacity-75 bg-gray-500 z-50"
-            >
-              <div className="max-w-sm w-full bg-white p-4 rounded-lg shadow-lg">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center">
-                    <BiCheckCircle className="text-green-500 mr-2 text-4xl" />
-                    <h1 className="text-2xl font-bold">Course Created!</h1>
-                  </div>
-                  <button onClick={handleClosePopup}>
-                    <FiX className="text-gray-600 text-2xl cursor-pointer" />
-                  </button>
-                </div>
-                <p className="text-gray-700 mb-2">Course: {result.course.name}</p>
-                <div className="flex justify-end">
-                  <p>
-                    Please{" "}
-                    <Link href={result.course.alternateLink}>
-                      <span className="underline text-blue-600 hover:text-blue-700">
-                        Click Here
-                      </span>
-                    </Link>{" "}
-                    and accept the course in Google Classroom to invite teachers and
-                    students, After accepcting the request please head to courses
-                    section to invite teachers and students in the course
-                  </p>
-                </div>
+      {isSuccess && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.5 }}
+          className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-opacity-75 bg-gray-500 z-50"
+        >
+          <div className="max-w-sm w-full bg-white p-4 rounded-lg shadow-lg">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center">
+                <BiCheckCircle className="text-green-500 mr-2 text-4xl" />
+                <h1 className="text-2xl font-bold">Course Created!</h1>
               </div>
-            </motion.div>
-          )}
+              <button onClick={handleClosePopup}>
+                <FiX className="text-gray-600 text-2xl cursor-pointer" />
+              </button>
+            </div>
+            <p className="text-gray-700 mb-2">Course: {result.course.name}</p>
+            <div className="flex justify-end">
+              <p>
+                Please{" "}
+                <Link href={result.course.alternateLink}>
+                  <span className="underline text-blue-600 hover:text-blue-700">
+                    Click Here
+                  </span>
+                </Link>{" "}
+                and accept the course in Google Classroom to invite teachers and
+                students, After accepcting the request please head to courses
+                section to invite teachers and students in the course
+              </p>
+            </div>
+          </div>
+        </motion.div>
+      )}
       {errorMessage && (
         <motion.div
           initial={{ opacity: 0, scale: 0.5 }}

@@ -7,10 +7,10 @@ export async function POST(request) {
   const name = searchParams.get("name");
   const section = searchParams.get("section");
   const description = searchParams.get("description");
-  const room = searchParams.get("room");
+  const room = searchParams.get("uniId");
   const ownerId = searchParams.get("ownerId");
   const accessToken = searchParams.get("accessToken");
-
+  const uniId = searchParams.get("uniId");
   try {
     const createdCourse = await createCourse(accessToken, {
       name,
@@ -21,7 +21,7 @@ export async function POST(request) {
     });
 
     // Write the course to the MongoDB "Courses" collection
-    const databaseResponse = await writeCourseToMongoDB(createdCourse);
+    const databaseResponse = await writeCourseToMongoDB(createdCourse, uniId);
 
     return NextResponse.json({
       success: true,
@@ -59,7 +59,7 @@ async function createCourse(accessToken, courseData) {
   return createdCourse;
 }
 
-async function writeCourseToMongoDB(course) {
+async function writeCourseToMongoDB(course, uniId) {
   const uri =
     "mongodb+srv://BeyonderSS:4ZWpSuZpHeRUrPWc@classcrafttest.x2aylu3.mongodb.net/";
   const client = new MongoClient(uri);
@@ -73,7 +73,7 @@ async function writeCourseToMongoDB(course) {
     const courseDocument = {
       _id: new ObjectId(),
       name: course.name,
-      university: course.room, // Update with the university ObjectId when available
+      university: new ObjectId(uniId), // Update with the university ObjectId when available
       courseId: course.id,
     };
 

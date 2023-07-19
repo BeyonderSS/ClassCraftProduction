@@ -11,7 +11,6 @@ import { useEffect, useState } from "react";
 const Header = () => {
   const [isOpen, toggleOpen] = useCycle(false, true);
   const { data: session } = useSession();
-  const role = "Admin";
   const currentPath = usePathname();
   console.log(currentPath);
 
@@ -27,7 +26,7 @@ const Header = () => {
             transition={{ duration: 0.2 }}
             className="fixed left-0 z-50 md:hidden "
           >
-            <SideBar toggle={toggleOpen} role={role} />
+            <SideBar toggle={toggleOpen} role={session?.user.role} />
           </motion.section>
         )}
       </AnimatePresence>
@@ -40,7 +39,7 @@ const Header = () => {
             transition={{ duration: 1 }}
             className="hidden fixed left-0 z-50 md:block"
           >
-            <SideBar toggle={toggleOpen} role={role} />
+            <SideBar toggle={toggleOpen} role={session?.user.role } />
           </motion.section>
         )}
       </AnimatePresence>

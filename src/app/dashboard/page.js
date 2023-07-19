@@ -25,10 +25,14 @@ function Dashboard() {
       console.log(session.accessToken);
 
       async function getCourses(access_token) {
-        const accessToken = access_token;
-        const courses = await listCourses(session?.accessToken);
+        const courses = await listCourses(access_token);
         console.log(courses);
-        setCourse(courses);
+        // filtering the course
+        const filteredCourses = courses.filter((course) => {
+          return course.room === session?.user.university;
+        });
+
+        setCourse(filteredCourses);
         setLoading(false);
       }
 
@@ -161,9 +165,7 @@ function Dashboard() {
                     <div className="project-title text-nowrap">
                       {course[0].name}
                     </div>
-                    <button
-                      className="project-hover"
-                    >
+                    <button className="project-hover">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="2em"

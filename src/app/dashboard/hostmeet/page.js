@@ -38,7 +38,12 @@ const HostMeet = () => {
       async function fetchCourses(accessToken) {
         try {
           const courses = await listCourses(accessToken);
-          setCourses(courses);
+          // filtering the course 
+          const filteredCourses = courses.filter((course) => {
+            return course.room === session?.user.university;
+          });
+
+          setCourses(filteredCourses);
           setSkeletonLoading(false);
         } catch (error) {
           console.log("Failed to fetch courses:", error);

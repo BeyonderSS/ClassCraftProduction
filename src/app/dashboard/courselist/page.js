@@ -13,8 +13,6 @@ const Courses = () => {
   const [course, setCourse] = useState([]);
   const { data: session } = useSession();
   const [loading, setLoading] = useState(true);
-  const [university, setUniversity] = useState("Test");
-  const [batch, setBatch] = useState("Test");
   useEffect(() => {
     if (!session) {
       setLoading(true);
@@ -29,7 +27,7 @@ const Courses = () => {
 
         // Filter courses based on room and batch condition
         const filteredCourses = courses.filter((course) => {
-          return course.room === university && course.section === batch;
+          return course.room === session?.user.university;
         });
 
         setCourse(filteredCourses);
@@ -38,7 +36,7 @@ const Courses = () => {
 
       getCourses(session.accessToken);
     }
-  }, [session, university, batch]);
+  }, [session]);
 
   const role = "Student";
   if (loading) {
@@ -71,7 +69,11 @@ const Courses = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 ">
           {course.map((course) => (
-            <CourseCardItem key={course.id} course={course} role={role} />
+            <CourseCardItem
+              key={course.id}
+              course={course}
+              role={session?.user.role}
+            />
           ))}
         </div>
       </div>
