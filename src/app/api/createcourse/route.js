@@ -46,7 +46,7 @@ async function createCourse(accessToken, courseData) {
     section: courseData.section,
     description: courseData.description,
     room: courseData.room,
-    ownerId: courseData.ownerId,
+    ownerId: "me",
   };
 
   const res = await classroom.courses.create({ resource: course });
