@@ -98,7 +98,7 @@ async function writeCourseToMongoDB(course, uniId) {
     console.log("Course updated with batches:", batchDocument._id);
 
     return result;
-  } finally {
+  } finally { 
     await client.close();
   }
 }
