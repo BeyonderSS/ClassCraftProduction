@@ -2,11 +2,11 @@
 import { google } from "googleapis";
 import { MongoClient, ObjectId } from "mongodb";
 
-async function getMongoCourses(accessToken, universityId) {
+async function getMongoCourses(accessToken, universityId, userCourseId) {
   try {
     const [googleClassroomCourses, databaseCourses] = await Promise.all([
       listCourses(universityId, accessToken),
-      listCoursesFromMongodb(universityId, accessToken),
+      listCoursesFromMongodb(universityId, accessToken, userCourseId),
     ]);
 
     return { googleClassroomCourses, databaseCourses };
@@ -16,7 +16,11 @@ async function getMongoCourses(accessToken, universityId) {
   }
 }
 
-async function listCoursesFromMongodb(universityId, accessToken) {
+async function listCoursesFromMongodb(
+  universityId,
+  accessToken,
+  userCourseIdsObj
+) {
   const uri = process.env.MONGODB_URI;
   const client = new MongoClient(uri);
 
@@ -28,14 +32,28 @@ async function listCoursesFromMongodb(universityId, accessToken) {
     // Convert the universityId to an ObjectId
     const universityObjectId = new ObjectId(universityId);
 
-    console.log(
-      "Fetching courses from MongoDB with universityId:",
-      universityObjectId
+    // Convert userCourseIds object to an array of ObjectId values
+    const userCourseObjectIds = Object.values(userCourseIdsObj).map(
+      (id) => new ObjectId(id)
     );
 
-    // Fetch documents where universityId matches
+    console.log(
+      "Fetching courses from MongoDB with universityId and userCourseIds:",
+      universityObjectId,
+      userCourseObjectIds
+    );
+
+    // Create a separate condition for each userCourseId using the $or operator
+    const userCourseConditions = userCourseObjectIds.map((id) => ({
+      _id: id,
+    }));
+
+    // Fetch documents where universityId matches and _id is in userCourseIds
     const coursesData = await courses
-      .find({ UniversityId: universityObjectId })
+      .find({
+        UniversityId: universityObjectId,
+        $or: userCourseConditions,
+      })
       .toArray();
 
     console.log("Courses fetched from MongoDB:", coursesData);

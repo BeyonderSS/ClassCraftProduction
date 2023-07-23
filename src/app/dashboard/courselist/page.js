@@ -14,6 +14,7 @@ const Courses = () => {
   const { data: session } = useSession();
   const [loading, setLoading] = useState(true);
   const [databaseCourse, setDatabaseCourse] = useState();
+
   useEffect(() => {
     if (!session) {
       setLoading(true);
@@ -23,10 +24,13 @@ const Courses = () => {
 
       async function getCourses(access_token) {
         const accessToken = access_token;
+        const courseIds = session?.user.courses;
+        console.log(courseIds);
         const courses = await listCourses(accessToken);
         const mongo = await getMongoCourses(
           accessToken,
-          session?.user.university
+          session?.user.university,
+          courseIds
         );
         setDatabaseCourse(mongo.databaseCourses);
         console.log("mongocourse:", databaseCourse);
