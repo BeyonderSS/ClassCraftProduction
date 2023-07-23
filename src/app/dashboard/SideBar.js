@@ -1,7 +1,7 @@
 import React from "react";
 import { AiOutlineHome } from "react-icons/ai";
 import { BiBookContent } from "react-icons/bi";
-import { BsCameraVideo, BsFolder2Open, BsPersonVideo } from "react-icons/bs";
+import { BsCalendarCheckFill, BsCameraVideo, BsFolder2Open, BsPersonVideo } from "react-icons/bs";
 import Tooltip from "./Tooltip";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -52,6 +52,19 @@ const SideBar = ({ role, toggle }) => {
                 }`}
               >
                 <BiBookContent className="text-3xl" />
+              </li>
+            </Link>
+          </Tooltip>
+          <Tooltip text={"Calendar"}>
+            <Link href="/dashboard/calendar">
+              <li
+                className={`sidebarTile ${
+                  currentPath === "/dashboard/calendar"
+                    ? "bg-[#7EA8EB] text-white"
+                    : ""
+                }`}
+              >
+                <BsCalendarCheckFill className="text-3xl" />
               </li>
             </Link>
           </Tooltip>
