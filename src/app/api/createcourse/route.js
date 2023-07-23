@@ -1,7 +1,12 @@
 import { NextResponse } from "next/server";
 import { google } from "googleapis";
 import { MongoClient, ObjectId } from "mongodb";
-export const runtime = "edge";
+
+
+export const config = {
+  runtime: 'edge',
+};
+
 export async function POST(request) {
   try {
     const { courseName, semesterCount, university, subjects, accessToken } =
