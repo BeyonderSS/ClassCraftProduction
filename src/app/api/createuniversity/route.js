@@ -1,47 +1,83 @@
 import { NextResponse } from "next/server";
 import { MongoClient, ObjectId } from "mongodb";
+import mongoose from "mongoose";
+import User from "@/app/middleware/User";
+
+// Connect to the MongoDB database
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  dbName: "ClassCraft", // Specify the database name here
+});
+
+const UniversitySchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+    },
+    location: String,
+    adminEmail: String,
+  },
+  {
+    collection: "Universities",
+  }
+);
+
+ const University = mongoose.models.University || mongoose.model("University", UniversitySchema);
+
+
 
 export async function POST(request) {
-  const uri = process.env.MONGODB_URI;
-  const client = new MongoClient(uri);
+  const client = new MongoClient(process.env.MONGODB_URI);
 
   try {
     const database = client.db("ClassCraft");
-    const universities = database.collection("Universities"); // Add collection for Universities
-    const users = database.collection("Users"); // Add collection for Users
+    const universities = database.collection("Universities");
 
     // Extract the data from the request body
-    const { adminName, adminEmail, universityName, location, email } =
-      await request.json();
+    const { adminName, adminEmail, universityName, location, email } = await request.json();
 
     console.log(request.json);
 
-    // Create a new university object
-    const newUniversity = {
-      _id: new ObjectId(),
-      name: universityName,
-      location: location,
-      adminEmial: adminEmail,
-    };
+    // Find or create the university
+    let university = await University.findOne({ name: universityName });
+    if (!university) {
+      university = new University({
+        name: universityName,
+        location: location,
+        adminEmail: adminEmail,
+      });
 
-    // Insert the new university into the collection
-    await universities.insertOne(newUniversity);
+      // Insert the new university into the collection
+      await university.save();
+      console.log("University written to MongoDB:", university);
+    }
 
-    console.log("University written to MongoDB:", newUniversity);
+    // Find the user by email
+    const user = await User.findOne({ email: adminEmail || email });
 
-    // Create a new user object
-    const newUser = {
-      _id: new ObjectId(),
-      name: adminName,
-      email: adminEmail || email, // Use adminEmail or email value
-      role: "admin",
-      university: newUniversity._id, // Set the university ObjectId
-    };
+    if (user) {
+      // If the user exists, update university ID and role
+      user.university = university._id;
+      user.role = "Admin";
+      await user.save();
+      console.log("User updated in MongoDB:", user);
+    } else {
+      // If the user does not exist, create a new user object
+      const newUser = new User({
+        email: adminEmail || email,
+        role: "Admin",
+        university: university._id,
+      });
 
-    // Insert the new user into the collection
-    const result = await users.insertOne(newUser);
+      // Insert the new user into the collection
+      await newUser.save();
 
-    console.log("User written to MongoDB:", newUser);
+      console.log("User written to MongoDB:", newUser);
+    }
 
     return NextResponse.json({ success: true });
   } finally {

@@ -14,14 +14,17 @@ const UserSchema = new mongoose.Schema(
       default: Date.now,
     },
     courses: Array,
-    university: String,
+    university: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "University",
+    },
     role: {
       type: String,
       default: null,
     },
   },
   {
-    collection: 'Users',
+    collection: "Users",
   }
 );
 
