@@ -12,7 +12,7 @@ const CourseCard = ({ course, role }) => {
   const handleClosePopup = () => {
     setShowPopup(false);
   };
-
+  // console.log(course._id);
   // Extract all Id values from nested objects and store them in an array
   const extractIds = (subjects) => {
     const allIds = [];
@@ -29,6 +29,10 @@ const CourseCard = ({ course, role }) => {
   };
 
   const allIds = extractIds(course.subjects);
+// console.log(course)        
+  // Assuming you have the `course` object available, containing the `subjects` property and `_id`
+
+
   // console.log("All Ids:", allIds);
   if (role == "Student") {
     return (
@@ -149,7 +153,7 @@ const CourseCard = ({ course, role }) => {
                 </div>
                 <p className="text-gray-700 mb-2"></p>
                 <div className="">
-                  <Invite courseId={allIds} />
+                  <Invite courseId={allIds} documentId={course._id} />
                 </div>
               </div>
             </motion.div>

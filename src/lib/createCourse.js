@@ -1,23 +1,17 @@
-'use server'
+"use server";
 import { google } from "googleapis";
 import { MongoClient, ObjectId } from "mongodb";
 
-async function createCourse(courseData,adminEmail) {
+async function createCourse(courseData, adminEmail) {
   try {
-    const {
-      courseName,
-      semesterCount,
-      university,
-      subjects,
-      accessToken,
-      
-    } = courseData;
-console.log(adminEmail)
+    const { courseName, semesterCount, university, subjects, accessToken } =
+      courseData;
+    console.log(adminEmail);
     const courseDocument = {
       _id: new ObjectId(),
       courseName,
       semCount: semesterCount,
-      studentEnrolled: {},
+      studentEnrolled: [],
       UniversityId: new ObjectId(university),
       subjects: {},
     };

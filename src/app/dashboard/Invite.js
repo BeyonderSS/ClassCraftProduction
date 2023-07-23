@@ -7,17 +7,20 @@ import { BarLoader } from "react-spinners";
 
 import inviteStudentsToCourse from "@/lib/addStudentsToCourse";
 import inviteTeachersToCourse from "@/lib/inviteTeachersToCourse";
+import updateCourseStudentEnrolled from "@/lib/updateCourseStudentEnrolled";
 
-const Invite = ({ courseId }) => {
-  const [selectedTab, setSelectedTab] = useState("students");
+const Invite = ({ courseId, documentId }) => {
+  const [selectedTab, setSelectedTab] = useState("Student");
   const [disabled, setDisabled] = useState(true);
   const [emails, setEmails] = useState([]);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false); // New state
-  console.log("Type of", typeof courseId, courseId);
   const { data: session } = useSession();
   const access_token = session.accessToken;
+  const university=session.user.university;
+
+
 
   const handleEmailInput = (e) => {
     const value = e.target.value.trim();
@@ -38,17 +41,22 @@ const Invite = ({ courseId }) => {
   const handleRemoveEmail = (email) => {
     setEmails(emails.filter((e) => e !== email));
   };
-
+console.log(emails)
   const handleInviteClick = async () => {
     try {
       setIsLoading(true); // Show loader
-      if (selectedTab === "students") {
+  
+      // First, invite students or teachers using the existing functions
+      if (selectedTab === "Student") {
         await inviteStudentsToCourse(access_token, courseId, emails);
       } else {
         await inviteTeachersToCourse(access_token, courseId, emails);
       }
+      // After inviting students/teachers successfully, update the course with the new emails
+      await updateCourseStudentEnrolled(emails, documentId,university,selectedTab);
+  
       setSuccessMessage(
-        `Invited ${emails.length} ${selectedTab} successfully!`
+        `Invited ${emails.length} ${selectedTab} successfully and updated the course!`
       );
       setEmails([]);
       setErrorMessage("");
@@ -59,6 +67,8 @@ const Invite = ({ courseId }) => {
       setIsLoading(false); // Hide loader
     }
   };
+  
+  
 
   const handleKeyDown = (e) => {
     if (e.key === " " || e.key === "Enter") {
@@ -72,22 +82,22 @@ const Invite = ({ courseId }) => {
       <div className="flex justify-between mb-4">
         <button
           className={`${
-            selectedTab === "students"
+            selectedTab === "Student"
               ? "bg-blue-500 text-white"
               : "bg-gray-200 text-gray-700"
           } px-4 py-2 rounded-md mr-2 transition-colors duration-300`}
-          onClick={() => setSelectedTab("students")}
+          onClick={() => setSelectedTab("Student")}
         >
           <FaUserGraduate className="inline-block mr-2" />
           Students
         </button>
         <button
           className={`${
-            selectedTab === "teachers"
+            selectedTab === "Teacher"
               ? "bg-blue-500 text-white"
               : "bg-gray-200 text-gray-700"
           } px-4 py-2 rounded-md transition-colors duration-300`}
-          onClick={() => setSelectedTab("teachers")}
+          onClick={() => setSelectedTab("Teacher")}
         >
           <FaChalkboardTeacher className="inline-block mr-2" />
           Teachers
