@@ -11,6 +11,7 @@ import createAnnouncement from "@/lib/createAnnouncement";
 import UploadVideoForm from "./UploadVideoForm";
 import VideoPlayer from "./VideoPlayer";
 import ReactPlayer from "react-player";
+import InviteForm from "./Invite";
 
 const CourseList = () => {
   const [courses, setCourses] = useState([]);
@@ -172,6 +173,7 @@ const CourseList = () => {
     <VideoPlayer videoUrl={'https://www.youtube.com/watch?v=fLh4jYrPjNM'}/>
       <UploadVideoForm />
       <button onClick={handleGenerateMeeting}>Generate Meeting</button>
+      <InviteForm/>
     </div>
   );
 };
