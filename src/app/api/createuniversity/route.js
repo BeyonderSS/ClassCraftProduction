@@ -2,22 +2,17 @@ import { NextResponse } from "next/server";
 import { MongoClient, ObjectId } from "mongodb";
 
 export async function POST(request) {
-  const uri = "mongodb+srv://BeyonderSS:4ZWpSuZpHeRUrPWc@classcrafttest.x2aylu3.mongodb.net/";
+  const uri = process.env.MONGODB_URI;
   const client = new MongoClient(uri);
 
   try {
-    const database = client.db("ClassCraftTest");
+    const database = client.db("ClassCraft");
     const universities = database.collection("Universities"); // Add collection for Universities
     const users = database.collection("Users"); // Add collection for Users
 
     // Extract the data from the request body
-    const {
-      adminName,
-      adminEmail,
-      universityName,
-      location,
-      email
-    } = await request.json();
+    const { adminName, adminEmail, universityName, location, email } =
+      await request.json();
 
     console.log(request.json);
 
@@ -26,6 +21,7 @@ export async function POST(request) {
       _id: new ObjectId(),
       name: universityName,
       location: location,
+      adminEmial: adminEmail,
     };
 
     // Insert the new university into the collection
@@ -35,7 +31,7 @@ export async function POST(request) {
 
     // Create a new user object
     const newUser = {
-      _id: new ObjectId("60ed7f0b7f4b4e10a44b4a01"),
+      _id: new ObjectId(),
       name: adminName,
       email: adminEmail || email, // Use adminEmail or email value
       role: "admin",

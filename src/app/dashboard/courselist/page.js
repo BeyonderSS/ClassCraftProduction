@@ -8,6 +8,7 @@ import CourseCardSkeleton from "../CourseCardSkeleton";
 import CourseCardItem from "../CourseCard";
 import { motion } from "framer-motion";
 import WifiLoader from "@/app/WifiLoader";
+import getMongoCourses from "@/lib/mongocoursefetch";
 
 const Courses = () => {
   const [course, setCourse] = useState([]);
@@ -23,6 +24,11 @@ const Courses = () => {
       async function getCourses(access_token) {
         const accessToken = access_token;
         const courses = await listCourses(accessToken);
+        const mongo = await getMongoCourses(
+          accessToken,
+          session?.user.university
+        );
+        console.log("mongocourse:", mongo);
         console.log(courses);
 
         // Filter courses based on room and batch condition
@@ -37,7 +43,6 @@ const Courses = () => {
       getCourses(session.accessToken);
     }
   }, [session]);
-
   const role = "Student";
   if (loading) {
     return (
