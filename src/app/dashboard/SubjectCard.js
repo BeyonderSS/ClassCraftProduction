@@ -69,6 +69,7 @@ const SubjectCard = ({ course, role }) => {
         >
           <img src="/landingCard.svg" alt="" className="rounded-lg" />
 
+
           <div className="project-info">
             <div className="flex-pr">
               <div className="project-title text-nowrap">{course?.name}</div>
