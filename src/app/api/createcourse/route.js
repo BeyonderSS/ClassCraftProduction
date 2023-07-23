@@ -1,22 +1,38 @@
 import { NextResponse } from "next/server";
 import { google } from "googleapis";
 import { MongoClient, ObjectId } from "mongodb";
-
+export const runtime = "edge";
 export async function POST(request) {
   try {
-    const { courseName, semesterCount, university, subjects, accessToken } = await request.json();
-    
+    const { courseName, semesterCount, university, subjects, accessToken } =
+      await request.json();
+
     // Write the course to the MongoDB "Courses" collection
-    const databaseResponse = await writeCourseToMongoDB(courseName, semesterCount, university, subjects, accessToken);
+    const databaseResponse = await writeCourseToMongoDB(
+      courseName,
+      semesterCount,
+      university,
+      subjects,
+      accessToken
+    );
 
     return NextResponse.json({ success: true, data: databaseResponse });
   } catch (error) {
     console.error("Error creating course:", error);
-    return NextResponse.json({ success: false, error: "Failed to create course" });
+    return NextResponse.json({
+      success: false,
+      error: "Failed to create course",
+    });
   }
 }
 
-async function writeCourseToMongoDB(courseName, semesterCount, universityId, subjects, accessToken) {
+async function writeCourseToMongoDB(
+  courseName,
+  semesterCount,
+  universityId,
+  subjects,
+  accessToken
+) {
   const uri = process.env.MONGODB_URI;
   const client = new MongoClient(uri);
 
@@ -38,23 +54,30 @@ async function writeCourseToMongoDB(courseName, semesterCount, universityId, sub
     console.log("Course written to MongoDB:", courseDocument);
 
     // Create Google Classroom courses for each subject
-    await Promise.all(Object.keys(subjects).map(async (semesterNo) => {
-      const semesterSubjects = subjects[semesterNo];
-      courseDocument.subjects[semesterNo] = [];
+    await Promise.all(
+      Object.keys(subjects).map(async (semesterNo) => {
+        const semesterSubjects = subjects[semesterNo];
+        courseDocument.subjects[semesterNo] = [];
 
-      for (const subjectName of semesterSubjects) {
-        const roomId = universityId;
-        const section = semesterNo;
+        for (const subjectName of semesterSubjects) {
+          const roomId = universityId;
+          const section = semesterNo;
 
-        const createdCourse = await createClassroomCourse(accessToken, roomId, subjectName, section);
+          const createdCourse = await createClassroomCourse(
+            accessToken,
+            roomId,
+            subjectName,
+            section
+          );
 
-        // Add the Google Classroom course ID as the subject ID in the MongoDB document
-        courseDocument.subjects[semesterNo].push({
-          subjectName,
-          Id: createdCourse.id,
-        });
-      }
-    }));
+          // Add the Google Classroom course ID as the subject ID in the MongoDB document
+          courseDocument.subjects[semesterNo].push({
+            subjectName,
+            Id: createdCourse.id,
+          });
+        }
+      })
+    );
 
     // Update the course document with the subject IDs
     await courses.updateOne(
