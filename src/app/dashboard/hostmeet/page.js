@@ -31,7 +31,6 @@ const HostMeet = () => {
     endDateTime: new Date(new Date().getTime() + 60 * 60 * 1000).toISOString(),
     timeZone: "America/New_York",
   });
-
   useEffect(() => {
     if (session) {
       setSkeletonLoading(true);
@@ -100,10 +99,18 @@ const HostMeet = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          university: session.user.university, // User-provided university value
+          date: new Date("2023-07-25"), // Replace with the user-provided date
+          startTime: meetingData.startDateTime,
+          endTime:meetingData.endDateTime, // Replace with the user-provided start time
+          topic: "Introduction to Cloud 2", // Replace with the user-provided topic
+          subjectId: "PHYS101", // Replace with the user-provided subjectId
+          semester: "1", // Replace with the user-provided semester
           courseId: selectedCourse.id,
           meetlink: meetingResult.hangoutLink,
         }),
       });
+      
 
       if (!hostMeetRequest.ok) {
         throw new Error("Failed to request hostmeet API");
