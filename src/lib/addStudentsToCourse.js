@@ -35,27 +35,29 @@ import { google } from 'googleapis';
 
 
 
-async function inviteStudentsToCourse(accessToken, courseId, students) {
+async function inviteStudentsToCourses(accessToken, courseIds, students) {
   const auth = new google.auth.OAuth2();
   auth.setCredentials({ access_token: accessToken });
 
   const classroom = google.classroom({ version: 'v1', auth });
 
-  for (const student of students) {
-    try {
-      const response = await classroom.invitations.create({
-        requestBody: {
-          courseId: courseId,
-          role: 'STUDENT',
-          userId:student,
-        },
-      });
+  for (const courseId of courseIds) {
+    for (const student of students) {
+      try {
+        const response = await classroom.invitations.create({
+          requestBody: {
+            courseId: courseId,
+            role: 'STUDENT',
+            userId: student,
+          },
+        });
 
-      console.log(`Invitation sent to student ${student}:`, response.data);
-    } catch (error) {
-      console.error(`Failed to invite student: ${student}`, error);
+        console.log(`Invitation sent to student ${student} for course ${courseId}:`, response.data);
+      } catch (error) {
+        console.error(`Failed to invite student ${student} for course ${courseId}:`, error);
+      }
     }
   }
 }
 
-export default inviteStudentsToCourse;
+export default inviteStudentsToCourses;
