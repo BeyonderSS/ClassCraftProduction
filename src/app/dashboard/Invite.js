@@ -15,7 +15,7 @@ const Invite = ({ courseId }) => {
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false); // New state
-
+  console.log("Type of", typeof courseId, courseId);
   const { data: session } = useSession();
   const access_token = session.accessToken;
 
@@ -47,7 +47,9 @@ const Invite = ({ courseId }) => {
       } else {
         await inviteTeachersToCourse(access_token, courseId, emails);
       }
-      setSuccessMessage(`Invited ${emails.length} ${selectedTab} successfully!`);
+      setSuccessMessage(
+        `Invited ${emails.length} ${selectedTab} successfully!`
+      );
       setEmails([]);
       setErrorMessage("");
     } catch (error) {
@@ -120,10 +122,9 @@ const Invite = ({ courseId }) => {
           disabled={disabled || isLoading} // Disable button when loading
         >
           {isLoading ? ( // Display loader when loading
-          <div className="flex justify-center items-center">
-
-            <BarLoader color="#ffffff" loading={isLoading} />
-          </div>
+            <div className="flex justify-center items-center">
+              <BarLoader color="#ffffff" loading={isLoading} />
+            </div>
           ) : (
             "Invite"
           )}
