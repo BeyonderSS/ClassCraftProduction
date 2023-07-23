@@ -3,7 +3,7 @@ import { google } from "googleapis";
 import { MongoClient, ObjectId } from "mongodb";
 
 async function createCourse(courseData) {
-  try {
+  try { 
     const { 
       courseName,
       semesterCount,
