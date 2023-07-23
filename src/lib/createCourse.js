@@ -4,7 +4,7 @@ import { MongoClient, ObjectId } from "mongodb";
 
 async function createCourse(courseData) {
   try {
-    const {
+    const { 
       courseName,
       semesterCount,
       university,
