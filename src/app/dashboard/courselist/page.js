@@ -1,19 +1,19 @@
 "use client";
 
 import React, { Suspense, useEffect, useState } from "react";
-import CourseCard from "../CourseCard";
 import { useSession } from "next-auth/react";
 import listCourses from "@/lib/listCourses";
 import CourseCardSkeleton from "../CourseCardSkeleton";
-import CourseCardItem from "../CourseCard";
 import { motion } from "framer-motion";
 import WifiLoader from "@/app/WifiLoader";
 import getMongoCourses from "@/lib/mongocoursefetch";
+import CourseCard from "./CourseCard";
 
 const Courses = () => {
   const [course, setCourse] = useState([]);
   const { data: session } = useSession();
   const [loading, setLoading] = useState(true);
+  const [databaseCourse, setDatabaseCourse] = useState();
   useEffect(() => {
     if (!session) {
       setLoading(true);
@@ -28,7 +28,8 @@ const Courses = () => {
           accessToken,
           session?.user.university
         );
-        console.log("mongocourse:", mongo);
+        setDatabaseCourse(mongo.databaseCourses);
+        console.log("mongocourse:", databaseCourse);
         console.log(courses);
 
         // Filter courses based on room and batch condition
@@ -43,6 +44,9 @@ const Courses = () => {
       getCourses(session.accessToken);
     }
   }, [session]);
+  localStorage.setItem("courses", JSON.stringify(databaseCourse));
+  console.log("mongocourse:", databaseCourse);
+
   const role = "Student";
   if (loading) {
     return (
@@ -73,9 +77,9 @@ const Courses = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 ">
-          {course.map((course) => (
-            <CourseCardItem
-              key={course.id}
+          {databaseCourse.map((course) => (
+            <CourseCard
+              key={course._id}
               course={course}
               role={session?.user.role}
             />
