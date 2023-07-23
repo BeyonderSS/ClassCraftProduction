@@ -29,7 +29,7 @@ export async function POST(request) {
       _id: new ObjectId(),
       university: new ObjectId(university), // Use the university provided by the user
       date: new Date(date), // Use the date provided by the user
-      courseId: courseId, // courseId should be a string or a valid ObjectId
+      courseId: new ObjectId(courseId), // courseId should be a string or a valid ObjectId
       semester: semester, // Use the semester provided by the user
       subjectId: subjectId, // Use the subjectId provided by the user
       meetlink: meetlink,
