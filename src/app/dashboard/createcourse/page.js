@@ -30,9 +30,9 @@ const CreateCourse = () => {
       // Append university and accessToken to the courseData
       courseData.university = session?.user?.university;
       courseData.accessToken = session?.accessToken;
-      courseData.adminEmail=session?.user?.email;
+      const adminEmail=session.user.email
       // Call the createCourse function with courseData as a parameter
-      await createCourse(courseData);
+      await createCourse(courseData,adminEmail);
 
       setIsLoading(false); // Set isLoading state to false as the course creation process is completed successfully
       setIsSuccess(true); // Set isSuccess state to true to indicate the course creation was successful

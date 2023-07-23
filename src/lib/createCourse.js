@@ -2,7 +2,7 @@
 import { google } from "googleapis";
 import { MongoClient, ObjectId } from "mongodb";
 
-async function createCourse(courseData) {
+async function createCourse(courseData,adminEmail) {
   try {
     const {
       courseName,
@@ -10,9 +10,9 @@ async function createCourse(courseData) {
       university,
       subjects,
       accessToken,
-      adminEmail,
+      
     } = courseData;
-
+console.log(adminEmail)
     const courseDocument = {
       _id: new ObjectId(),
       courseName,
