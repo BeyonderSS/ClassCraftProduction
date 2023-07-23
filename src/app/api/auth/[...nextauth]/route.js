@@ -57,7 +57,7 @@ export const authOptions = {
         await mongoose.connect(process.env.MONGODB_URI, {
           useNewUrlParser: true,
           useUnifiedTopology: true,
-          dbName: "ClassCraftTest",
+          dbName: "ClassCraft",
         });
 
         let dbUser = await User.findOne({ email: user.email });
