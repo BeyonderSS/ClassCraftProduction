@@ -6,6 +6,7 @@ import { BarLoader } from "react-spinners";
 import Link from "next/link";
 import { BiCheckCircle } from "react-icons/bi";
 import { FiAlertTriangle, FiX } from "react-icons/fi";
+import createCourse from "@/lib/createCourse";
 
 const CreateCourse = () => {
   const { data: session } = useSession();
@@ -22,37 +23,27 @@ const CreateCourse = () => {
   const [currentCardIndex, setCurrentCardIndex] = useState(0); // Added state for the current card index
   const handleFinishCourse = async () => {
     try {
-      setIsLoading(true);
+      setIsLoading(true); // Set isLoading state to true to indicate the process has started
+      setErrorMessage(null); // Clear any previous error messages
+      setIsSuccess(false); // Set isSuccess state to false initially
 
       // Append university and accessToken to the courseData
       courseData.university = session?.user?.university;
       courseData.accessToken = session?.accessToken;
 
-      const response = await fetch("/api/createcourse", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(courseData),
-      });
+      // Call the createCourse function with courseData as a parameter
+      await createCourse(courseData);
 
-      if (!response.ok) {
-        // Handle non-200 responses
-        const errorData = await response.json();
-        setErrorMessage(errorData.message || "Something went wrong");
-        setIsSuccess(false);
-      } else {
-        setIsSuccess(true);
-        // Clear error message if the request is successful
-        setErrorMessage("");
-      }
-
-      setIsLoading(false);
+      setIsLoading(false); // Set isLoading state to false as the course creation process is completed successfully
+      setIsSuccess(true); // Set isSuccess state to true to indicate the course creation was successful
     } catch (error) {
-      // Handle any unexpected errors
-      setErrorMessage("Something went wrong");
-      setIsSuccess(false);
-      setIsLoading(false);
+      // Handle any errors that occur during the process
+      console.error("Error creating course:", error);
+      setErrorMessage(
+        "An error occurred while creating the course. Please try again later."
+      ); // Set an error message to display to the user
+      setIsLoading(false); // Set isLoading state to false in case of an error
+      setIsSuccess(false); // Set isSuccess state to false as the course creation was not successful
     }
   };
 
