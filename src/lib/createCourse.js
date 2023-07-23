@@ -12,14 +12,24 @@ async function createCourse(courseData) {
       accessToken,
     } = courseData;
 
-    // Write the course to the MongoDB "Courses" collection
-    const databaseResponse = await writeCourseToMongoDB(
+    const courseDocument = {
+      _id: new ObjectId(),
       courseName,
-      semesterCount,
+      semCount: semesterCount,
+      studentEnrolled: {},
+      UniversityId: new ObjectId(university),
+      subjects: {},
+    };
+
+    await createGoogleClassroomCourses(
+      accessToken,
       university,
       subjects,
-      accessToken
+      courseDocument
     );
+
+    // Update the course document with the subject IDs
+    const databaseResponse = await writeCourseToMongoDB(courseDocument);
 
     return { success: true, data: databaseResponse };
   } catch (error) {
@@ -28,13 +38,7 @@ async function createCourse(courseData) {
   }
 }
 
-async function writeCourseToMongoDB(
-  courseName,
-  semesterCount,
-  universityId,
-  subjects,
-  accessToken
-) {
+async function writeCourseToMongoDB(courseDocument) {
   const uri = process.env.MONGODB_URI;
   const client = new MongoClient(uri);
 
@@ -43,50 +47,8 @@ async function writeCourseToMongoDB(
     const database = client.db("ClassCraft");
     const courses = database.collection("Courses");
 
-    const courseDocument = {
-      _id: new ObjectId(),
-      courseName,
-      semCount: semesterCount,
-      studentEnrolled: {}, // An empty map for student enrollment
-      UniversityId: new ObjectId(universityId),
-      subjects: {},
-    };
-
     const result = await courses.insertOne(courseDocument);
     console.log("Course written to MongoDB:", courseDocument);
-
-    // Create Google Classroom courses for each subject
-    await Promise.all(
-      Object.keys(subjects).map(async (semesterNo) => {
-        const semesterSubjects = subjects[semesterNo];
-        courseDocument.subjects[semesterNo] = [];
-
-        for (const subjectName of semesterSubjects) {
-          const roomId = universityId;
-          const section = semesterNo;
-
-          const createdCourse = await createClassroomCourse(
-            accessToken,
-            roomId,
-            subjectName,
-            section
-          );
-
-          // Add the Google Classroom course ID as the subject ID in the MongoDB document
-          courseDocument.subjects[semesterNo].push({
-            subjectName,
-            Id: createdCourse.id,
-          });
-        }
-      })
-    );
-
-    // Update the course document with the subject IDs
-    await courses.updateOne(
-      { _id: courseDocument._id },
-      { $set: { subjects: courseDocument.subjects } }
-    );
-    console.log("Course updated with subject IDs:", courseDocument.subjects);
 
     return result;
   } finally {
@@ -94,12 +56,50 @@ async function writeCourseToMongoDB(
   }
 }
 
-async function createClassroomCourse(accessToken, roomId, courseName, section) {
+async function createGoogleClassroomCourses(
+  accessToken,
+  universityId,
+  subjects,
+  courseDocument
+) {
   const auth = new google.auth.OAuth2();
   auth.setCredentials({ access_token: accessToken });
 
   const classroom = google.classroom({ version: "v1", auth });
 
+  for (const semesterNo of Object.keys(subjects)) {
+    const semesterSubjects = subjects[semesterNo];
+    courseDocument.subjects[semesterNo] = [];
+
+    for (const subjectName of semesterSubjects) {
+      try {
+        const roomId = universityId;
+        const section = semesterNo;
+
+        const createdCourse = await createClassroomCourse(
+          classroom,
+          roomId,
+          subjectName,
+          section
+        );
+
+        // Add the Google Classroom course ID as the subject ID in the MongoDB document
+        courseDocument.subjects[semesterNo].push({
+          subjectName,
+          Id: createdCourse.id,
+        });
+
+        // Wait for a short interval before proceeding to the next course creation
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+      } catch (error) {
+        console.error("Error creating course:", error);
+        throw error;
+      }
+    }
+  }
+}
+
+async function createClassroomCourse(classroom, roomId, courseName, section) {
   // Create the course
   const course = {
     name: `${courseName} - ${section}`,
