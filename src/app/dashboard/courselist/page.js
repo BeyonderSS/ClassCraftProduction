@@ -13,12 +13,13 @@ const Courses = () => {
   const { data: session } = useSession();
   const [loading, setLoading] = useState(true);
   const [databaseCourse, setDatabaseCourse] = useState();
-
+  console.log(session);
   useEffect(() => {
     if (!session) {
       setLoading(true);
     } else {
-      const cachedCourse = JSON.parse(localStorage.getItem("courses"));
+      const initialCachedCourse = localStorage.getItem("courses");
+      const cachedCourse = JSON.parse(initialCachedCourse);
       console.log("cached:", cachedCourse);
       if (!cachedCourse) {
         setLoading(true);
@@ -26,17 +27,20 @@ const Courses = () => {
 
         async function getCourses(access_token) {
           const accessToken = access_token;
-          const courseIds = session?.user.courses;
-          console.log(courseIds);
+          const Id = session?.user.id;
+          console.log(Id);
           const mongo = await getMongoCourses(
             accessToken,
             session?.user.university,
-            courseIds
+            Id
           );
           setDatabaseCourse(mongo.databaseCourses);
           console.log("mongocourse:", databaseCourse);
 
-          localStorage.setItem("courses", JSON.stringify(databaseCourse));
+          localStorage.setItem(
+            "courses",
+            JSON.stringify(mongo.databaseCourses)
+          );
           setLoading(false);
         }
 
@@ -44,7 +48,6 @@ const Courses = () => {
       } else {
         setDatabaseCourse(cachedCourse);
         setLoading(false);
-
       }
     }
   }, [session]);

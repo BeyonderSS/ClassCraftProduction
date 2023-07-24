@@ -20,11 +20,11 @@ const HostMeet = () => {
 
         async function getCourses(access_token) {
           const accessToken = access_token;
-          const courseIds = session?.user.courses;
+          const Id = session?.user.id;
           const mongo = await getMongoCourses(
             accessToken,
             session?.user.university,
-            courseIds
+            Id
           );
           setDatabaseCourse(mongo.databaseCourses);
           console.log("mongocourse:", databaseCourse);

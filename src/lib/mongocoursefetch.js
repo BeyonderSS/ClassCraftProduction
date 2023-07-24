@@ -2,11 +2,11 @@
 import { google } from "googleapis";
 import { MongoClient, ObjectId } from "mongodb";
 
-async function getMongoCourses(accessToken, universityId, userCourseId) {
+async function getMongoCourses(accessToken, universityId, id) {
   try {
     const [googleClassroomCourses, databaseCourses] = await Promise.all([
       listCourses(universityId, accessToken),
-      listCoursesFromMongodb(universityId, accessToken, userCourseId),
+      listCoursesFromMongodb(universityId, accessToken, id),
     ]);
 
     return { googleClassroomCourses, databaseCourses };
@@ -16,11 +16,7 @@ async function getMongoCourses(accessToken, universityId, userCourseId) {
   }
 }
 
-async function listCoursesFromMongodb(
-  universityId,
-  accessToken,
-  userCourseIdsObj
-) {
+async function listCoursesFromMongodb(universityId, accessToken, userId) {
   const uri = process.env.MONGODB_URI;
   const client = new MongoClient(uri);
 
@@ -32,6 +28,12 @@ async function listCoursesFromMongodb(
     // Convert the universityId to an ObjectId
     const universityObjectId = new ObjectId(universityId);
 
+    // Fetch the user document from the Users collection using the provided userId
+    const usersCollection = database.collection("Users");
+    const user = await usersCollection.findOne({ _id: new ObjectId(userId) });
+
+    // Extract the userCourseIds object from the user document
+    const userCourseIdsObj = user.courses;
     // Convert userCourseIds object to an array of ObjectId values
     const userCourseObjectIds = Object.values(userCourseIdsObj).map(
       (id) => new ObjectId(id)

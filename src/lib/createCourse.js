@@ -11,7 +11,7 @@ async function createCourse(courseData, adminEmail) {
       _id: new ObjectId(),
       courseName,
       semCount: semesterCount,
-      studentEnrolled: [],
+      studentsEnrolled: [], // Modify the property name to studentsEnrolled
       UniversityId: new ObjectId(university),
       subjects: {},
     };
@@ -76,10 +76,17 @@ async function createCourse(courseData, adminEmail) {
       const user = await users.findOne({ email: adminEmail });
 
       if (user) {
-        // Add the course document ID to the user's course array
+        // Add the user _id to the studentsEnrolled array in the course document
+        await courses.updateOne(
+          { _id: courseDocument._id },
+          { $push: { studentsEnrolled: user._id } }
+        );
+        console.log(`Course added to user with ID ${user._id}`);
+
+        // Add the course _id to the user's courses array
         await users.updateOne(
-          { _id: new ObjectId(user._id) },
-          { $push: { courses: new ObjectId(courseDocument._id) } }
+          { _id: user._id },
+          { $push: { courses: courseDocument._id } }
         );
         console.log(`Course added to user with ID ${user._id}`);
       } else {

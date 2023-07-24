@@ -16,7 +16,7 @@ function Dashboard() {
   const [course, setCourse] = useState([]);
   const { data: session } = useSession();
   const [loading, setLoading] = useState(true);
-
+  console.log(session);
   useEffect(() => {
     if (!session) {
       setLoading(true);
@@ -29,12 +29,11 @@ function Dashboard() {
 
         async function getCourses(access_token) {
           const accessToken = access_token;
-          const courseIds = session?.user.courses;
-          console.log(courseIds);
+          const Id = session?.user.id;
           const mongo = await getMongoCourses(
             accessToken,
             session?.user.university,
-            courseIds
+            Id
           );
           setCourse(mongo.databaseCourses);
           localStorage.setItem(
@@ -53,19 +52,7 @@ function Dashboard() {
     }
   }, [session]);
   console.log("mongocourse:", course);
-  const clearCoursesLocalStorage = () => {
-    localStorage.removeItem("courses");
-  };
-  useEffect(() => {
-    // Clear the "courses" item from local storage initially
-    clearCoursesLocalStorage();
 
-    // Set up the interval to clear the "courses" item every 60 minutes
-    const intervalId = setInterval(clearCoursesLocalStorage, 60 * 60 * 1000); // 60 minutes in milliseconds
-
-    // Clean up the interval when the component unmounts or when the effect is re-run
-    return () => clearInterval(intervalId);
-  }, []);
   const slogans = {
     Student: "Unleash your potential, embrace excellence.",
     Teacher: "Inspire minds, ignite lifelong learning.",

@@ -2,8 +2,7 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import axios from "axios";
 import User from "@/app/middleware/User";
-import mongoose from 'mongoose';
-
+import mongoose from "mongoose";
 
 async function refreshAccessToken(refreshToken) {
   const tokenUrl = "https://oauth2.googleapis.com/token";
@@ -92,12 +91,13 @@ export const authOptions = {
       session.accessToken = token.accessToken;
       session.refreshToken = token.refreshToken;
       session.expiresAt = token.expiresAt;
-      
+
       // Add user role, courses, and university to session.user
       if (token.user) {
         session.user.role = token.user.role;
         session.user.courses = token.user.courses;
         session.user.university = token.user.university;
+        session.user.id = token.user._id;
       }
 
       if (typeof window !== "undefined") {
@@ -107,9 +107,9 @@ export const authOptions = {
       console.log(session.refreshToken);
       return session;
     },
-  
+
     async redirect({ url, baseUrl }) {
-      return baseUrl
+      return baseUrl;
     },
   },
 };

@@ -23,29 +23,32 @@ const CreateCourse = () => {
   const [currentCardIndex, setCurrentCardIndex] = useState(0); // Added state for the current card index
   const handleFinishCourse = async () => {
     try {
-      setIsLoading(true); // Set isLoading state to true to indicate the process has started
-      setErrorMessage(null); // Clear any previous error messages
-      setIsSuccess(false); // Set isSuccess state to false initially
-
+      setIsLoading(true);
+      setErrorMessage(null);
+      setIsSuccess(false);
+  
       // Append university and accessToken to the courseData
       courseData.university = session?.user?.university;
       courseData.accessToken = session?.accessToken;
-      const adminEmail=session.user.email
+      const adminEmail = session.user.email;
+  
       // Call the createCourse function with courseData as a parameter
-      await createCourse(courseData,adminEmail);
-
-      setIsLoading(false); // Set isLoading state to false as the course creation process is completed successfully
-      setIsSuccess(true); // Set isSuccess state to true to indicate the course creation was successful
+      await createCourse(courseData, adminEmail);
+  
+      setIsLoading(false);
+      setIsSuccess(true);
     } catch (error) {
-      // Handle any errors that occur during the process
       console.error("Error creating course:", error);
       setErrorMessage(
         "An error occurred while creating the course. Please try again later."
-      ); // Set an error message to display to the user
-      setIsLoading(false); // Set isLoading state to false in case of an error
-      setIsSuccess(false); // Set isSuccess state to false as the course creation was not successful
+      );
+      setIsLoading(false);
+      setIsSuccess(false);
+    } finally {
+      localStorage.removeItem("courses",);
     }
   };
+  
 
   const handleSelectCourse = () => {
     // Create an array to store subjects
