@@ -69,42 +69,43 @@ const SubjectCard = ({ course, role }) => {
         >
           <img src="/landingCard.svg" alt="" className="rounded-lg" />
 
-
           <div className="project-info">
             <div className="flex-pr">
               <div className="project-title text-nowrap">{course?.name}</div>
               <div className="flex space-x-4">
-                <Link href={course?.alternateLink}>
-                  <div className="project-hover">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="2em"
-                      height="2em"
-                      color="#000"
-                      strokeLinejoin="round"
-                      strokeLinecap="round"
-                      viewBox="0 0 24 24"
-                      strokeWidth={2}
-                      fill="none"
-                      stroke="currentColor"
-                    >
-                      <path d="M5 12L19 12" />
-                      <path d="M12 5L19 12 12 19" />
-                    </svg>
-                  </div>
-                </Link>
-              
+                {course?.alternateLink && (
+                  <Link href={course?.alternateLink}>
+                    <div className="project-hover">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="2em"
+                        height="2em"
+                        color="#000"
+                        strokeLinejoin="round"
+                        strokeLinecap="round"
+                        viewBox="0 0 24 24"
+                        strokeWidth={2}
+                        fill="none"
+                        stroke="currentColor"
+                      >
+                        <path d="M5 12L19 12" />
+                        <path d="M12 5L19 12 12 19" />
+                      </svg>
+                    </div>
+                  </Link>
+                )}
               </div>
               {/*
                */}
             </div>
             <div className="types">
               <span className="project-type">• {course?.courseState}</span>
-              <span className="project-type">• Section - {course?.section}</span>
+              <span className="project-type">
+                • Section - {course?.section}
+              </span>
             </div>
           </div>
         </motion.article>
-       
       </div>
     );
   }
