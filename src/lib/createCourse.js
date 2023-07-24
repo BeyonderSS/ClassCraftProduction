@@ -41,7 +41,7 @@ async function createCourse(courseData, adminEmail) {
 
             // Create the course in Google Classroom
             const course = {
-              name: `${courseName} - ${section}`,
+              name: `${subjectName} - ${semesterNo + 1}`,
               section: section,
               ownerId: "me",
               room: roomId,
