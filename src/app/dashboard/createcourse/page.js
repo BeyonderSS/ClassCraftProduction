@@ -26,15 +26,15 @@ const CreateCourse = () => {
       setIsLoading(true);
       setErrorMessage(null);
       setIsSuccess(false);
-  
+
       // Append university and accessToken to the courseData
       courseData.university = session?.user?.university;
       courseData.accessToken = session?.accessToken;
       const adminEmail = session.user.email;
-  
+
       // Call the createCourse function with courseData as a parameter
       await createCourse(courseData, adminEmail);
-  
+
       setIsLoading(false);
       setIsSuccess(true);
     } catch (error) {
@@ -45,10 +45,9 @@ const CreateCourse = () => {
       setIsLoading(false);
       setIsSuccess(false);
     } finally {
-      localStorage.removeItem("courses",);
+      localStorage.removeItem("courses");
     }
   };
-  
 
   const handleSelectCourse = () => {
     // Create an array to store subjects
@@ -315,25 +314,58 @@ const CreateCourse = () => {
                 {/* SVG path data here */}
               </svg>
             </button>
-            <button
-              className="cta inline-flex items-center justify-center my-2"
-              onClick={handleFinishCourse}
-            >
-              <span className="hover-underline-animation">Finish</span>
-              <svg
-                fill="#000000"
-                version="1.1"
-                id="Capa_1"
-                xmlns="http://www.w3.org/2000/svg"
-                xmlnsXlink="http://www.w3.org/1999/xlink"
-                width="25px"
-                height="25px"
-                viewBox="0 0 340.034 340.034"
-                xmlSpace="preserve"
+            {isLoading ? (
+              <button className="cta inline-flex items-center justify-center my-2">
+                <span className="hover-underline-animation">
+                  {" "}
+                  {isLoading ? (
+                    <BarLoader color="#234567" /> // Renders BarLoader when isLoading is true
+                  ) : (
+                    "Finish" // Renders "Finish" when isLoading is false
+                  )}
+                </span>
+                <svg
+                  fill="#000000"
+                  version="1.1"
+                  id="Capa_1"
+                  xmlns="http://www.w3.org/2000/svg"
+                  xmlnsXlink="http://www.w3.org/1999/xlink"
+                  width="25px"
+                  height="25px"
+                  viewBox="0 0 340.034 340.034"
+                  xmlSpace="preserve"
+                >
+                  {/* SVG path data here */}
+                </svg>
+              </button>
+            ) : (
+              <button
+                className="cta inline-flex items-center justify-center my-2"
+                onClick={handleFinishCourse}
               >
-                {/* SVG path data here */}
-              </svg>
-            </button>
+                <span className="hover-underline-animation">
+                  {" "}
+                  {isLoading ? (
+                    <BarLoader color="#234567" /> // Renders BarLoader when isLoading is true
+                  ) : (
+                    "Finish" // Renders "Finish" when isLoading is false
+                  )}
+                </span>
+                <svg
+                  fill="#000000"
+                  version="1.1"
+                  id="Capa_1"
+                  xmlns="http://www.w3.org/2000/svg"
+                  xmlnsXlink="http://www.w3.org/1999/xlink"
+                  width="25px"
+                  height="25px"
+                  viewBox="0 0 340.034 340.034"
+                  xmlSpace="preserve"
+                >
+                  {/* SVG path data here */}
+                </svg>
+              </button>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
