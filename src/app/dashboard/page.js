@@ -2,11 +2,10 @@
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 import { motion, progress } from "framer-motion";
-import listCourses from "@/lib/listCourses";
-import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Link from "next/link";
 import WifiLoader from "../WifiLoader";
+import getMongoCourses from "@/lib/mongocoursefetch";
 function Dashboard() {
   const role = "Teacher";
   const progresses = [
@@ -17,35 +16,56 @@ function Dashboard() {
   const [course, setCourse] = useState([]);
   const { data: session } = useSession();
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     if (!session) {
       setLoading(true);
     } else {
-      setLoading(true);
-      console.log(session.accessToken);
+      const cachedCourse = JSON.parse(localStorage.getItem("courses"));
+      console.log("cached:", cachedCourse);
+      if (!cachedCourse) {
+        setLoading(true);
+        console.log(session.accessToken);
 
-      async function getCourses(access_token) {
-        const courses = await listCourses(access_token);
-        console.log(courses);
-        // filtering the course
-        const filteredCourses = courses.filter((course) => {
-          return course.room === session?.user.university;
-        });
+        async function getCourses(access_token) {
+          const accessToken = access_token;
+          const courseIds = session?.user.courses;
+          console.log(courseIds);
+          const mongo = await getMongoCourses(
+            accessToken,
+            session?.user.university,
+            courseIds
+          );
+          setCourse(mongo.databaseCourses);
+          localStorage.setItem(
+            "courses",
+            JSON.stringify(mongo.databaseCourses)
+          );
 
-        setCourse(filteredCourses);
+          setLoading(false);
+        }
+
+        getCourses(session.accessToken);
+      } else {
+        setCourse(cachedCourse);
         setLoading(false);
       }
-
-      getCourses(session.accessToken);
     }
   }, [session]);
-  console.log(course);
-  console.log("ses", session);
-  const colors = {
-    Student: "bg-gradient-to-r from-[#6DA9E4] to-[#009FBD]",
-    Teacher: "bg-gradient-to-r from-[#3F72AF] to-[#112D4E]",
-    Admin: "bg-gradient-to-r from-[#3282B8] to-[#0F4C75]",
+  console.log("mongocourse:", course);
+  const clearCoursesLocalStorage = () => {
+    localStorage.removeItem("courses");
   };
+  useEffect(() => {
+    // Clear the "courses" item from local storage initially
+    clearCoursesLocalStorage();
+
+    // Set up the interval to clear the "courses" item every 60 minutes
+    const intervalId = setInterval(clearCoursesLocalStorage, 60 * 60 * 1000); // 60 minutes in milliseconds
+
+    // Clean up the interval when the component unmounts or when the effect is re-run
+    return () => clearInterval(intervalId);
+  }, []);
   const slogans = {
     Student: "Unleash your potential, embrace excellence.",
     Teacher: "Inspire minds, ignite lifelong learning.",
@@ -150,20 +170,14 @@ function Dashboard() {
             interval={4000}
           > */}
           {course.length != 0 && (
-            <Link
-              href={`${
-                role === "Student"
-                  ? `/dashboard/courselist/${course[0].id}?name=${course[0].name}`
-                  : `${course[0].alternateLink}`
-              }`}
-            >
+            <Link href={`/dashboard/courselist/${course[0]._id}`}>
               <article className="article-wrapper w-80">
                 <img src="/landingCard.svg" alt="" className="rounded-lg" />
 
                 <div className="project-info">
                   <div className="flex-pr">
                     <div className="project-title text-nowrap">
-                      {course[0].name}
+                      {course[0].courseName}
                     </div>
                     <button className="project-hover">
                       <svg
@@ -182,14 +196,6 @@ function Dashboard() {
                         <path d="M12 5L19 12 12 19" />
                       </svg>
                     </button>
-                  </div>
-                  <div className="types">
-                    <span className="project-type">
-                      • {course[0].courseState}
-                    </span>
-                    <span className="project-type">
-                      • Section - {course[0].section}
-                    </span>
                   </div>
                 </div>
               </article>

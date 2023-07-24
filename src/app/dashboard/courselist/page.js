@@ -10,7 +10,6 @@ import getMongoCourses from "@/lib/mongocoursefetch";
 import CourseCard from "./CourseCard";
 
 const Courses = () => {
-  const [course, setCourse] = useState([]);
   const { data: session } = useSession();
   const [loading, setLoading] = useState(true);
   const [databaseCourse, setDatabaseCourse] = useState();
@@ -19,39 +18,39 @@ const Courses = () => {
     if (!session) {
       setLoading(true);
     } else {
-      setLoading(true);
-      console.log(session.accessToken);
+      const cachedCourse = JSON.parse(localStorage.getItem("courses"));
+      console.log("cached:", cachedCourse);
+      if (!cachedCourse) {
+        setLoading(true);
+        console.log(session.accessToken);
 
-      async function getCourses(access_token) {
-        const accessToken = access_token;
-        const courseIds = session?.user.courses;
-        console.log(courseIds);
-        const courses = await listCourses(accessToken);
-        const mongo = await getMongoCourses(
-          accessToken,
-          session?.user.university,
-          courseIds
-        );
-        setDatabaseCourse(mongo.databaseCourses);
-        console.log("mongocourse:", databaseCourse);
-        console.log(courses);
+        async function getCourses(access_token) {
+          const accessToken = access_token;
+          const courseIds = session?.user.courses;
+          console.log(courseIds);
+          const mongo = await getMongoCourses(
+            accessToken,
+            session?.user.university,
+            courseIds
+          );
+          setDatabaseCourse(mongo.databaseCourses);
+          console.log("mongocourse:", databaseCourse);
 
-        // Filter courses based on room and batch condition
-        const filteredCourses = courses.filter((course) => {
-          return course.room === session?.user.university;
-        });
+          localStorage.setItem("courses", JSON.stringify(databaseCourse));
+          setLoading(false);
+        }
 
-        setCourse(filteredCourses);
+        getCourses(session.accessToken);
+      } else {
+        setDatabaseCourse(cachedCourse);
         setLoading(false);
-      }
 
-      getCourses(session.accessToken);
+      }
     }
   }, [session]);
-  localStorage.setItem("courses", JSON.stringify(databaseCourse));
+
   console.log("mongocourse:", databaseCourse);
 
-  const role = "Student";
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen bg-[#F4F6F8]">
@@ -59,7 +58,7 @@ const Courses = () => {
       </div>
     );
   }
-  if (course.length == 0) {
+  if (databaseCourse.length == 0) {
     return (
       <div className="lg:pl-28 pt-24 h-screen bg-[#F4F6F8]">
         <div className="flex justify-center items-center lg:text-5xl text-4xl text-white font-semibold m-4  ">
