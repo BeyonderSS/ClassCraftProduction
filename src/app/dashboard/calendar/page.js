@@ -1,11 +1,47 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FiChevronLeft, FiChevronRight, FiX } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
+import getMongoLectures from "@/lib/fetchcalender";
+import { useSession } from "next-auth/react";
+import getMongoCourses from "@/lib/mongocoursefetch";
+import WifiLoader from "@/app/WifiLoader";
 
 const Calendar = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(null);
+  const [fetchedLectures, setFetchedLectures] = useState([]);
+  const [loading, setLoading] = useState(true); // Add this line to set the initial state of loading as true
+  const { data: session } = useSession();
+
+  useEffect(() => {
+    if (session) {
+      const courses = JSON.parse(localStorage.getItem("courses"));
+      const idsArray = [];
+
+      courses.forEach((course) => {
+        idsArray.push(course._id);
+      });
+
+      console.log(idsArray);
+
+      const fetchMongoLectures = async () => {
+        return await getMongoLectures(session?.user.university, idsArray);
+      };
+
+      const fetchLecturesAndLog = async () => {
+        setLoading(true); // Set loading to true before fetching lectures
+        const fetchedLectures = await fetchMongoLectures();
+        console.log("fetched Lectures:", fetchedLectures);
+        setFetchedLectures(fetchedLectures);
+        setLoading(false); // Set loading to false after fetching lectures
+      };
+
+      fetchLecturesAndLog();
+    }
+  }, [session]);
+
+  // Assuming the "courses" variable contains an array of objects with "_id" field
 
   const getDaysInMonth = () => {
     const year = currentMonth.getFullYear();
@@ -33,8 +69,9 @@ const Calendar = () => {
     );
   };
 
-  const handleDateClick = (date) => {
-    setSelectedDate(date);
+  const handleDateClick = (day) => {
+    const lecturesForSelectedDate = getLecturesForDate(day);
+    setSelectedDate({ day, lectures: lecturesForSelectedDate });
   };
 
   const closePopup = () => {
@@ -49,6 +86,14 @@ const Calendar = () => {
       year: "numeric",
     };
     return date.toLocaleDateString("en-US", options);
+  };
+
+  const formatTime = (time) => {
+    const options = {
+      hour: "2-digit",
+      minute: "2-digit",
+    };
+    return new Date(time).toLocaleTimeString("en-US", options);
   };
 
   const isCurrentMonth = (date) => {
@@ -71,6 +116,36 @@ const Calendar = () => {
       )
     );
   };
+
+  const getLecturesForDate = (day) => {
+    const selectedDateStart = new Date(
+      currentMonth.getFullYear(),
+      currentMonth.getMonth(),
+      day
+    ).setHours(0, 0, 0, 0);
+
+    const selectedDateEnd = new Date(
+      currentMonth.getFullYear(),
+      currentMonth.getMonth(),
+      day
+    ).setHours(23, 59, 59, 999);
+
+    return fetchedLectures.filter((lecture) => {
+      const lectureStart = new Date(lecture.startTime);
+      const lectureEnd = new Date(lecture.endTime);
+
+      // Compare the lecture start and end times with the selected date
+      return lectureStart >= selectedDateStart && lectureEnd <= selectedDateEnd;
+    });
+  };
+  if (loading) {
+    return (
+      <div className="h-screen flex justify-center items-center">
+        {" "}
+        <WifiLoader text={"Loading..."} />{" "}
+      </div>
+    );
+  }
 
   return (
     <div className="h-screen flex flex-col items-center justify-center bg-gray-200">
@@ -112,8 +187,11 @@ const Calendar = () => {
               currentMonth.getMonth(),
               day
             );
-            const isCurrentDate = isCurrentMonth(date) && day === selectedDate;
+            const isCurrentDate =
+              isCurrentMonth(date) && day === selectedDate?.day;
             const isPast = isPastDate(date) && !isCurrentDate;
+
+            const lecturesForDate = getLecturesForDate(day);
 
             return (
               <div
@@ -128,6 +206,11 @@ const Calendar = () => {
                 onClick={() => handleDateClick(day)}
               >
                 {day}
+                {lecturesForDate.length > 0 && (
+                  <div className="text-xs font-normal mt-1">
+                    {lecturesForDate.length} Lecture(s)
+                  </div>
+                )}
               </div>
             );
           })}
@@ -161,23 +244,27 @@ const Calendar = () => {
                   new Date(
                     currentMonth.getFullYear(),
                     currentMonth.getMonth(),
-                    selectedDate
+                    selectedDate.day
                   )
                 )}
               </h2>
-              {/* Add details or content specific to the selected date */}
-              {/* For example: */}
-              <p>
-                This is the content for{" "}
-                {formatDate(
-                  new Date(
-                    currentMonth.getFullYear(),
-                    currentMonth.getMonth(),
-                    selectedDate
-                  )
-                )}
-                . Replace this with your content.
-              </p>
+              {selectedDate.lectures.map((lecture) => (
+                <div key={lecture._id} className="mb-4">
+                  <p className="font-bold">{lecture.topic}</p>
+                  <p>Date: {formatDate(new Date(lecture.date))}</p>
+                  <p>Start Time: {formatTime(new Date(lecture.startTime))}</p>
+                  <p>End Time: {formatTime(new Date(lecture.endTime))}</p>
+                  <p>Duration: {lecture.durationInMinutes} minutes</p>
+                  <a
+                    href={lecture.meetlink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-500 hover:underline"
+                  >
+                    Join Meet
+                  </a>
+                </div>
+              ))}
             </motion.div>
           </motion.div>
         )}

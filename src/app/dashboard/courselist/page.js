@@ -1,10 +1,7 @@
 "use client";
 
-import React, { Suspense, useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import listCourses from "@/lib/listCourses";
-import CourseCardSkeleton from "../CourseCardSkeleton";
-import { motion } from "framer-motion";
 import WifiLoader from "@/app/WifiLoader";
 import getMongoCourses from "@/lib/mongocoursefetch";
 import CourseCard from "./CourseCard";
