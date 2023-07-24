@@ -6,8 +6,7 @@ import { BarLoader } from "react-spinners";
 import Link from "next/link";
 import { BiCheckCircle } from "react-icons/bi";
 import { FiAlertTriangle, FiX } from "react-icons/fi";
-import createCourse from "@/lib/createCourse";
-
+import axios from 'axios'; 
 const CreateCourse = () => {
   const { data: session } = useSession();
   const [result, setResult] = useState();
@@ -21,33 +20,42 @@ const CreateCourse = () => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [currentCardIndex, setCurrentCardIndex] = useState(0); // Added state for the current card index
+  // Import axios to make HTTP requests
+
   const handleFinishCourse = async () => {
     try {
       setIsLoading(true);
       setErrorMessage(null);
       setIsSuccess(false);
-
+  
       // Append university and accessToken to the courseData
       courseData.university = session?.user?.university;
       courseData.accessToken = session?.accessToken;
       const adminEmail = session.user.email;
-
-      // Call the createCourse function with courseData as a parameter
-      await createCourse(courseData, adminEmail);
-
+  
+      // Make a POST request to the "create course" API route
+      const response = await axios.post('https://youtube-backend-mc7i.onrender.com/create-course', {
+        courseData,
+        adminEmail,
+      });
+  
+      console.log('API Response:', response.data);
+  
       setIsLoading(false);
       setIsSuccess(true);
     } catch (error) {
-      console.error("Error creating course:", error);
+      console.error('Error creating course:', error);
       setErrorMessage(
-        "An error occurred while creating the course. Please try again later."
+        'An error occurred while creating the course. Please try again later.'
       );
       setIsLoading(false);
       setIsSuccess(false);
     } finally {
-      localStorage.removeItem("courses");
+      localStorage.removeItem('courses');
     }
   };
+  
+  
 
   const handleSelectCourse = () => {
     // Create an array to store subjects
