@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useSession } from "next-auth/react";
 import { AiOutlineClockCircle } from "react-icons/ai";
@@ -8,6 +8,7 @@ import { BarLoader } from "react-spinners";
 import generateMeeting from "@/lib/generateMeeting";
 import createAnnouncement from "@/lib/createAnnouncement";
 import Link from "next/link";
+import fetchUserEmail from "@/lib/fetchUserEmailUsingCourseId";
 
 const HostMeetSubjectCard = ({ course, semester, courseId }) => {
   const [showPopup, setShowPopup] = useState(false);
@@ -17,7 +18,6 @@ const HostMeetSubjectCard = ({ course, semester, courseId }) => {
   const [successMessage, setSuccessMessage] = useState(null);
   const [loading, setLoading] = useState(false);
   const { data: session } = useSession();
-
   const [meetingData, setMeetingData] = useState({
     summary: "",
     location: "Online",
@@ -26,6 +26,34 @@ const HostMeetSubjectCard = ({ course, semester, courseId }) => {
     endDateTime: "", // Will be set by user input
     timeZone: "America/New_York",
   });
+  useEffect(() => {
+    const fetchUserEmailAsync = async () => {
+      if (courseId && session) {
+        console.log("hello");
+        try {
+          const emailArray = await fetchUserEmail(
+            session?.user.university,
+            courseId
+          );
+
+          // Convert the array of email addresses to the desired format for attendees
+          const attendees = emailArray.map((email, index) => ({
+            email: email,
+            // You can also add more properties for each attendee if needed
+          }));
+
+          // Set the attendees in the meetingData
+          meetingData.attendees = attendees;
+
+          console.log("Attendees:", meetingData.attendees);
+        } catch (error) {
+          console.error("Error fetching user email:", error);
+        }
+      }
+    };
+
+    fetchUserEmailAsync();
+  }, [courseId, session]);
 
   const handleClosePopup = () => {
     setShowPopup(false);

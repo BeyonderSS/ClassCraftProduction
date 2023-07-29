@@ -40,6 +40,17 @@ function Dashboard() {
             "courses",
             JSON.stringify(mongo.databaseCourses)
           );
+          // Get the current time in milliseconds
+          const currentTime = new Date().getTime();
+
+          // Calculate 1 hour in milliseconds (1 hour = 60 minutes * 60 seconds * 1000 milliseconds)
+          const oneHourInMilliseconds = 60 * 60 * 1000;
+
+          // Calculate the expiry time by adding 1 hour to the current time
+          const expiryTime = currentTime + oneHourInMilliseconds;
+
+          // Store the expiry time in localStorage
+          localStorage.setItem("coursesExpiry", expiryTime);
 
           setLoading(false);
         }
@@ -52,7 +63,42 @@ function Dashboard() {
     }
   }, [session]);
   console.log("mongocourse:", course);
+  useEffect(() => {
+    // Function to check and delete "hostMeetCourses" from localStorage
+    const checkAndDeleteCourses = () => {
+      const expiryTime = localStorage.getItem("coursesExpiry");
 
+      if (expiryTime) {
+        // Convert the expiry time from string to a numeric value (milliseconds)
+        const expiryTimeInMilliseconds = parseInt(expiryTime, 10);
+
+        // Get the current time in milliseconds
+        const currentTime = new Date().getTime();
+
+        // Calculate the difference between current time and expiry time in milliseconds
+        const timeDifference = Math.abs(currentTime - expiryTimeInMilliseconds);
+
+        // Check if the difference is more than 1 hour (3600000 milliseconds)
+        if (timeDifference >= 3600000) {
+          // Delete "hostMeetCourses" from localStorage
+          localStorage.removeItem("courses");
+        }
+      }
+    };
+
+    // Call the function when the component mounts
+    checkAndDeleteCourses();
+
+    // You can also set an interval to check periodically if needed.
+    // For example, to check every minute, you can uncomment the following code:
+
+    const interval = setInterval(() => {
+      checkAndDeleteCourses();
+    }, 60000); // 60000 milliseconds = 1 minute
+
+    // Clean up the interval when the component unmounts
+    return () => clearInterval(interval);
+  }, []);
   const slogans = {
     Student: "Unleash your potential, embrace excellence.",
     Teacher: "Inspire minds, ignite lifelong learning.",
