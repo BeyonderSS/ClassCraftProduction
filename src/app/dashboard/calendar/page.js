@@ -2,46 +2,33 @@
 import React, { useEffect, useState } from "react";
 import { FiChevronLeft, FiChevronRight, FiX } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
-import getMongoLectures from "@/lib/fetchcalender";
 import { useSession } from "next-auth/react";
-import getMongoCourses from "@/lib/mongocoursefetch";
 import WifiLoader from "@/app/WifiLoader";
+import fetchGoogleCalendar from "@/lib/fetchgooglecalender";
 
 const Calendar = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(null);
-  const [fetchedLectures, setFetchedLectures] = useState([]);
-  const [loading, setLoading] = useState(true); // Add this line to set the initial state of loading as true
+  const [fetchedEvents, setFetchedEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
   const { data: session } = useSession();
 
   useEffect(() => {
     if (session) {
-      const courses = JSON.parse(localStorage.getItem("courses"));
-      const idsArray = [];
-
-      courses.forEach((course) => {
-        idsArray.push(course._id);
-      });
-
-      console.log(idsArray);
-
-      const fetchMongoLectures = async () => {
-        return await getMongoLectures(session?.user.university, idsArray);
+      const month = currentMonth.getMonth() + 1; // Month is 1-indexed in Google Calendar API
+      const fetchCalenderAndLog = async () => {
+        setLoading(true);
+        const fetchedEvents = await fetchGoogleCalendar(
+          session?.accessToken,
+          month
+        );
+        console.log("fetched Events:", fetchedEvents);
+        setFetchedEvents(fetchedEvents);
+        setLoading(false);
       };
-
-      const fetchLecturesAndLog = async () => {
-        setLoading(true); // Set loading to true before fetching lectures
-        const fetchedLectures = await fetchMongoLectures();
-        console.log("fetched Lectures:", fetchedLectures);
-        setFetchedLectures(fetchedLectures);
-        setLoading(false); // Set loading to false after fetching lectures
-      };
-
-      fetchLecturesAndLog();
+      fetchCalenderAndLog();
     }
-  }, [session]);
-
-  // Assuming the "courses" variable contains an array of objects with "_id" field
+  }, [session, currentMonth]);
 
   const getDaysInMonth = () => {
     const year = currentMonth.getFullYear();
@@ -52,7 +39,10 @@ const Calendar = () => {
 
   const getCurrentMonthName = () => {
     const options = { month: "long" };
-    return currentMonth.toLocaleDateString("en-US", options);
+    return currentMonth.toLocaleDateString("en-US", {
+      timeZone: "IST", // Use UTC time zone to calculate the month name
+      ...options,
+    });
   };
 
   const goToPrevMonth = () => {
@@ -130,22 +120,35 @@ const Calendar = () => {
       day
     ).setHours(23, 59, 59, 999);
 
-    return fetchedLectures.filter((lecture) => {
-      const lectureStart = new Date(lecture.startTime);
-      const lectureEnd = new Date(lecture.endTime);
-
-      // Compare the lecture start and end times with the selected date
-      return lectureStart >= selectedDateStart && lectureEnd <= selectedDateEnd;
-    });
+    return fetchedEvents
+      .filter((event) => {
+        const eventDate = new Date(event.start.dateTime);
+        return eventDate >= selectedDateStart && eventDate <= selectedDateEnd;
+      })
+      .map((event) => ({
+        _id: event.id,
+        topic: event.summary,
+        date: new Date(event.start.dateTime),
+        startTime: new Date(event.start.dateTime),
+        endTime: new Date(event.end.dateTime),
+        durationInMinutes: Math.floor(
+          (new Date(event.end.dateTime) - new Date(event.start.dateTime)) /
+            (1000 * 60)
+        ),
+        meetlink: event.htmlLink,
+      }));
   };
+
   if (loading) {
     return (
       <div className="h-screen flex justify-center items-center">
-        {" "}
-        <WifiLoader text={"Loading..."} />{" "}
+        <WifiLoader text={"Loading..."} />
       </div>
     );
   }
+
+  const daysInMonth = getDaysInMonth();
+  const firstDayOfMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1).getDay();
 
   return (
     <div className="h-screen flex flex-col items-center justify-center bg-gray-200">
@@ -178,15 +181,9 @@ const Calendar = () => {
               {day}
             </div>
           ))}
-          {Array.from(
-            { length: getDaysInMonth() },
-            (_, index) => index + 1
-          ).map((day) => {
-            const date = new Date(
-              currentMonth.getFullYear(),
-              currentMonth.getMonth(),
-              day
-            );
+          {Array.from({ length: daysInMonth + firstDayOfMonth }, (_, index) => {
+            const day = index + 1 - firstDayOfMonth;
+            const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
             const isCurrentDate =
               isCurrentMonth(date) && day === selectedDate?.day;
             const isPast = isPastDate(date) && !isCurrentDate;
@@ -205,7 +202,7 @@ const Calendar = () => {
                 }`}
                 onClick={() => handleDateClick(day)}
               >
-                {day}
+                {day > 0 ? day : ""}
                 {lecturesForDate.length > 0 && (
                   <div className="text-xs font-normal mt-1">
                     {lecturesForDate.length} Lecture(s)
