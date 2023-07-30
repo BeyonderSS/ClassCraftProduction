@@ -42,31 +42,48 @@ const Invite = ({ courseId, documentId }) => {
     setEmails(emails.filter((e) => e !== email));
   };
 console.log(emails)
-  const handleInviteClick = async () => {
+const handleInviteClick = async () => {
+  try {
+    setIsLoading(true); // Show loader
+
+    // First, invite students or teachers using the existing functions
     try {
-      setIsLoading(true); // Show loader
-  
-      // First, invite students or teachers using the existing functions
       if (selectedTab === "Student") {
         await inviteStudentsToCourse(access_token, courseId, emails);
       } else {
         await inviteTeachersToCourse(access_token, courseId, emails);
       }
-      // After inviting students/teachers successfully, update the course with the new emails
-      await updateCourseStudentEnrolled(emails, documentId,university,selectedTab);
-  
-      setSuccessMessage(
-        `Invited ${emails.length} ${selectedTab} successfully and updated the course!`
-      );
-      setEmails([]);
-      setErrorMessage("");
-    } catch (error) {
-      console.error(error);
+    } catch (inviteError) {
+      // Handle invite error
+      console.error("Error inviting users:", inviteError);
       setErrorMessage("Error inviting users. Please try again.");
-    } finally {
       setIsLoading(false); // Hide loader
+      return;
     }
-  };
+
+    // After inviting students/teachers successfully, update the course with the new emails
+    try {
+      await updateCourseStudentEnrolled(emails, documentId, university, selectedTab);
+    } catch (updateError) {
+      // Handle update error
+      console.error("Error updating course:", updateError);
+      setErrorMessage("Error updating course. Please try again.");
+      setIsLoading(false); // Hide loader
+      return;
+    }
+
+    // If both the invite and update operations were successful, set the success message
+    setSuccessMessage(`Invited ${emails.length} ${selectedTab} successfully and updated the course!`);
+    setEmails([]);
+    setErrorMessage("");
+  } catch (error) {
+    console.error("Unknown error:", error);
+    setErrorMessage("An unknown error occurred. Please try again.");
+  } finally {
+    setIsLoading(false); // Hide loader
+  }
+};
+
   
   
 
