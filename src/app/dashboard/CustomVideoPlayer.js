@@ -20,7 +20,7 @@ const CustomVideoPlayer = ({ videoLink }) => {
   const [streamUrl, setStreamUrl] = useState("");
   let timeoutId = null;
 
-  console.log(streamUrl);
+  // console.log(streamUrl);
   useEffect(() => {
     const fetchStreamUrl = async () => {
       try {

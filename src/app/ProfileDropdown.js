@@ -13,6 +13,22 @@ const ProfileDropdown = ({ user }) => {
     setIsNotificationOpen(false); // Close notification dropdown
   };
 
+  const handleSignOut = async () => {
+    try {
+      // Perform the sign-out action
+      await signOut();
+
+      // Clear the localStorage after successful sign-out
+      localStorage.clear();
+
+      // Your custom sign-out success logic (e.g., redirect to a login page)
+      console.log("User signed out successfully.");
+    } catch (error) {
+      // Handle any sign-out errors here
+      console.error("Sign-out failed:", error);
+    }
+  };
+
   const handleNotificationToggle = () => {
     setIsNotificationOpen(!isNotificationOpen);
     setIsProfileOpen(false); // Close profile dropdown
@@ -54,11 +70,10 @@ const ProfileDropdown = ({ user }) => {
                 Edit Profile
               </Link>
               <button
-                onClick={signOut}
-                className="block px-4 py-2 text-sm text-gray-700  hover:bg-gray-100 "
+                onClick={handleSignOut}
+                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
               >
-                {" "}
-                <GoSignOut className="inline-block mr-2" /> SignOut
+                <GoSignOut className="inline-block mr-2" /> Sign Out
               </button>
             </div>
           </motion.div>
