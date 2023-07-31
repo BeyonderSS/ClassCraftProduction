@@ -1,18 +1,19 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { motion, AnimatePresence } from "framer-motion";
 import { BarLoader } from "react-spinners";
 import Link from "next/link";
 import { BiCheckCircle } from "react-icons/bi";
 import { FiAlertTriangle, FiX } from "react-icons/fi";
-import axios from 'axios'; 
+import axios from "axios";
+import NotAuthorizedPage from "../NotAuthorizedPage";
 const CreateCourse = () => {
   const { data: session } = useSession();
   const [result, setResult] = useState();
   const [courseData, setCourseData] = useState();
   const [semesterSummary, setSemesterSummary] = useState({}); // State to store the summary of each semester
-
+  const [role, setRole] = useState("");
   const [courseName, setCourseName] = useState("");
   const [semesterCount, setSemesterCount] = useState("");
   const [subjectInput, setSubjectInput] = useState(""); // State to handle subject input for each semester
@@ -21,41 +22,47 @@ const CreateCourse = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [currentCardIndex, setCurrentCardIndex] = useState(0); // Added state for the current card index
   // Import axios to make HTTP requests
+  useEffect(() => {
+    if (session) {
+      setRole(session?.user.role);
+    }
+  }, [session]);
 
   const handleFinishCourse = async () => {
     try {
       setIsLoading(true);
       setErrorMessage(null);
       setIsSuccess(false);
-  
+
       // Append university and accessToken to the courseData
       courseData.university = session?.user?.university;
       courseData.accessToken = session?.accessToken;
       const adminEmail = session.user.email;
-  
+
       // Make a POST request to the "create course" API route
-      const response = await axios.post('https://youtube-backend-mc7i.onrender.com/create-course', {
-        courseData,
-        adminEmail,
-      });
-  
-      console.log('API Response:', response.data);
-  
+      const response = await axios.post(
+        "https://youtube-backend-mc7i.onrender.com/create-course",
+        {
+          courseData,
+          adminEmail,
+        }
+      );
+
+      console.log("API Response:", response.data);
+
       setIsLoading(false);
       setIsSuccess(true);
     } catch (error) {
-      console.error('Error creating course:', error);
+      console.error("Error creating course:", error);
       setErrorMessage(
-        'An error occurred while creating the course. Please try again later.'
+        "An error occurred while creating the course. Please try again later."
       );
       setIsLoading(false);
       setIsSuccess(false);
     } finally {
-      localStorage.removeItem('courses');
+      localStorage.removeItem("courses");
     }
   };
-  
-  
 
   const handleSelectCourse = () => {
     // Create an array to store subjects
@@ -111,6 +118,13 @@ const CreateCourse = () => {
     setIsSuccess(false);
     setErrorMessage("");
   };
+  if (role != "Admin") {
+    return (
+      <main>
+        <NotAuthorizedPage />
+      </main>
+    );
+  }
 
   return (
     <motion.div

@@ -4,15 +4,19 @@ import { useSession } from "next-auth/react";
 import WifiLoader from "@/app/WifiLoader";
 import HostMeetCard from "./HostMeetCard";
 import getMongoCourses from "@/lib/mongocoursefetch";
+import NotAuthorizedPage from "../NotAuthorizedPage";
 
 const HostMeet = () => {
   const { data: session } = useSession();
   const [loading, setLoading] = useState(true);
   const [databaseCourse, setDatabaseCourse] = useState();
+  const [role, setRole] = useState();
   useEffect(() => {
     if (!session) {
       setLoading(true);
     } else {
+      setRole(session?.user.role);
+      console.log(role);
       const cachedCourse = JSON.parse(localStorage.getItem("courses"));
       if (!cachedCourse) {
         setLoading(true);
@@ -112,6 +116,14 @@ const HostMeet = () => {
       </div>
     );
   }
+  if (role == "Student" || role == null) {
+    return (
+      <main>
+        <NotAuthorizedPage />
+      </main>
+    );
+  }
+
   if (databaseCourse.length == 0) {
     return (
       <div className="lg:pl-28 pt-24 h-screen bg-[#F4F6F8]">
