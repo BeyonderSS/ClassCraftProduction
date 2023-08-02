@@ -92,7 +92,7 @@ const Lectures = () => {
   return (
     <div className="">
       {role === "Admin" && (
-        <div className="flex justify-center items-center my-10">
+        <div className="flex justify-center items-center py-10">
           <div className="flex justify-between mt-24">
             <button
               className={`${
@@ -160,7 +160,7 @@ const Lectures = () => {
       )}
       {selectedTab === "Add Link" && (
         <div className="flex justify-center items-center">
-          <div className="z-50 p-2 mx-4 bg-gray-100 rounded-xl">
+          <div className=" p-2 mx-4 bg-gray-100 rounded-xl">
             {fetchedLectures.map((lecture) => (
               <div
                 key={lecture._id}
