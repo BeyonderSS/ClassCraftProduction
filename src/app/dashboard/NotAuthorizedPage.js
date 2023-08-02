@@ -21,7 +21,7 @@ const NotAuthorizedPage = () => {
         <p className="text-gray-600 text-center">
           The secrets of this page are hidden away 🔒
           <br />
-          The guards won't let you in. 🚫
+          The guards won&apos;t let you in. 🚫
           <br />
           Please charm the administrator for access. 🪄
         </p>
