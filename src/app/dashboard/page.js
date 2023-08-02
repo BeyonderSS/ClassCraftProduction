@@ -1,5 +1,5 @@
 "use client";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 import { motion, progress } from "framer-motion";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
@@ -8,11 +8,7 @@ import WifiLoader from "../WifiLoader";
 import getMongoCourses from "@/lib/mongocoursefetch";
 function Dashboard() {
   const role = "Teacher";
-  const progresses = [
-    { id: 1, Name: "Sumit", percent: 10, courseName: "Maths" },
-    { id: 2, Name: "Puneet", percent: 80, courseName: "Maths" },
-    { id: 3, Name: "Raghav", percent: 75, courseName: "Maths" },
-  ];
+
   const [course, setCourse] = useState([]);
   const { data: session } = useSession();
   const [loading, setLoading] = useState(true);
@@ -129,7 +125,7 @@ function Dashboard() {
                 {slogans[role]}
               </p>
             </div>
-            <Link
+            {/* <Link
               className="fancy w-72 p-10 my-10 rounded-full flex justify-center items-center  mx-10"
               href="/"
             >
@@ -137,7 +133,7 @@ function Dashboard() {
               <span className="text text-2xl">Get Started</span>
               <span className="bottom-key-1"></span>
               <span className="bottom-key-2"></span>
-            </Link>
+            </Link> */}
           </div>
           <div className="flex justify-end items-center w-[60vh]">
             <img
@@ -149,24 +145,42 @@ function Dashboard() {
         </div>
         <div className="flex justify-center items-center w-full ">
           <div className="grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 w-full ">
-            {progresses.map((progress, index) => (
-              <div
-                key={progress.id}
-                className="progressCard md:h-80 h-40 w-72 md:w-[55vh] m-6"
-              >
-                <img
-                  className="progressImg md:h-72 h-36"
-                  src={`/progressCard${index + 1}.svg`}
-                  alt=""
-                />
-                <div className="progressTextBox">
-                  <p className="text head">{progress.Name}</p>
-                  <span>{progress.courseName}</span>
-                  <p className="text price">{progress.percent}%</p>
-                </div>
+            <div className="progressCard md:h-80 h-40 w-72 md:w-[55vh] m-6">
+              <img
+                className="progressImg md:h-72 h-36"
+                src={`/progressCard1.svg`}
+                alt=""
+              />
+              <div className="progressTextBox">
+                <p className="text head">Under Development</p>
+                <span>...</span>
+                <p className="text price">Comming Soon</p>
               </div>
-            ))}
-
+            </div>
+            <div className="progressCard md:h-80 h-40 w-72 md:w-[55vh] m-6">
+              <img
+                className="progressImg md:h-72 h-36"
+                src={`/progressCard1.svg`}
+                alt=""
+              />
+              <div className="progressTextBox">
+                <p className="text head">Under Development</p>
+                <span>...</span>
+                <p className="text price">Comming Soon</p>
+              </div>
+            </div>{" "}
+            <div className="progressCard md:h-80 h-40 w-72 md:w-[55vh] m-6">
+              <img
+                className="progressImg md:h-72 h-36"
+                src={`/progressCard1.svg`}
+                alt=""
+              />
+              <div className="progressTextBox">
+                <p className="text head">Under Development</p>
+                <span>...</span>
+                <p className="text price">Comming Soon</p>
+              </div>
+            </div>
             <div className="progressCard md:h-80 h-40 w-72 md:w-[55vh] m-6">
               <img
                 className="progressImg md:h-72 h-36"
@@ -193,6 +207,16 @@ function Dashboard() {
             <h1 className="text-2xl my-7  text-gray-600">
               {session?.user?.name}
             </h1>
+            <button
+              onClick={signOut}
+              className="fancy   my-10 rounded-full flex justify-center items-center  mx-10"
+              href="/"
+            >
+              <span className="top-key"></span>
+              <span className="text ">Sign Out</span>
+              <span className="bottom-key-1"></span>
+              <span className="bottom-key-2"></span>
+            </button>
           </div>
           {/* <Carousel
             autoPlay
