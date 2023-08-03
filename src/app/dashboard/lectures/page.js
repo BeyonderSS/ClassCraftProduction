@@ -7,6 +7,7 @@ import feedLink from "@/lib/feedLink";
 import CustomVideoPlayer from "../CustomVideoPlayer";
 import { useSession } from "next-auth/react";
 import getMongoLectures from "@/lib/fetchcalender";
+import { FaCalendarAlt, FaClock } from "react-icons/fa";
 
 const Lectures = () => {
   const { data: session } = useSession();
@@ -136,23 +137,49 @@ const Lectures = () => {
               </div>
             )}
           </div>
-          <div className=" p-2 mx-4 bg-gray-100 rounded-xl">
+
+          <div className="p-2 mx-4 bg-gray-50 rounded-xl md:h-[75vh] overflow-y-auto md:w-[65vh] scrollbar-thumb-blue-400 scrollbar-thin space-y-2 ">
             {fetchedLectures.map((lecture) => (
               <div
                 key={lecture._id}
-                className={`md:w-96 rounded-xl p-2 cursor-pointer ${
-                  selectedLecture === lecture ? "bg-blue-500 text-white" : ""
+                className={`md:w-96 rounded-xl p-2 cursor-pointer flex flex-col justify-between items-start ${
+                  selectedLecture === lecture
+                    ? "bg-blue-600 text-white"
+                    : "bg-white text-gray-800 hover:bg-blue-100 transition ease-in-out duration-300"
                 }`}
                 onClick={() => handleLectureClick(lecture)}
               >
-                <h2 className="text-xl font-semibold">{lecture.topic}</h2>
-                <p>Date: {new Date(lecture.date).toLocaleDateString()}</p>
-                <p>
-                  Start Time: {convertTo12HourFormat(lecture.startTime)}
-                  <br />
-                  End Time: {convertTo12HourFormat(lecture.endTime)}
+                <h2 className="text-lg font-semibold mb-2">{lecture.topic}</h2>
+                <div
+                  className={`flex items-center text-sm  mb-1 ${
+                    selectedLecture == lecture
+                      ? "text-gray-200"
+                      : "text-gray-500"
+                  }`}
+                >
+                  <FaCalendarAlt className="mr-1" />
+                  {new Date(lecture.date).toLocaleDateString()}
+                </div>
+                <div
+                  className={`flex items-center text-sm  mb-1 ${
+                    selectedLecture == lecture
+                      ? "text-gray-200"
+                      : "text-gray-500"
+                  }`}
+                >
+                  <FaClock className="mr-1" />
+                  {convertTo12HourFormat(lecture.startTime)} -{" "}
+                  {convertTo12HourFormat(lecture.endTime)}
+                </div>
+                <p
+                  className={`text-sm  mb-1  ${
+                    selectedLecture == lecture
+                      ? "text-gray-200"
+                      : "text-gray-500"
+                  }`}
+                >
+                  Duration: {lecture.durationInMinutes} minutes
                 </p>
-                <p>Duration: {lecture.durationInMinutes} minutes</p>
               </div>
             ))}
           </div>

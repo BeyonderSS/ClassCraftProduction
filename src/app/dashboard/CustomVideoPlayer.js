@@ -5,9 +5,10 @@ import {
   BsVolumeUpFill,
   BsVolumeMuteFill,
 } from "react-icons/bs";
-import { motion, useAnimation } from "framer-motion";
+import { AnimatePresence, motion, useAnimation } from "framer-motion";
 import { BiRightArrow, BiLeftArrow } from "react-icons/bi";
 import { getYoutubeVideoUrl } from "@/lib/streamUrl";
+import WifiLoader from "../WifiLoader";
 
 const CustomVideoPlayer = ({ videoLink }) => {
   const videoRef = useRef(null);
@@ -18,16 +19,18 @@ const CustomVideoPlayer = ({ videoLink }) => {
   const [progress, setProgress] = useState(0);
   const controlsAnimation = useAnimation();
   const [streamUrl, setStreamUrl] = useState("");
-  let timeoutId = null;
+  const [loading, setLoading] = useState(true);
 
-  // console.log(streamUrl);
   useEffect(() => {
     const fetchStreamUrl = async () => {
       try {
+        setLoading(true); // Set loading to true before fetching the video URL
         const videoUrl2 = await getYoutubeVideoUrl(videoLink);
         setStreamUrl(videoUrl2);
       } catch (error) {
         console.error("Error fetching stream URL:", error);
+      } finally {
+        setLoading(false); // Set loading to false after fetching is done, whether it succeeded or failed
       }
     };
 
@@ -151,6 +154,21 @@ const CustomVideoPlayer = ({ videoLink }) => {
   //   )}`;
   // };
 
+  if (loading) {
+    return (
+      <AnimatePresence>
+        <motion.main
+          initial={{ y: -100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: -100, opacity: 0 }}
+          transition={{ duration: 0.5 }}
+          className="flex justify-center items-center h-[100vh]"
+        >
+          <WifiLoader text={"Buffering..."} />
+        </motion.main>
+      </AnimatePresence>
+    );
+  }
   return (
     streamUrl && (
       // <div
@@ -238,9 +256,21 @@ const CustomVideoPlayer = ({ videoLink }) => {
       //     />
       //   </div>
       // </div>
-      <div>
-        <video src={streamUrl} controls controlsList="nodownload noplaybackrate" disablePictureInPicture></video>
-      </div>
+      <AnimatePresence>
+        <motion.div
+          initial={{ x: -100, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          exit={{ x: -100, opacity: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          <video
+            src={streamUrl}
+            controls
+            controlsList="nodownload noplaybackrate"
+            disablePictureInPicture
+          ></video>
+        </motion.div>
+      </AnimatePresence>
     )
   );
 };
