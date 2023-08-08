@@ -189,9 +189,12 @@ function Dashboard() {
               />
               <div className="progressTextBox">
                 <p className="text head">Explore</p>
+              <Link href={'https://www.parasmanieducation.com/#courses'}>
                 <span>Possibilities</span>
                 <p className="text price">Learn More ...</p>
+              </Link>
               </div>
+              
             </div>
           </div>
         </div>
