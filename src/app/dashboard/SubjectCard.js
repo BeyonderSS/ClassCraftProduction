@@ -10,9 +10,10 @@ const SubjectCard = ({ course, role }) => {
   const handleClosePopup = () => {
     setShowPopup(false);
   };
-  if (role == "Student") {
+  if (role == "Student" && course) {
     return (
       <Link href={`/dashboard/announcement/${course.id}?name=${course.name}`}>
+        
         <motion.article
           initial={{ opacity: 0 }}
           animate={{
