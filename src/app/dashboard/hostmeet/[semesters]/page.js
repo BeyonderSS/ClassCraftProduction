@@ -9,13 +9,13 @@ const Semesters = (props) => {
   const courses = JSON.parse(localStorage.getItem("hostMeetCourses"));
   console.log(courses);
   useEffect(() => {
-    if(courses){
+   
       courses.forEach((course) => {
         if (course._id === courseId) {
           setFilteredCourse(course);
         }
       });
-    }
+    
    
   }, [courseId,courses]);
 
