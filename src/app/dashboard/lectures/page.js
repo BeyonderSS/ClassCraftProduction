@@ -138,7 +138,7 @@ const Lectures = () => {
             )}
           </div>
 
-          <div className="p-2 mx-4 bg-gray-50 rounded-xl md:h-[75vh] overflow-y-auto md:w-[65vh] scrollbar-thumb-blue-400 scrollbar-thin space-y-2 ">
+          <div className="p-2 mx-4 bg-gray-50 rounded-xl md:h-[75vh] overflow-x-hidden overflow-y-auto md:w-[70vh] scrollbar-thumb-blue-400 scrollbar-thin space-y-2 ">
             {fetchedLectures.map((lecture) => (
               <div
                 key={lecture._id}
