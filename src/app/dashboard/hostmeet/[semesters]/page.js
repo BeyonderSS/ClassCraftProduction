@@ -6,18 +6,15 @@ const Semesters = (props) => {
   const [filteredCourse, setFilteredCourse] = useState();
   const [semesters, setSemesters] = useState({});
   const courseId = props.params.semesters;
-  const courses = JSON.parse(localStorage.getItem("hostMeetCourses"));
+  const courses = JSON.parse(localStorage.getItem("courses"));
   console.log(courses);
   useEffect(() => {
-   
-      courses.forEach((course) => {
-        if (course._id === courseId) {
-          setFilteredCourse(course);
-        }
-      });
-    
-   
-  }, [courseId,courses]);
+    courses.forEach((course) => {
+      if (course._id === courseId) {
+        setFilteredCourse(course);
+      }
+    });
+  }, [courseId]);
 
   useEffect(() => {
     // Check if filteredCourse and subjects exist and if subjects is an object

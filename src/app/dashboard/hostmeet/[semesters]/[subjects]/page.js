@@ -12,7 +12,7 @@ const Subjects = (props) => {
 
   const semester = props.params.subjects;
   const courseId = props.params.semesters;
-  const courses = JSON.parse(localStorage.getItem("hostMeetCourses"));
+  const courses = JSON.parse(localStorage.getItem("courses"));
 
   useEffect(() => {
     courses.forEach((course) => {

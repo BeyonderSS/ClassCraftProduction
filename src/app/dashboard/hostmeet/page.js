@@ -15,9 +15,10 @@ const HostMeet = () => {
     if (!session) {
       setLoading(true);
     } else {
-      setRole(session?.user.role);
-      console.log(role);
-      const cachedCourse = JSON.parse(localStorage.getItem("courses"));
+      setRole(session?.user.role)
+      const initialCachedCourse = localStorage.getItem("courses");
+      const cachedCourse = JSON.parse(initialCachedCourse);
+      console.log("cached:", cachedCourse);
       if (!cachedCourse) {
         setLoading(true);
         console.log(session.accessToken);
@@ -25,6 +26,7 @@ const HostMeet = () => {
         async function getCourses(access_token) {
           const accessToken = access_token;
           const Id = session?.user.id;
+          console.log(Id);
           const mongo = await getMongoCourses(
             accessToken,
             session?.user.university,
@@ -34,8 +36,8 @@ const HostMeet = () => {
           console.log("mongocourse:", databaseCourse);
 
           localStorage.setItem(
-            "hostMeetCourses",
-            JSON.stringify(databaseCourse)
+            "courses",
+            JSON.stringify(mongo.databaseCourses)
           );
           // Get the current time in milliseconds
           const currentTime = new Date().getTime();
@@ -47,7 +49,7 @@ const HostMeet = () => {
           const expiryTime = currentTime + oneHourInMilliseconds;
 
           // Store the expiry time in localStorage
-          localStorage.setItem("hostMeetCoursesExpiry", expiryTime);
+          localStorage.setItem("coursesExpiry", expiryTime);
 
           setLoading(false);
         }
@@ -55,28 +57,14 @@ const HostMeet = () => {
         getCourses(session.accessToken);
       } else {
         setDatabaseCourse(cachedCourse);
-        localStorage.setItem("hostMeetCourses", JSON.stringify(cachedCourse));
-        // Get the current time in milliseconds
-        const currentTime = new Date().getTime();
-
-        // Calculate 1 hour in milliseconds (1 hour = 60 minutes * 60 seconds * 1000 milliseconds)
-        const oneHourInMilliseconds = 60 * 60 * 1000;
-
-        // Calculate the expiry time by adding 1 hour to the current time
-        const expiryTime = currentTime + oneHourInMilliseconds;
-
-        // Store the expiry time in localStorage
-        localStorage.setItem("hostMeetCoursesExpiry", expiryTime);
-
         setLoading(false);
       }
     }
   }, [session]);
-  console.log("mongocourse:", databaseCourse);
   useEffect(() => {
     // Function to check and delete "hostMeetCourses" from localStorage
-    const checkAndDeleteHostMeetCourses = () => {
-      const expiryTime = localStorage.getItem("hostMeetCoursesExpiry");
+    const checkAndDeleteCourses = () => {
+      const expiryTime = localStorage.getItem("coursesExpiry");
 
       if (expiryTime) {
         // Convert the expiry time from string to a numeric value (milliseconds)
@@ -91,24 +79,25 @@ const HostMeet = () => {
         // Check if the difference is more than 1 hour (3600000 milliseconds)
         if (timeDifference >= 3600000) {
           // Delete "hostMeetCourses" from localStorage
-          localStorage.removeItem("hostMeetCourses");
+          localStorage.removeItem("courses");
         }
       }
     };
 
     // Call the function when the component mounts
-    checkAndDeleteHostMeetCourses();
+    checkAndDeleteCourses();
 
     // You can also set an interval to check periodically if needed.
     // For example, to check every minute, you can uncomment the following code:
 
     const interval = setInterval(() => {
-      checkAndDeleteHostMeetCourses();
+      checkAndDeleteCourses();
     }, 60000); // 60000 milliseconds = 1 minute
 
     // Clean up the interval when the component unmounts
     return () => clearInterval(interval);
   }, []);
+  console.log("mongocourse:", databaseCourse);
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen bg-[#F4F6F8]">
