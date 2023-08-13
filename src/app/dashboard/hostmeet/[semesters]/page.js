@@ -9,12 +9,15 @@ const Semesters = (props) => {
   const courses = JSON.parse(localStorage.getItem("hostMeetCourses"));
   console.log(courses);
   useEffect(() => {
-    courses.forEach((course) => {
-      if (course._id === courseId) {
-        setFilteredCourse(course);
-      }
-    });
-  }, [courseId]);
+    if(courses){
+      courses.forEach((course) => {
+        if (course._id === courseId) {
+          setFilteredCourse(course);
+        }
+      });
+    }
+   
+  }, [courseId,courses]);
 
   useEffect(() => {
     // Check if filteredCourse and subjects exist and if subjects is an object
