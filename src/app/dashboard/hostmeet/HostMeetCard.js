@@ -3,6 +3,7 @@ import {  motion } from "framer-motion";
 import Link from "next/link";
 
 const HostMeetCard = ({ course }) => {
+  if ( course) {
   return (
     <div>
       <motion.article
@@ -46,5 +47,6 @@ const HostMeetCard = ({ course }) => {
     </div>
   );
 };
+}
 
 export default HostMeetCard;
