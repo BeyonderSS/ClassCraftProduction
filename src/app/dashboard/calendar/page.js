@@ -148,7 +148,11 @@ const Calendar = () => {
   }
 
   const daysInMonth = getDaysInMonth();
-  const firstDayOfMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1).getDay();
+  const firstDayOfMonth = new Date(
+    currentMonth.getFullYear(),
+    currentMonth.getMonth(),
+    1
+  ).getDay();
 
   return (
     <div className="h-screen flex flex-col items-center justify-center bg-gray-200">
@@ -183,7 +187,11 @@ const Calendar = () => {
           ))}
           {Array.from({ length: daysInMonth + firstDayOfMonth }, (_, index) => {
             const day = index + 1 - firstDayOfMonth;
-            const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
+            const date = new Date(
+              currentMonth.getFullYear(),
+              currentMonth.getMonth(),
+              day
+            );
             const isCurrentDate =
               isCurrentMonth(date) && day === selectedDate?.day;
             const isPast = isPastDate(date) && !isCurrentDate;
@@ -193,7 +201,7 @@ const Calendar = () => {
             return (
               <div
                 key={day}
-                className={`text-center cursor-pointer rounded-full py-2 ${
+                className={`text-center cursor-pointer rounded-xl  md:p-2 py-2 ${
                   isCurrentDate
                     ? "bg-blue-500 text-white"
                     : isPast
@@ -204,7 +212,7 @@ const Calendar = () => {
               >
                 {day > 0 ? day : ""}
                 {lecturesForDate.length > 0 && (
-                  <div className="text-xs font-normal mt-1">
+                  <div className="md:text-sm text-xs mt-1">
                     {lecturesForDate.length} Lecture(s)
                   </div>
                 )}
@@ -219,13 +227,13 @@ const Calendar = () => {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
-            className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-60"
+            className="fixed top-0 left-0 w-full h-full  flex justify-center items-center bg-black bg-opacity-60 scrollbar-thumb-blue-500"
           >
             <motion.div
               initial={{ y: -100, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -100, opacity: 0 }}
-              className="bg-white p-4 rounded-lg"
+              className="bg-white p-4 rounded-lg h-96 overflow-y-scroll w-96  scrollbar-thumb-blue-500 scrollbar-thin"
             >
               <div className="flex justify-end">
                 <motion.button
