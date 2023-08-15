@@ -8,27 +8,109 @@ import CustomVideoPlayer from "../CustomVideoPlayer";
 import { useSession } from "next-auth/react";
 import getMongoLectures from "@/lib/fetchcalender";
 import { FaCalendarAlt, FaClock } from "react-icons/fa";
+import { AiOutlineClockCircle } from "react-icons/ai";
+import { BiCalendarPlus } from "react-icons/bi";
+import { BarLoader } from "react-spinners";
 
 const Lectures = () => {
   const { data: session } = useSession();
   const [selectedTab, setSelectedTab] = useState("Lectures");
   const [showPopup, setShowPopup] = useState(false);
+  const [showAddLecturesPopup, setShowAddLecturesPopup] = useState(false);
+  const [courses, setCourses] = useState([]);
+  const [selectedCourseId, setSelectedCourseId] = useState("");
   const [fetchedLectures, setFetchedLectures] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [progressloading, setProgressLoading] = useState(false);
+
   const [selectedLecture, setSelectedLecture] = useState(null);
   const [youtubeLink, setYoutubeLink] = useState("");
   const [error, setError] = useState(null);
   const role = session?.user.role;
-
+  const [meetingData, setMeetingData] = useState({
+    topic: "",
+    location: "Online",
+    description: "",
+    startDateTime: "", // Will be set by user input
+    endDateTime: "", // Will be set by user input
+    timeZone: "America/New_York",
+    semester: "",
+    youtubeLink: "",
+  });
   const handleLectureClick = (lecture) => {
     setSelectedLecture(lecture);
   };
 
+  const handleInputChange = (e) => {
+    setMeetingData({
+      ...meetingData,
+      [e.target.name]: e.target.value,
+    });
+  };
+  useEffect(() => {
+    const coursesData = JSON.parse(localStorage.getItem("courses")) || [];
+    setCourses(coursesData);
+  }, []);
+  const handleCourseChange = (event) => {
+    const selectedCourseName = event.target.value;
+    const selectedCourse = courses.find(
+      (course) => course.courseName === selectedCourseName
+    );
+    if (selectedCourse) {
+      setSelectedCourseId(selectedCourse._id);
+    } else {
+      setSelectedCourseId("");
+    }
+  };
+
+  const handleGenerateLectures = async () => {
+    try {
+      setProgressLoading(true);
+      setError(null);
+      // Convert the startDateTime and endDateTime to ISO 8601 format
+      const startDateString = `${meetingData.date}T${meetingData.startDateTime}:00`;
+      const endDateString = `${meetingData.date}T${meetingData.endDateTime}:00`;
+
+      const startDate = new Date(startDateString);
+      const endDate = new Date(endDateString);
+
+      meetingData.startDateTime = startDate.toISOString();
+      meetingData.endDateTime = endDate.toISOString();
+      var formattedSemester = "Semester" + meetingData.semester;
+
+      const hostMeetRequest = await fetch("/api/hostmeet", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          university: session.user.university,
+          date: meetingData.date, // Use the user-provided date
+          startTime: meetingData.startDateTime,
+          endTime: meetingData.endDateTime,
+          topic: meetingData.topic,
+          subjectId: null,
+          semester: formattedSemester,
+          courseId: selectedCourseId,
+          meetlink: null,
+          youtubeLink: meetingData.youtubeLink,
+        }),
+      });
+      console.log(meetingData);
+      setShowAddLecturesPopup(false);
+      setProgressLoading(false);
+    } catch (error) {
+      setError("Failed to Create an Lecture. Please try again later.");
+    }
+  };
   const handleShowPopupAndSelectLecture = (lecture) => {
     setShowPopup(true);
     setSelectedLecture(lecture);
   };
 
+  const handleShowAddLecturesPopup = () => {
+    setShowAddLecturesPopup(true);
+  };
   const handleLinkSubmit = async () => {
     try {
       setError(null);
@@ -81,7 +163,7 @@ const Lectures = () => {
       fetchLecturesAndLog();
     }
   }, [session]);
-
+  console.log(selectedTab);
   if (loading) {
     return (
       <div className="flex h-screen justify-center items-center">
@@ -110,10 +192,20 @@ const Lectures = () => {
                 selectedTab === "Add Link"
                   ? "bg-blue-500 text-white"
                   : "bg-gray-200 text-gray-700"
-              } px-4 py-2 rounded-md transition-colors duration-300`}
+              } px-4 py-2 rounded-md mr-2 transition-colors duration-300`}
               onClick={() => setSelectedTab("Add Link")}
             >
               Add Link
+            </button>
+            <button
+              className={`${
+                selectedTab === "Add Lectures"
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-200 text-gray-700"
+              } px-4 py-2 rounded-md transition-colors duration-300`}
+              onClick={() => setSelectedTab("Add Lectures")}
+            >
+              Add Lectures
             </button>
           </div>
         </div>
@@ -209,6 +301,131 @@ const Lectures = () => {
           </div>
         </div>
       )}
+      {selectedTab === "Add Lectures" && (
+        <div className="flex justify-center items-center">
+          <button
+            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-xl shadow transition ease-in-out duration-500"
+            onClick={handleShowAddLecturesPopup}
+          >
+            Make a Lecture Entry
+          </button>
+        </div>
+      )}
+      <AnimatePresence>
+        {showAddLecturesPopup && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0 }}
+            className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-opacity-75 backdrop-blur-sm bg-gray-900 z-50"
+          >
+            <div className="bg-white p-6 rounded-lg shadow-md w-96">
+              <div className="flex items-center justify-between mb-4">
+                <h1>Generate Lectures</h1>
+                <button
+                  className="text-gray-500 hover:text-gray-700 "
+                  onClick={() => setShowAddLecturesPopup(false)}
+                >
+                  <CgClose size={20} />
+                </button>
+              </div>
+              <div className="space-y-4">
+                {/* User input for date */}
+                <div>
+                  <label className="font-bold">Date</label>
+                  <input
+                    className="border border-gray-300 rounded-md p-2 w-full"
+                    type="date"
+                    name="date"
+                    value={meetingData.date}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                {/* User input for start time */}
+                <div className="flex items-center space-x-4">
+                  <AiOutlineClockCircle size={24} />
+                  <label className="font-bold">Start Time</label>
+                  <input
+                    className="border border-gray-300 rounded-md p-2"
+                    type="time"
+                    name="startDateTime"
+                    value={meetingData.startDateTime}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                {/* User input for end time */}
+                <div className="flex items-center space-x-4">
+                  <BiCalendarPlus size={24} />
+                  <label className="font-bold">End Time</label>
+                  <input
+                    className="border border-gray-300 rounded-md p-2"
+                    type="time"
+                    name="endDateTime"
+                    value={meetingData.endDateTime}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                {/* User input for topic */}
+                <div>
+                  <label className="font-bold">Topic</label>
+                  <input
+                    className="border border-gray-300 rounded-md p-2 w-full"
+                    type="text"
+                    name="topic"
+                    value={meetingData.topic}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                {/* User input for batch */}
+                <div>
+                  <label className="font-bold">Semester</label>
+                  <input
+                    className="border border-gray-300 rounded-md p-2 w-full"
+                    type="number"
+                    name="semester"
+                    value={meetingData.semester}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                {/* User input for Youtube Link */}
+                <div>
+                  <label className="font-bold">Youtube Link</label>
+                  <input
+                    className="border border-gray-300 rounded-md p-2 w-full"
+                    type="text"
+                    name="youtubeLink"
+                    value={meetingData.youtubeLink}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div>
+                  <select onChange={handleCourseChange}>
+                    <option value="">Select a course</option>
+                    {courses.map((course) => (
+                      <option key={course._id} value={course.courseName}>
+                        {course.courseName}
+                      </option>
+                    ))}
+                  </select>
+                  {selectedCourseId && <p>Course ID: {selectedCourseId}</p>}
+                </div>
+                {progressloading ? (
+                  <button className="p-2 text-white font-semibold bg-blue-400 rounded-3xl hover:bg-blue-800 hover:text-gray-100 transition ease-in-out duration-500">
+                    <BarLoader />
+                  </button>
+                ) : (
+                  <button
+                    className="p-2 text-white font-semibold bg-blue-400 rounded-3xl hover:bg-blue-800 hover:text-gray-100 transition ease-in-out duration-500"
+                    onClick={handleGenerateLectures}
+                  >
+                    Submit
+                  </button>
+                )}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
       <AnimatePresence>
         {showPopup && (
           <motion.div
