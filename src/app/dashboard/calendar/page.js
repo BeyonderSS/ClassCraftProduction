@@ -135,10 +135,10 @@ const Calendar = () => {
           (new Date(event.end.dateTime) - new Date(event.start.dateTime)) /
             (1000 * 60)
         ),
-        meetlink: event.htmlLink,
+        meetlink: event.hangoutLink,
       }));
   };
-
+console.log(selectedDate)
   if (loading) {
     return (
       <div className="h-screen flex justify-center items-center">
