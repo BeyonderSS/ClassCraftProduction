@@ -107,11 +107,12 @@ const Lectures = () => {
         location: "Online",
         description: "",
         startDateTime: "",
-        endDateTime: "", 
+        endDateTime: "",
         timeZone: "America/New_York",
         semester: "",
         youtubeLink: "",
       });
+      setSelectedCourseId("");
     }
   };
   const handleShowPopupAndSelectLecture = (lecture) => {
