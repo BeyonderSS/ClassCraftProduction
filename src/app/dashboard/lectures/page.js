@@ -163,7 +163,6 @@ const Lectures = () => {
       fetchLecturesAndLog();
     }
   }, [session]);
-  console.log(selectedTab);
   if (loading) {
     return (
       <div className="flex h-screen justify-center items-center">
@@ -218,10 +217,10 @@ const Lectures = () => {
           }`}
         >
           <div className="md:ml-36 w-full h-[90vh] ">
-            {selectedLecture.youtubeLink && (
+            {selectedLecture && (
               <CustomVideoPlayer videoLink={selectedLecture.youtubeLink} />
             )}
-            {!selectedLecture.youtubeLink && (
+            {selectedLecture && !selectedLecture.youtubeLink && (
               <div className="flex justify-center items-center bg-blue-600 rounded-lg p-8 shadow-md">
                 <h1 className="text-4xl font-bold text-white text-center">
                   Oopsie-daisy! 🌸 Lecture Not Uploaded Yet!
