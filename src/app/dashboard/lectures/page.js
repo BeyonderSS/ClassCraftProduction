@@ -101,6 +101,17 @@ const Lectures = () => {
       setProgressLoading(false);
     } catch (error) {
       setError("Failed to Create an Lecture. Please try again later.");
+    } finally {
+      setMeetingData({
+        topic: "",
+        location: "Online",
+        description: "",
+        startDateTime: "",
+        endDateTime: "", 
+        timeZone: "America/New_York",
+        semester: "",
+        youtubeLink: "",
+      });
     }
   };
   const handleShowPopupAndSelectLecture = (lecture) => {
