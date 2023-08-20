@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import listCourses from "@/lib/listCourses";
-import createCourse from "@/lib/createCourse";
 import addStudentsToCourse from "@/lib/addStudentsToCourse";
 import inviteTeachersToCourse from "@/lib/inviteTeachersToCourse";
 import listAnnouncements from "@/lib/listAnnouncements";
