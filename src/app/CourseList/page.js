@@ -13,6 +13,7 @@ import VideoPlayer from "./VideoPlayer";
 import ReactPlayer from "react-player";
 import InviteForm from "./Invite";
 import CustomVideoPlayer from "../dashboard/CustomVideoPlayer";
+import Upload from "./Upload";
 
 const CourseList = () => {
   const [courses, setCourses] = useState([]);
@@ -176,6 +177,7 @@ const CourseList = () => {
       <button onClick={handleGenerateMeeting}>Generate Meeting</button>
       <InviteForm/> */}
       <CustomVideoPlayer videoLink={"https://www.youtube.com/watch?v=fLh4jYrPjNM"}/>
+    <Upload/>
     </div>
   );
 };
