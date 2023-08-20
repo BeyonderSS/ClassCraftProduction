@@ -24,7 +24,7 @@ const Header = () => {
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: -100, opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed left-0 z-50 md:hidden "
+            className="fixed left-0 z-50 lg:hidden "
           >
             <SideBar toggle={toggleOpen} role={session?.user.role} />
           </motion.section>
@@ -37,7 +37,7 @@ const Header = () => {
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: "-100%", opacity: 0 }}
             transition={{ duration: 1 }}
-            className="hidden fixed left-0 z-50 md:block"
+            className="hidden fixed left-0 z-50 lg:block"
           >
             <SideBar toggle={toggleOpen} role={session?.user.role } />
           </motion.section>
@@ -45,7 +45,7 @@ const Header = () => {
       </AnimatePresence>
 
       <nav
-        className={`fixed top-0 md:pl-24 w-full py-6 backdrop-blur-sm ${
+        className={`fixed top-0 lg:pl-24 w-full py-6 backdrop-blur-sm ${
           currentPath == "/dashboard" ? "lg:hidden" : ""
         }`}
       >
@@ -59,19 +59,19 @@ const Header = () => {
               className="flex justify-between items-center mx-10"
             >
               {isOpen ? (
-                <button onClick={() => toggleOpen()} className="  md:hidden ">
+                <button onClick={() => toggleOpen()} className="  lg:hidden ">
                   <RxCross2 className=" text-gray-600 text-2xl" />
                 </button>
               ) : (
-                <button className=" md:hidden" onClick={() => toggleOpen()}>
+                <button className=" lg:hidden" onClick={() => toggleOpen()}>
                   <HiOutlineMenuAlt2 className=" text-gray-600 text-3xl" />
                 </button>
               )}
-              <h1 className="hidden md:block text-3xl font-normal text-gray-800">
+              <h1 className="hidden lg:block text-3xl font-normal text-gray-800">
                 Welcome, {session?.user?.name.split(" ")[0]}!
               </h1>
 
-              <h1 className="text-2xl font-semibold text-gray-900 md:hidden">
+              <h1 className="text-2xl font-semibold text-gray-900 lg:hidden">
                 ClassCraft
               </h1>
               <div>

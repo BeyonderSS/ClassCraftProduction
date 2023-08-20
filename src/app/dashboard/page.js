@@ -114,10 +114,10 @@ function Dashboard() {
       animate={{ opacity: 1 }}
       className="  flex justify-between items-center"
     >
-      <div className="h-screen  lg:pl-32 py-10 mx-auto pr-[50vh] w-full  ">
+      <div className="h-screen  lg:pl-32 py-10 mx-auto lg:pr-[50vh] w-full  ">
         <div className="flex justify-between">
           <div className="flex flex-col w-[70vh]">
-            <h1 className="text-sm text-gray-600">
+            <h1 className="text-sm text-gray-600 md:hidden">
               Hi, {session?.user?.name.split(" ")[0]}
             </h1>
             <div className="my-10 mx-10">
@@ -125,29 +125,20 @@ function Dashboard() {
                 {slogans[role]}
               </p>
             </div>
-            {/* <Link
-              className="fancy w-72 p-10 my-10 rounded-full flex justify-center items-center  mx-10"
-              href="/"
-            >
-              <span className="top-key"></span>
-              <span className="text text-2xl">Get Started</span>
-              <span className="bottom-key-1"></span>
-              <span className="bottom-key-2"></span>
-            </Link> */}
           </div>
           <div className="flex justify-end items-center w-[60vh]">
             <img
               src="/dashHome.svg"
               alt=""
-              className="h-[60vh] lg:block md:block hidden "
+              className="h-[60vh] lg:block  hidden "
             />
           </div>
         </div>
         <div className="flex justify-center items-center w-full ">
-          <div className="grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 w-full ">
-            <div className="progressCard md:h-80 h-40 w-72 md:w-[55vh] m-6">
+          <div className="grid lg:grid-cols-2  grid-cols-1 w-full ">
+            <div className="progressCard lg:h-80 h-52 w-auto lg:w-[55vh] m-6">
               <img
-                className="progressImg md:h-72 h-36"
+                className="progressImg lg:h-72 h-36"
                 src={`/progressCard1.svg`}
                 alt=""
               />
@@ -157,9 +148,9 @@ function Dashboard() {
                 <p className="text price">Comming Soon</p>
               </div>
             </div>
-            <div className="progressCard md:h-80 h-40 w-72 md:w-[55vh] m-6">
+            <div className="progressCard lg:h-80 h-52 w-auto lg:w-[55vh] m-6">
               <img
-                className="progressImg md:h-72 h-36"
+                className="progressImg lg:h-72 h-36"
                 src={`/progressCard1.svg`}
                 alt=""
               />
@@ -169,9 +160,9 @@ function Dashboard() {
                 <p className="text price">Comming Soon</p>
               </div>
             </div>{" "}
-            <div className="progressCard md:h-80 h-40 w-72 md:w-[55vh] m-6">
+            <div className="progressCard lg:h-80 h-52 w-auto lg:w-[55vh] m-6">
               <img
-                className="progressImg md:h-72 h-36"
+                className="progressImg lg:h-72 h-36"
                 src={`/progressCard1.svg`}
                 alt=""
               />
@@ -181,25 +172,24 @@ function Dashboard() {
                 <p className="text price">Comming Soon</p>
               </div>
             </div>
-            <div className="progressCard md:h-80 h-40 w-72 md:w-[55vh] m-6">
+            <div className="progressCard lg:h-80 h-52 w-auto lg:w-[55vh] m-6">
               <img
-                className="progressImg md:h-72 h-36"
+                className="progressImg lg:h-72 h-36"
                 src="/learnMore.svg"
                 alt=""
               />
               <div className="progressTextBox">
                 <p className="text head">Explore</p>
-              <Link href={'https://www.parasmanieducation.com/#courses'}>
-                <span>Possibilities</span>
-                <p className="text price">Learn More ...</p>
-              </Link>
+                <Link href={"https://www.parasmanieducation.com/#courses"}>
+                  <span>Possibilities</span>
+                  <p className="text price">Learn More ...</p>
+                </Link>
               </div>
-              
             </div>
           </div>
         </div>
       </div>
-      <div className="fixed  right-0 md:block hidden z-50">
+      <div className="fixed  right-0 lg:block hidden z-50">
         <div className=" h-screen bg bg-gray-200 w-[50vh] py-8 rounded-xl flex flex-col items-center justify-between overflow-hidden">
           <div className="flex flex-col justify-center items-center">
             <img
@@ -261,7 +251,6 @@ function Dashboard() {
               </article>
             </Link>
           )}
-          {/* </Carousel> */}
         </div>
       </div>
     </motion.div>
