@@ -2,8 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import WifiLoader from "@/app/WifiLoader";
-import getMongoCourses from "@/lib/mongocoursefetch";
+import WifiLoader from "../../../app/WifiLoader";
+import getMongoCourses from "../../../lib/mongocoursefetch";
 import CourseCard from "./CourseCard";
 
 const Courses = () => {

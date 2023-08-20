@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import { FiChevronLeft, FiChevronRight, FiX } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSession } from "next-auth/react";
-import WifiLoader from "@/app/WifiLoader";
-import fetchGoogleCalendar from "@/lib/fetchgooglecalender";
+import WifiLoader from "../../../app/WifiLoader";
+import fetchGoogleCalendar from "../../../lib/fetchgooglecalender";
 
 const Calendar = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());

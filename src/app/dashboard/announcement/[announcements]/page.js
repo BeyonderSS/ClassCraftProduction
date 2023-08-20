@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import AnnouncementCard from "../../AnnouncementCard";
-import listAnnouncements from "@/lib/listAnnouncements";
+import listAnnouncements from "../../../../lib/listAnnouncements";
 import { useSession } from "next-auth/react";
 import AnnouncementsSkeleton from "../../AnnouncementsSkeleton";
 

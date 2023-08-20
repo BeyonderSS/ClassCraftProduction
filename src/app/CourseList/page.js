@@ -1,10 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import listCourses from "@/lib/listCourses";
+import listCourses from "../../lib/listCourses";
 
-import generateMeeting from "@/lib/generateMeeting"; 
-import createAnnouncement from "@/lib/createAnnouncement";
+import generateMeeting from "../../lib/generateMeeting"; 
 
 import CustomVideoPlayer from "../dashboard/CustomVideoPlayer";
 import Upload from "./Upload";

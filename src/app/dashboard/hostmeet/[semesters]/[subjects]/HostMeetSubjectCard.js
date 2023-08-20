@@ -5,10 +5,10 @@ import { AiOutlineClockCircle } from "react-icons/ai";
 import { BiCalendarPlus } from "react-icons/bi";
 import { CgClose } from "react-icons/cg";
 import { BarLoader } from "react-spinners";
-import generateMeeting from "@/lib/generateMeeting";
-import createAnnouncement from "@/lib/createAnnouncement";
+import generateMeeting from "../../../../../lib/generateMeeting";
+import createAnnouncement from "../../../../../lib/createAnnouncement";
 import Link from "next/link";
-import fetchUserEmail from "@/lib/fetchUserEmailUsingCourseId";
+import fetchUserEmail from "../../../../../lib/fetchUserEmailUsingCourseId";
 
 const HostMeetSubjectCard = ({ course, semester, courseId }) => {
   const [showPopup, setShowPopup] = useState(false);

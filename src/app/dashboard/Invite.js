@@ -5,9 +5,9 @@ import { motion } from "framer-motion";
 import { FaUserGraduate, FaChalkboardTeacher } from "react-icons/fa";
 import { BarLoader } from "react-spinners";
 
-import inviteStudentsToCourse from "@/lib/addStudentsToCourse";
-import inviteTeachersToCourse from "@/lib/inviteTeachersToCourse";
-import updateCourseStudentEnrolled from "@/lib/updateCourseStudentEnrolled";
+import inviteStudentsToCourse from "../../lib/addStudentsToCourse";
+import inviteTeachersToCourse from "../../lib/inviteTeachersToCourse";
+import updateCourseStudentEnrolled from "../../lib/updateCourseStudentEnrolled";
 
 const Invite = ({ courseId, documentId }) => {
   const [selectedTab, setSelectedTab] = useState("Student");

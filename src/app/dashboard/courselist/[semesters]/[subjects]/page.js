@@ -1,5 +1,5 @@
 "use client";
-import SubjectCard from "@/app/dashboard/SubjectCard";
+import SubjectCard from "../../../../../app/dashboard/SubjectCard";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 

@@ -7,7 +7,7 @@ import {
 } from "react-icons/bs";
 import { AnimatePresence, motion, useAnimation } from "framer-motion";
 import { BiRightArrow, BiLeftArrow } from "react-icons/bi";
-import { getYoutubeVideoUrl } from "@/lib/streamUrl";
+import { getYoutubeVideoUrl } from "../../lib/streamUrl";
 import WifiLoader from "../WifiLoader";
 
 const CustomVideoPlayer = ({ videoLink }) => {
