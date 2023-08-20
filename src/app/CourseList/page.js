@@ -2,15 +2,10 @@
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import listCourses from "@/lib/listCourses";
-import addStudentsToCourse from "@/lib/addStudentsToCourse";
-import inviteTeachersToCourse from "@/lib/inviteTeachersToCourse";
-import listAnnouncements from "@/lib/listAnnouncements";
+
 import generateMeeting from "@/lib/generateMeeting"; 
 import createAnnouncement from "@/lib/createAnnouncement";
-import UploadVideoForm from "./UploadVideoForm";
-import VideoPlayer from "./VideoPlayer";
-import ReactPlayer from "react-player";
-import InviteForm from "./Invite";
+
 import CustomVideoPlayer from "../dashboard/CustomVideoPlayer";
 import Upload from "./Upload";
 
