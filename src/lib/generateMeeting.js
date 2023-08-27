@@ -25,9 +25,11 @@ async function generateMeeting(accessToken, meetingData) {
         conferenceSolutionKey: {
           type: "hangoutsMeet",
         },
-        // Set the conference parameters to allow guests to modify the meeting
+        // Set the conference parameters to automatically admit attendees
         parameters: {
-          guests_can_modify: true,
+          admissionRestrictions: {
+            admittedAttendees: { allUsers: true },
+          },
         },
       },
     },
