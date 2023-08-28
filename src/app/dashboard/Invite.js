@@ -48,11 +48,7 @@ const handleInviteClick = async () => {
 
     // First, invite students or teachers using the existing functions
     try {
-      if (selectedTab === "Student") {
-        await inviteStudentsToCourse(access_token, courseId, emails);
-      } else {
-        await inviteTeachersToCourse(access_token, courseId, emails);
-      }
+     
     } catch (inviteError) {
       // Handle invite error
       console.error("Error inviting users:", inviteError);
