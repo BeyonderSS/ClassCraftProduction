@@ -1,4 +1,3 @@
-"use client";
 import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { motion } from "framer-motion";
@@ -13,15 +12,21 @@ const Invite = ({ courseId, documentId }) => {
   const [selectedTab, setSelectedTab] = useState("Student");
   const [disabled, setDisabled] = useState(true);
   const [emails, setEmails] = useState([]);
+  const [teacherSubjects, setTeacherSubjects] = useState([]);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(false); // New state
+  const [isLoading, setIsLoading] = useState(false);
   const { data: session } = useSession();
   const access_token = session.accessToken;
-  const university=session.user.university;
+  const university = session.user.university;
 
+  const subjectNames = courseId.map((course) => course.subjectName);
+  const subjectIdMap = {};
+  courseId.forEach((course) => {
+    subjectIdMap[course.subjectName] = course.Id;
+  });
 
-
+  console.log(teacherSubjects);
   const handleEmailInput = (e) => {
     const value = e.target.value.trim();
     if (value && !emails.includes(value)) {
@@ -41,39 +46,40 @@ const Invite = ({ courseId, documentId }) => {
   const handleRemoveEmail = (email) => {
     setEmails(emails.filter((e) => e !== email));
   };
-console.log(emails)
-const handleInviteClick = async () => {
-  try {
-    setIsLoading(true); // Show loader
 
-    // First, invite students or teachers using the existing functions
-   
-
-    // After inviting students/teachers successfully, update the course with the new emails
+  const handleInviteClick = async () => {
     try {
-      await updateCourseStudentEnrolled(emails, documentId, university, selectedTab);
-    } catch (updateError) {
-      // Handle update error
-      console.error("Error updating course:", updateError);
-      setErrorMessage("Error updating course. Please try again.");
-      setIsLoading(false); // Hide loader
-      return;
+      setIsLoading(true);
+
+      // First, invite students or teachers using the existing functions
+
+      try {
+        await updateCourseStudentEnrolled(
+          emails,
+          documentId,
+          university,
+          selectedTab,
+          teacherSubjects
+        );
+      } catch (updateError) {
+        console.error("Error updating course:", updateError);
+        setErrorMessage("Error updating course. Please try again.");
+        setIsLoading(false);
+        return;
+      }
+
+      setSuccessMessage(
+        `Invited ${emails.length} ${selectedTab} successfully and updated the course!`
+      );
+      setEmails([]);
+      setErrorMessage("");
+    } catch (error) {
+      console.error("Unknown error:", error);
+      setErrorMessage("An unknown error occurred. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
-
-    // If both the invite and update operations were successful, set the success message
-    setSuccessMessage(`Invited ${emails.length} ${selectedTab} successfully and updated the course!`);
-    setEmails([]);
-    setErrorMessage("");
-  } catch (error) {
-    console.error("Unknown error:", error);
-    setErrorMessage("An unknown error occurred. Please try again.");
-  } finally {
-    setIsLoading(false); // Hide loader
-  }
-};
-
-  
-  
+  };
 
   const handleKeyDown = (e) => {
     if (e.key === " " || e.key === "Enter") {
@@ -131,12 +137,45 @@ const handleInviteClick = async () => {
           className="border border-gray-400 px-2 py-1 rounded-md focus:outline-none focus:ring focus:border-blue-500"
           onKeyDown={handleKeyDown}
         />
+        {selectedTab === "Teacher" && (
+          <div className="mt-2 max-h-40 overflow-y-auto">
+            <label className="block font-medium">Select Subjects:</label>
+            <div className="mt-2 space-y-2">
+              {subjectNames.map((subjectName) => (
+                <label key={subjectName} className="flex items-center">
+                  <input
+                    type="checkbox"
+                    className="mr-2 form-checkbox"
+                    checked={teacherSubjects.includes(
+                      subjectIdMap[subjectName]
+                    )}
+                    onChange={() => {
+                      if (teacherSubjects.includes(subjectIdMap[subjectName])) {
+                        setTeacherSubjects(
+                          teacherSubjects.filter(
+                            (id) => id !== subjectIdMap[subjectName]
+                          )
+                        );
+                      } else {
+                        setTeacherSubjects([
+                          ...teacherSubjects,
+                          subjectIdMap[subjectName],
+                        ]);
+                      }
+                    }}
+                  />
+                  {subjectName}
+                </label>
+              ))}
+            </div>
+          </div>
+        )}
         <button
           className="bg-blue-500 text-white px-4 py-2 rounded-md mt-4 transition-colors duration-300 hover:bg-blue-600 focus:outline-none"
           onClick={handleInviteClick}
-          disabled={disabled || isLoading} // Disable button when loading
+          disabled={disabled || isLoading}
         >
-          {isLoading ? ( // Display loader when loading
+          {isLoading ? (
             <div className="flex justify-center items-center">
               <BarLoader color="#ffffff" loading={isLoading} />
             </div>

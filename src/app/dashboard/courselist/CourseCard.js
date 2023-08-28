@@ -15,12 +15,12 @@ const CourseCard = ({ course, role }) => {
   // console.log(course._id);
   // Extract all Id values from nested objects and store them in an array
   const extractIds = (subjects) => {
-    const allIds = [];
+    const allIds=[]
     for (const key in subjects) {
       if (Array.isArray(subjects[key])) {
         for (const subject of subjects[key]) {
           if (subject.Id) {
-            allIds.push(subject.Id);
+            allIds.push(subject);
           }
         }
       }
@@ -153,7 +153,8 @@ const CourseCard = ({ course, role }) => {
                 </div>
                 <p className="text-gray-700 mb-2"></p>
                 <div className="">
-                  <Invite courseId={allIds} documentId={course._id} />
+                  
+                  <Invite  courseId={allIds} documentId={course._id} />
                 </div>
               </div>
             </motion.div>

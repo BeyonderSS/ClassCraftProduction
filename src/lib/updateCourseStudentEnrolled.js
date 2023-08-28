@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 
 const mongodbUrl = process.env.MONGODB_URI;
 
-export default async function updateCourseStudentEnrolled(emails, courseId, universityId, role) {
+export default async function updateCourseStudentEnrolled(emails, courseId, universityId, role, subjectIds) {
   try {
     if (!Array.isArray(emails)) {
       throw new Error('Emails must be provided as an array.');
@@ -33,9 +33,10 @@ export default async function updateCourseStudentEnrolled(emails, courseId, univ
         // If the user does not exist, create a new user
         const newUser = new User({
           email,
-          university: universityId, // Assuming "universityId" is the ObjectId of the university
-          role: role || null, // Set the role or default to null if not provided
-          courses: [new mongoose.Types.ObjectId(courseId)], // Add the courseIdObject to the courses array of the new user
+          university: universityId,
+          role: role || null,
+          courses: [new mongoose.Types.ObjectId(courseId)],
+          subject: role === 'Teacher' ? subjectIds || [] : [],
         });
 
         user = await newUser.save();
@@ -47,8 +48,15 @@ export default async function updateCourseStudentEnrolled(emails, courseId, univ
         // Use toString() to compare ObjectIds as strings
         if (!user.courses.some(id => id.toString() === courseIdObject.toString())) {
           user.courses.push(courseIdObject);
-          await user.save();
         }
+
+        if (role === 'Teacher') {
+          // Update subjectIds for the user's subjects array
+          user.subject = subjectIds || [];
+        }
+
+        // Save the updated user document
+        await user.save();
       }
     }
 
