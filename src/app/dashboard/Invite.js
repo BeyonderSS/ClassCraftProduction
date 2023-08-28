@@ -47,15 +47,7 @@ const handleInviteClick = async () => {
     setIsLoading(true); // Show loader
 
     // First, invite students or teachers using the existing functions
-    try {
-     
-    } catch (inviteError) {
-      // Handle invite error
-      console.error("Error inviting users:", inviteError);
-      setErrorMessage("Error inviting users. Please try again.");
-      setIsLoading(false); // Hide loader
-      return;
-    }
+   
 
     // After inviting students/teachers successfully, update the course with the new emails
     try {
