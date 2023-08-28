@@ -1,7 +1,12 @@
 "use server";
 import { MongoClient, ObjectId } from "mongodb";
 
-async function listAnnouncements(subjectId, courseId) {
+async function setNotesLink(
+  subjectId,
+  unitName,
+  fileLink,
+  courseId
+) {
   const uri = process.env.MONGODB_URI;
   const client = new MongoClient(uri);
 
@@ -21,7 +26,6 @@ async function listAnnouncements(subjectId, courseId) {
     }
 
     let subjectFound = false;
-    let notes = [];
 
     for (const semesterSubjects of Object.values(course.subjects)) {
       const matchingSubject = semesterSubjects.find(
@@ -29,7 +33,8 @@ async function listAnnouncements(subjectId, courseId) {
       );
 
       if (matchingSubject) {
-        notes = matchingSubject.notes || [];
+        matchingSubject.notes = matchingSubject.notes || [];
+        matchingSubject.notes.push({ unitName, fileLink });
         subjectFound = true;
         break; // No need to check other semesters
       }
@@ -39,7 +44,9 @@ async function listAnnouncements(subjectId, courseId) {
       return "Subject not found";
     }
 
-    return notes;
+    await courses.updateOne(query, { $set: { subjects: course.subjects } });
+
+    return "Updated notes successfully";
   } catch (error) {
     return `An error occurred: ${error.message}`;
   } finally {
@@ -47,4 +54,4 @@ async function listAnnouncements(subjectId, courseId) {
   }
 }
 
-export default listAnnouncements;
+export default setNotesLink;

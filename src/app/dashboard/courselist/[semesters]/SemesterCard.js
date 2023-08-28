@@ -3,7 +3,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { LuMailPlus } from "react-icons/lu";
 const SemesterCard = ({ SemesterName, subjects, semesterId }) => {
-  console.log(subjects[0].Id);
   return (
     <motion.article
       initial={{ opacity: 0 }}

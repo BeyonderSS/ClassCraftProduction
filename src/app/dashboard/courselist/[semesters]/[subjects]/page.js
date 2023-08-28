@@ -9,7 +9,6 @@ const Subjects = (props) => {
 
   const [semesters, setSemesters] = useState({});
   const [semesterSubjects, setSemesterSubjects] = useState([]);
-  
   const semester = props.params.subjects;
   const courseId = props.params.semesters;
   const courses = JSON.parse(localStorage.getItem("courses"));
@@ -54,7 +53,7 @@ const Subjects = (props) => {
       setSemesterSubjects([]);
     }
   }, [semesters, semester]);
-
+  console.log(semesterSubjects);
   return (
     <div className="lg:pl-28 pt-24 overflow-x-hidden bg-[#F4F6F8] py-6 h-screen">
       <div className="lg:mx-10 mx-2">
@@ -68,8 +67,10 @@ const Subjects = (props) => {
           {semesterSubjects.map((course) => (
             <SubjectCard
               key={course.Id}
-              course={course.googleClassroomCourse}
+              subjectName={course.subjectName}
+              subjectId={course.Id}
               role={session?.user.role}
+              courseId={courseId}
             />
           ))}
         </div>
