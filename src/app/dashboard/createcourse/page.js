@@ -6,7 +6,7 @@ import { BarLoader } from "react-spinners";
 import Link from "next/link";
 import { BiCheckCircle } from "react-icons/bi";
 import { FiAlertTriangle, FiX } from "react-icons/fi";
-import axios from "axios";
+import createCourse from '@/lib/createCourse'
 import NotAuthorizedPage from "../NotAuthorizedPage";
 const CreateCourse = () => {
   const { data: session } = useSession();
@@ -33,36 +33,37 @@ const CreateCourse = () => {
       setIsLoading(true);
       setErrorMessage(null);
       setIsSuccess(false);
-
+  
       // Append university and accessToken to the courseData
       courseData.university = session?.user?.university;
       courseData.accessToken = session?.accessToken;
       const adminEmail = session.user.email;
-
-      // Make a POST request to the "create course" API route
-      const response = await axios.post(
-        "https://youtube-backend-mc7i.onrender.com/create-course",
-        {
-          courseData,
-          adminEmail,
-        }
-      );
-
-      console.log("API Response:", response.data);
-
-      setIsLoading(false);
-      setIsSuccess(true);
+  
+      // Call the modified createCourse function (assuming you've updated the function as provided earlier)
+      const response = await createCourse(courseData, adminEmail);
+  
+      if (response.success) {
+        console.log("Course creation successful.");
+        setIsSuccess(true);
+      } else {
+        console.error("Error creating course:", response.error);
+        setErrorMessage(
+          "An error occurred while creating the course. Please try again later."
+        );
+        setIsSuccess(false);
+      }
     } catch (error) {
       console.error("Error creating course:", error);
       setErrorMessage(
         "An error occurred while creating the course. Please try again later."
       );
-      setIsLoading(false);
       setIsSuccess(false);
     } finally {
+      setIsLoading(false);
       localStorage.removeItem("courses");
     }
   };
+  
 
   const handleSelectCourse = () => {
     // Create an array to store subjects

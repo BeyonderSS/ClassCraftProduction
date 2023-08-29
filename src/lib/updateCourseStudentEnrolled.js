@@ -36,7 +36,7 @@ export default async function updateCourseStudentEnrolled(emails, courseId, univ
           university: universityId,
           role: role || null,
           courses: [new mongoose.Types.ObjectId(courseId)],
-          subject: role === 'Teacher' ? subjectIds || [] : [],
+          subjects: role === 'Teacher' ? subjectIds || [] : [], // Use "subject" for the field name
         });
 
         user = await newUser.save();
@@ -51,8 +51,8 @@ export default async function updateCourseStudentEnrolled(emails, courseId, univ
         }
 
         if (role === 'Teacher') {
-          // Update subjectIds for the user's subjects array
-          user.subject = subjectIds || [];
+          // Add subjectIds to the user's subject array
+          user.subjects = subjectIds || []; // Use "subject" for the field name
         }
 
         // Save the updated user document

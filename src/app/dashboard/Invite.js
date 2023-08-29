@@ -142,7 +142,7 @@ const Invite = ({ courseId, documentId }) => {
             <label className="block font-medium">Select Subjects:</label>
             <div className="mt-2 space-y-2">
               {subjectNames.map((subjectName) => (
-                <label key={subjectName} className="flex items-center">
+                <label key={subjectIdMap[subjectName]} className="flex items-center">
                   <input
                     type="checkbox"
                     className="mr-2 form-checkbox"

@@ -1,11 +1,9 @@
 "use server";
-import { google } from "googleapis";
 import { MongoClient, ObjectId } from "mongodb";
 
 async function createCourse(courseData, adminEmail) {
   try {
-    const { courseName, semesterCount, university, subjects, accessToken } =
-      courseData;
+    const { courseName, semesterCount, university } = courseData;
     console.log(adminEmail);
     const courseDocument = {
       _id: new ObjectId(),
@@ -25,44 +23,22 @@ async function createCourse(courseData, adminEmail) {
       const courses = database.collection("Courses");
       const users = database.collection("Users");
 
-      const auth = new google.auth.OAuth2();
-      auth.setCredentials({ access_token: accessToken });
-
-      const classroom = google.classroom({ version: "v1", auth });
-
-      for (const semesterNo of Object.keys(subjects)) {
-        const semesterSubjects = subjects[semesterNo];
+      for (let semesterNo = 0; semesterNo < semesterCount; semesterNo++) {
+        const semesterSubjects = courseData.subjects[semesterNo];
         courseDocument.subjects[semesterNo] = [];
 
         for (const subjectName of semesterSubjects) {
           try {
-            const roomId = university;
-            const section = semesterNo;
+            // Generate a unique subject ID for each subject
+            const uniqueSubjectId = new ObjectId().toString();
 
-            // Create the course in Google Classroom
-            const course = {
-              name: `${subjectName} - ${semesterNo + 1}`,
-              section: section,
-              ownerId: "me",
-              room: roomId,
-            };
-            const res = await classroom.courses.create({ requestBody: course });
-            const createdCourse = res.data;
-
-            console.log(
-              `Created course: ${createdCourse.name} (ID: ${createdCourse.id})`
-            );
-
-            // Add the Google Classroom course ID as the subject ID in the MongoDB document
+            // Add the subject to the course document with the unique subject ID
             courseDocument.subjects[semesterNo].push({
               subjectName,
-              Id: createdCourse.id,
+              Id: uniqueSubjectId,
             });
-
-            // Wait for a short interval before proceeding to the next course creation
-            await new Promise((resolve) => setTimeout(resolve, 1000));
           } catch (error) {
-            console.error("Error creating course:", error);
+            console.error("Error adding subject:", error);
             throw error;
           }
         }
