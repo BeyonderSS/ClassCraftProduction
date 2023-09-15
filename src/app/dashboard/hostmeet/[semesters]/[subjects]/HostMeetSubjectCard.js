@@ -69,7 +69,7 @@ const HostMeetSubjectCard = ({ course, semester, courseId }) => {
   const handleCourseSelect = (course) => {
     setSelectedCourse(course);
     setShowPopup(true);
-    setCourseName(course.name);
+    setCourseName(course);
   };
 
   const handleGenerateMeeting = async () => {
@@ -95,23 +95,9 @@ const HostMeetSubjectCard = ({ course, semester, courseId }) => {
         meetingData
       );
 
-      const announcementData = {
-        text: `Meeting: ${meetingResult.summary}\nStart Time: ${meetingResult.start.dateTime}`,
-        materials: [
-          {
-            link: {
-              url: meetingResult.hangoutLink,
-              title: "Meeting Link",
-            },
-          },
-        ],
-      };
+   
 
-      const announcementResult = await createAnnouncement(
-        session.accessToken,
-        selectedCourse.id,
-        announcementData
-      );
+    
 
       setMeetLink(meetingResult.hangoutLink);
 
@@ -153,14 +139,14 @@ const HostMeetSubjectCard = ({ course, semester, courseId }) => {
           opacity: 1,
           transition: { delay: 0.1, duration: 0.5 },
         }}
-        key={course?.id}
+        key={course?.Id}
         className="article-wrapper lg:w-96 w-auto"
       >
         <img src="/landingCard.svg" alt="" className="rounded-lg" />
 
         <div className="project-info">
           <div className="flex-pr">
-            <div className="project-title text-nowrap">{course?.name}</div>
+            <div className="project-title text-nowrap">{course}</div>
             <div className="flex space-x-4">
               <button
                 onClick={() => handleCourseSelect(course)}
