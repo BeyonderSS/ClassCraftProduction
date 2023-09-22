@@ -143,7 +143,7 @@ function Dashboard() {
                 alt=""
               />
               <div className="progressTextBox">
-                <p className="text head">Under Development</p>
+                <p className="text head">Exam Portal</p>
                 <span>...</span>
                 <p className="text price">Comming Soon</p>
               </div>
@@ -155,7 +155,7 @@ function Dashboard() {
                 alt=""
               />
               <div className="progressTextBox">
-                <p className="text head">Under Development</p>
+                <p className="text head">Assesments</p>
                 <span>...</span>
                 <p className="text price">Comming Soon</p>
               </div>
@@ -167,7 +167,7 @@ function Dashboard() {
                 alt=""
               />
               <div className="progressTextBox">
-                <p className="text head">Under Development</p>
+                <p className="text head">Result</p>
                 <span>...</span>
                 <p className="text price">Comming Soon</p>
               </div>
