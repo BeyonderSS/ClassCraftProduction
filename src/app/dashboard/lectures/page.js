@@ -11,6 +11,7 @@ import { FaCalendarAlt, FaClock } from "react-icons/fa";
 import { AiOutlineClockCircle } from "react-icons/ai";
 import { BiCalendarPlus } from "react-icons/bi";
 import { BarLoader } from "react-spinners";
+import getMongoCourses from "@/lib/mongocoursefetch";
 
 const Lectures = () => {
   const { data: session } = useSession();
