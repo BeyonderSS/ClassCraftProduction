@@ -7,7 +7,7 @@ import Link from "next/link";
 import { CgClose } from "react-icons/cg";
 import { useSession } from "next-auth/react";
 
-const doubt = () => {
+const Doubt = () => {
   const [showPopup, setShowPopup] = useState(false);
   const { data: session } = useSession();
   console.log(session);
@@ -52,9 +52,11 @@ const doubt = () => {
           </motion.button>
 
           {doubts.map((doubt) => (
-            <Link href={`/dashboard/doubt/${doubt.id}`}>
+            <Link
+            
+              key={doubt.id}
+            href={`/dashboard/doubt/${doubt.id}`}>
               <motion.div
-                key={doubt.id}
                 initial={{ opacity: 0, y: -50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
@@ -93,4 +95,4 @@ const doubt = () => {
   );
 };
 
-export default doubt;
+export default Doubt;

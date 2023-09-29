@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaUser } from 'react-icons/fa';
 
-const subjectId = (props) => {
+const SubjectId = (props) => {
  console.log(props)
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([
@@ -72,4 +72,4 @@ const subjectId = (props) => {
   );
 };
 
-export default subjectId;
+export default SubjectId;
