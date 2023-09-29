@@ -10,7 +10,6 @@ const Courses = () => {
   const { data: session } = useSession();
   const [loading, setLoading] = useState(true);
   const [databaseCourse, setDatabaseCourse] = useState();
-  console.log(session);
   useEffect(() => {
     if (!session) {
       setLoading(true);
@@ -60,6 +59,7 @@ const Courses = () => {
       }
     }
   }, [session]);
+
   useEffect(() => {
     // Function to check and delete "hostMeetCourses" from localStorage
     const checkAndDeleteCourses = () => {

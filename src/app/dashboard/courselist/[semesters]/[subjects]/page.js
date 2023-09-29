@@ -37,23 +37,32 @@ const Subjects = (props) => {
       setSemesters(updatedSemesters);
     }
   }, [filteredCourse]);
-
   useEffect(() => {
-    // Update semesterSubjects when semesters[semester] changes
     const subjectsForSemester = semesters[semester];
+  
     if (subjectsForSemester) {
-      // Check if semesterSubjects is an array, if not, convert it to an array
-      const semesterSubjectsArray = Array.isArray(subjectsForSemester)
+      let semesterSubjectsArray = [];
+  
+      semesterSubjectsArray = Array.isArray(subjectsForSemester)
         ? subjectsForSemester
         : [subjectsForSemester];
-
+  
+      // If the user's role is "Teacher", filter the subjects
+      if (session?.user.role === "Teacher") {
+        semesterSubjectsArray = semesterSubjectsArray.filter(
+          (subject) => session?.user.subjects.includes(subject.Id)
+        );
+      }
+  
       setSemesterSubjects(semesterSubjectsArray);
     } else {
       // If there are no subjects for the selected semester, set semesterSubjects to an empty array
       setSemesterSubjects([]);
     }
-  }, [semesters, semester]);
-  console.log(semesterSubjects);
+  }, [semesters, semester, session]);
+  
+  console.log("sem sub",semesterSubjects);
+ 
   return (
     <div className="lg:pl-28 pt-24 overflow-x-hidden bg-[#F4F6F8] py-6 h-screen">
       <div className="lg:mx-10 mx-2">
@@ -63,7 +72,10 @@ const Subjects = (props) => {
           </h1>
         </div>
 
+
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 ">
+          
           {semesterSubjects.map((course) => (
             <SubjectCard
               key={course.Id}
@@ -74,9 +86,11 @@ const Subjects = (props) => {
             />
           ))}
         </div>
+
       </div>
     </div>
   );
 };
+
 
 export default Subjects;
