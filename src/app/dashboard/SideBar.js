@@ -1,12 +1,18 @@
 import React from "react";
 import { AiOutlineHome } from "react-icons/ai";
 import { BiBookContent } from "react-icons/bi";
-import { BsCalendarCheckFill, BsCameraVideo, BsFolder2Open, BsPersonVideo } from "react-icons/bs";
+import {
+  BsCalendarCheckFill,
+  BsCameraVideo,
+  BsFolder2Open,
+  BsPersonVideo,
+} from "react-icons/bs";
 import Tooltip from "./Tooltip";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FaPenNib } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
+import { IoHelp } from "react-icons/io5";
 
 const SideBar = ({ role, toggle }) => {
   const currentPath = usePathname();
@@ -83,19 +89,19 @@ const SideBar = ({ role, toggle }) => {
               </Link>
             </Tooltip>
           )}
-          <Tooltip text={"Lectures"}>
-            <Link href="/dashboard/lectures">
+          {/* <Tooltip text={"Doubts"}>
+            <Link href="/dashboard/doubt">
               <li
                 className={`sidebarTile ${
-                  currentPath === "/dashboard/lectures"
+                  currentPath === "/dashboard/doubt"
                     ? "bg-[#7EA8EB] text-white"
                     : ""
                 }`}
               >
-                <BsPersonVideo className="text-3xl" />
+                <IoHelp className="text-3xl" />
               </li>
             </Link>
-          </Tooltip>
+          </Tooltip> */}
           {(role == "Admin" || role == "Teacher") && (
             <Tooltip text={"Host Lectures"}>
               <Link href="/dashboard/hostmeet">
@@ -111,6 +117,7 @@ const SideBar = ({ role, toggle }) => {
               </Link>
             </Tooltip>
           )}
+      
         </ul>
       </div>
     </nav>

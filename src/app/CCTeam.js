@@ -29,8 +29,8 @@ const CCTeam = () => {
                 </div>
                 <div className="p-6">
                   <h5 className="text-lg font-bold mb-4">Coaching Institutes</h5>
-                  <p className="mb-6">Frontend Developer</p>
-                  <ul className="list-inside flex mx-auto justify-center">
+                  {/* <p className="mb-6">Frontend Developer</p> */}
+                  {/* <ul className="list-inside flex mx-auto justify-center">
                     <a href="#!" className="px-2">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -67,7 +67,7 @@ const CCTeam = () => {
                         />
                       </svg>
                     </a>
-                  </ul>
+                  </ul> */}
                 </div>
               </div>
             </div>
@@ -88,8 +88,8 @@ const CCTeam = () => {
                 </div>
                 <div className="p-6">
                   <h5 className="text-lg font-bold mb-4">Schools</h5>
-                  <p className="mb-6">Marketing expert</p>
-                  <ul className="list-inside flex mx-auto justify-center">
+                  {/* <p className="mb-6">Marketing expert</p> */}
+                  {/* <ul className="list-inside flex mx-auto justify-center">
                     <a href="#!" className="px-2">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -126,7 +126,7 @@ const CCTeam = () => {
                         />
                       </svg>
                     </a>
-                  </ul>
+                  </ul> */}
                 </div>
               </div>
             </div>
@@ -147,8 +147,8 @@ const CCTeam = () => {
                 </div>
                 <div className="p-6">
                   <h5 className="text-lg font-bold mb-4">Universities</h5>
-                  <p className="mb-6">Web designer</p>
-                  <ul className="list-inside flex mx-auto justify-center">
+                  {/* <p className="mb-6">Web designer</p> */}
+                  {/* <ul className="list-inside flex mx-auto justify-center">
                     <a href="#!" className="px-2">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -185,7 +185,7 @@ const CCTeam = () => {
                         />
                       </svg>
                     </a>
-                  </ul>
+                  </ul> */}
                 </div>
               </div>
             </div>

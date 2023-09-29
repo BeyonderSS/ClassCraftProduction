@@ -27,13 +27,13 @@ export default function Home() {
       <CCHeader />
       <CCHero /> {/* Done */}
       <div className="antialiased bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400"></div>
-      <CCFeature /> {/* Done */}
+      {/* <CCFeature /> Done */}
       {/* <CCBanner /> Done */}
-      <CCAboutCC /> {/* Done */}
+      {/* <CCAboutCC /> Done */}
       {/* <CCPricing />  */}
       <CCTeam /> {/* Done */}
       <CCExplore />
-      <CCFAQ /> {/* Done */}
+      {/* <CCFAQ /> Done */}
       {/* <div className="min-h-screen  bg-gradient-to-br from-[#4d62e8] to-[#b2cde4]  flex-col  items-center">
             </div> */}
       <Footer />

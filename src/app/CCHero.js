@@ -16,7 +16,7 @@ const CCHero = () => {
                 "\n      .background-radial-gradient {\n        background-color: hsl(218, 41%, 15%);\n        background-image: radial-gradient(\n          650px circle at 0% 0%,\n          hsl(218, 41%, 35%) 15%,\n          hsl(218, 41%, 30%) 35%,\n          hsl(218, 41%, 20%) 75%,\n          hsl(218, 41%, 19%) 80%,\n          transparent 100%\n        ),\n        radial-gradient(\n          1250px circle at 100% 100%,\n          hsl(218, 41%, 45%) 15%,\n          hsl(218, 41%, 30%) 35%,\n          hsl(218, 41%, 20%) 75%,\n          hsl(218, 41%, 19%) 80%,\n          transparent 100%\n        );\n      }\n      #radius-shape-1 {\n        height: 220px;\n        width: 220px;\n        top: -60px;\n        left: -130px;\n        background: radial-gradient(#44006b, #ad1fff);\n        overflow: hidden;\n      }\n      #radius-shape-2 {\n        border-radius: 38% 62% 63% 37% / 70% 33% 67% 30%;\n        bottom: -60px;\n        right: -110px;\n        width: 300px;\n        height: 300px;\n        background: radial-gradient(#44006b, #ad1fff);\n        overflow: hidden;\n      }\n      .bg-glass {\n        background-color: hsla(0, 0%, 100%, 0.9);\n        backdrop-filter: saturate(200%) blur(25px);\n      }\n    ",
             }}
           /> */}
-        
+
           <div className="px-6 py-12  lg:py-24 md:px-12 text-center lg:text-left">
             <div className="container mx-auto xl:px-32 text-gray-800">
               <div className="grid lg:grid-cols-2 gap-12  items-center">
@@ -42,9 +42,10 @@ const CCHero = () => {
                     className="opacity-70"
                     style={{ color: "hsl(218, 81%, 85%)" }}
                   >
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                    Temporibus, expedita iusto veniam atque, magni tempora
-                    mollitia dolorum consequatur nulla.
+                    Step into the world of Class Craft, a cutting-edge Learning
+                    Management System meticulously crafted to align seamlessly
+                    with your unique needs, revolutionizing your perception of
+                    education.
                   </p>
                 </div>
                 <div className="mb-12 lg:mb-0 relative">
@@ -82,7 +83,8 @@ const CCHero = () => {
                     id="radius-shape-2"
                     className="absolute shadow-lg"
                   />
-                  <motion.div animate="bubble"
+                  <motion.div
+                    animate="bubble"
                     variants={{
                       bubble: {
                         x: [0, -10, 10, -5, 5, 0],
@@ -94,7 +96,9 @@ const CCHero = () => {
                           repeatType: "reverse",
                         },
                       },
-                    }} className="block rounded-lg shadow-xl bg-glass">
+                    }}
+                    className="block rounded-lg shadow-xl bg-glass"
+                  >
                     <Image
                       src="/webinar-animate.svg"
                       width={500}

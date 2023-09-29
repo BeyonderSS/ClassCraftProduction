@@ -8,21 +8,20 @@ export async function POST(request) {
   try {
     await client.connect();
     const database = client.db("ClassCraft");
-    const doubtsCollection = database.collection("doubt"); // Assuming the collection is named "doubt" in your database
+    const doubtsCollection = database.collection("Doubt"); // Assuming the collection is named "doubt" in your database
 
-    const { subject, student, teacher, message } = await request.json();
+    const { subject, student,  message } = await request.json();
 
     // Create a new doubt document
     const newDoubt = {
-      subject: ObjectId(subject),   // Convert subject to ObjectId
-      student: ObjectId(student),   // Convert student to ObjectId
-      teacher: ObjectId(teacher),   // Convert teacher to ObjectId
+      subject: subject, // Convert subject to ObjectId
+      student: new ObjectId(student), // Convert student to ObjectId
       status: "open",
       messages: [
         {
-          sender: ObjectId(student), // Assuming the initial message is from the student
+          sender: new ObjectId(student), // Assuming the initial message is from the student
           message: message,
-          timestamp: new Date(),     // Use the current date and time
+          timestamp: new Date(), // Use the current date and time
         },
       ],
     };
@@ -35,11 +34,17 @@ export async function POST(request) {
       return NextResponse.json({ success: true });
     } else {
       // Failed to insert the document
-      return NextResponse.json({ success: false, error: "Failed to insert doubt document" });
+      return NextResponse.json({
+        success: false,
+        error: "Failed to insert doubt document",
+      });
     }
   } catch (error) {
     console.error("Error:", error);
-    return NextResponse.json({ success: false, error: "Internal server error" });
+    return NextResponse.json({
+      success: false,
+      error: "Internal server error",
+    });
   } finally {
     await client.close();
   }
