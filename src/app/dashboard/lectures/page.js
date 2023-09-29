@@ -148,6 +148,95 @@ const Lectures = () => {
 
     return `${formattedHours}:${formattedMinutes} ${ampm}`;
   };
+
+
+  const [databaseCourse, setDatabaseCourse] = useState();
+  console.log(session);
+  useEffect(() => {
+    if (!session) {
+      setLoading(true);
+    } else {
+      const initialCachedCourse = localStorage.getItem("courses");
+      const cachedCourse = JSON.parse(initialCachedCourse);
+      console.log("cached:", cachedCourse);
+      if (!cachedCourse) {
+        setLoading(true);
+        console.log(session.accessToken);
+
+        async function getCourses(access_token) {
+          const accessToken = access_token;
+          const Id = session?.user.id;
+          console.log(Id);
+          const mongo = await getMongoCourses(
+            accessToken,
+            session?.user.university,
+            Id
+          );
+          setDatabaseCourse(mongo.databaseCourses);
+          console.log("mongocourse:", databaseCourse);
+
+          localStorage.setItem(
+            "courses",
+            JSON.stringify(mongo.databaseCourses)
+          );
+          // Get the current time in milliseconds
+          const currentTime = new Date().getTime();
+
+          // Calculate 1 hour in milliseconds (1 hour = 60 minutes * 60 seconds * 1000 milliseconds)
+          const oneHourInMilliseconds = 60 * 60 * 1000;
+
+          // Calculate the expiry time by adding 1 hour to the current time
+          const expiryTime = currentTime + oneHourInMilliseconds;
+
+          // Store the expiry time in localStorage
+          localStorage.setItem("coursesExpiry", expiryTime);
+
+          setLoading(false);
+        }
+
+        getCourses(session.accessToken);
+      } else {
+        setDatabaseCourse(cachedCourse);
+        setLoading(false);
+      }
+    }
+  }, [session]);
+  useEffect(() => {
+    // Function to check and delete "hostMeetCourses" from localStorage
+    const checkAndDeleteCourses = () => {
+      const expiryTime = localStorage.getItem("coursesExpiry");
+
+      if (expiryTime) {
+        // Convert the expiry time from string to a numeric value (milliseconds)
+        const expiryTimeInMilliseconds = parseInt(expiryTime, 10);
+
+        // Get the current time in milliseconds
+        const currentTime = new Date().getTime();
+
+        // Calculate the difference between current time and expiry time in milliseconds
+        const timeDifference = Math.abs(currentTime - expiryTimeInMilliseconds);
+
+        // Check if the difference is more than 1 hour (3600000 milliseconds)
+        if (timeDifference >= 3600000) {
+          // Delete "hostMeetCourses" from localStorage
+          localStorage.removeItem("courses");
+        }
+      }
+    };
+
+    // Call the function when the component mounts
+    checkAndDeleteCourses();
+
+    // You can also set an interval to check periodically if needed.
+    // For example, to check every minute, you can uncomment the following code:
+
+    const interval = setInterval(() => {
+      checkAndDeleteCourses();
+    }, 60000); // 60000 milliseconds = 1 minute
+
+    // Clean up the interval when the component unmounts
+    return () => clearInterval(interval);
+  }, []);
   useEffect(() => {
     if (session) {
       const courses = JSON.parse(localStorage.getItem("courses"));
