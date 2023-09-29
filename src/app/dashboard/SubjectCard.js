@@ -79,7 +79,6 @@ const SubjectCard = ({ subjectName, role, subjectId, courseId }) => {
                 </div>
               </Link>
             </Tooltip>
-          </div>
           <Link href={`/dashboard/lectures/${subjectId}`}>
             <div className="invite-hover ">
               <Tooltip text={"Lectures"}>
@@ -97,6 +96,7 @@ const SubjectCard = ({ subjectName, role, subjectId, courseId }) => {
                 <LuMailPlus className=" lg:text-3xl md:text-2xl text-2xl" />
               </div>
             </Tooltip>
+          </div>
           </div>
           <div className="types"></div>
         </div>
