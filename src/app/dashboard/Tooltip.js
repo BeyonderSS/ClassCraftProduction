@@ -17,7 +17,7 @@ const Tooltip = ({ text, children }) => {
       <AnimatePresence>
         {showTooltip && (
           <motion.div
-            className="absolute left-1/2 mx-8 my-2  top-0 px-2 py-1 bg-[#7EA8EB] text-white text-sm rounded-md shadow-m w-auto"
+            className="absolute left-1/2 mx-8 my-2  top-0 px-2 py-1 bg-[#7EA8EB] text-white text-sm rounded-md shadow-m w-auto z-50"
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0 }}

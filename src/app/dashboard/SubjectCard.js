@@ -5,11 +5,12 @@ import { FiX } from "react-icons/fi";
 import { LuMailPlus } from "react-icons/lu";
 import { UploadDropzone } from "@/utils/uploadthing";
 import setNotesLink from "../../lib/setNotesLink";
+import Tooltip from "./Tooltip";
 const SubjectCard = ({ subjectName, role, subjectId, courseId }) => {
   const [showPopup, setShowPopup] = useState(false);
   const [alert, setAlert] = useState("");
   const [unitName, setUnitName] = useState("");
-    
+
   const handleInputChange = (event) => {
     setUnitName(event.target.value);
   };
@@ -41,65 +42,21 @@ const SubjectCard = ({ subjectName, role, subjectId, courseId }) => {
   };
   if (role == "Student" && subjectName) {
     return (
-      <Link
-        href={`/dashboard/notes/${subjectId}?courseId=${courseId}&subjectName=${subjectName}`}
+      <motion.article
+        initial={{ opacity: 0 }}
+        animate={{
+          opacity: 1,
+          transition: { delay: 0.1, duration: 0.5 },
+        }}
+        key={subjectId}
+        className="article-wrapper lg:w-96 w-auto"
       >
-        <motion.article
-          initial={{ opacity: 0 }}
-          animate={{
-            opacity: 1,
-            transition: { delay: 0.1, duration: 0.5 },
-          }}
-          key={subjectId}
-          className="article-wrapper lg:w-96 w-auto"
-        >
-          <img src="/landingCard.svg" alt="" className="rounded-lg" />
+        <img src="/landingCard.svg" alt="" className="rounded-lg" />
 
-          <div className="project-info">
-            <div className="flex-pr">
-              <div className="project-title text-nowrap">{subjectName}</div>
-              <div className="project-hover">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="2em"
-                  height="2em"
-                  color="#000"
-                  strokeLinejoin="round"
-                  strokeLinecap="round"
-                  viewBox="0 0 24 24"
-                  strokeWidth={2}
-                  fill="none"
-                  stroke="currentColor"
-                >
-                  <path d="M5 12L19 12" />
-                  <path d="M12 5L19 12 12 19" />
-                </svg>
-              </div>
-            </div>
-            <div className="types"></div>
-          </div>
-        </motion.article>
-      </Link>
-    );
-  }
-
-  if (role == "Admin" || role == "Teacher") {
-    return (
-      <section>
-        <motion.article
-          initial={{ opacity: 0 }}
-          animate={{
-            opacity: 1,
-            transition: { delay: 0.1, duration: 0.5 },
-          }}
-          key={subjectId}
-          className="article-wrapper lg:w-96 w-auto"
-        >
-          <img src="/landingCard.svg" alt="" className="rounded-lg" />
-
-          <div className="project-info">
-            <div className="flex-pr">
-              <div className="project-title text-nowrap">{subjectName}</div>
+        <div className="project-info">
+          <div className="flex-pr">
+            <div className="project-title text-nowrap">{subjectName}</div>
+            <Tooltip text={"Notes"}>
               <Link
                 href={`/dashboard/notes/${subjectId}?courseId=${courseId}&subjectName=${subjectName}`}
               >
@@ -121,12 +78,90 @@ const SubjectCard = ({ subjectName, role, subjectId, courseId }) => {
                   </svg>
                 </div>
               </Link>
-              <div className="invite-hover ">
+            </Tooltip>
+          </div>
+          <Link href={`/dashboard/lectures/${subjectId}`}>
+            <div className="invite-hover ">
+              <Tooltip text={"Lectures"}>
                 {" "}
-                <button onClick={() => setShowPopup(true)} className="">
+                <div className="">
                   <LuMailPlus className=" lg:text-3xl md:text-2xl text-2xl" />
-                </button>
+                </div>
+              </Tooltip>
+            </div>
+          </Link>
+          <div className="invite-hover ">
+            <Tooltip text={"Raise A Doubt"}>
+              {" "}
+              <div className="">
+                <LuMailPlus className=" lg:text-3xl md:text-2xl text-2xl" />
               </div>
+            </Tooltip>
+          </div>
+          <div className="types"></div>
+        </div>
+      </motion.article>
+    );
+  }
+
+  if (role == "Admin" || role == "Teacher") {
+    return (
+      <section>
+        <motion.article
+          initial={{ opacity: 0 }}
+          animate={{
+            opacity: 1,
+            transition: { delay: 0.1, duration: 0.5 },
+          }}
+          key={subjectId}
+          className="article-wrapper lg:w-96 w-auto"
+        >
+          <img src="/landingCard.svg" alt="" className="rounded-lg" />
+
+          <div className="project-info">
+            <div className="flex-pr">
+              <div className="project-title text-nowrap">{subjectName}</div>
+              <Tooltip text={"Notes"}>
+                <Link
+                  href={`/dashboard/notes/${subjectId}?courseId=${courseId}&subjectName=${subjectName}`}
+                >
+                  <div className="project-hover">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="2em"
+                      height="2em"
+                      color="#000"
+                      strokeLinejoin="round"
+                      strokeLinecap="round"
+                      viewBox="0 0 24 24"
+                      strokeWidth={2}
+                      fill="none"
+                      stroke="currentColor"
+                    >
+                      <path d="M5 12L19 12" />
+                      <path d="M12 5L19 12 12 19" />
+                    </svg>
+                  </div>
+                </Link>
+              </Tooltip>
+              <div className="invite-hover ">
+                <Tooltip text={"Upload Notes"}>
+                  {" "}
+                  <button onClick={() => setShowPopup(true)} className="">
+                    <LuMailPlus className=" lg:text-3xl md:text-2xl text-2xl" />
+                  </button>
+                </Tooltip>
+              </div>
+              <Link href={`/dashboard/lectures/${subjectId}`}>
+                <div className="invite-hover ">
+                  <Tooltip text={"Lectures"}>
+                    {" "}
+                    <div className="">
+                      <LuMailPlus className=" lg:text-3xl md:text-2xl text-2xl" />
+                    </div>
+                  </Tooltip>
+                </div>
+              </Link>
             </div>
             <div className="types"></div>
           </div>
