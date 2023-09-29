@@ -95,6 +95,7 @@ export const authOptions = {
         if (token.user) {
           session.user.role = token.user.role;
           session.user.courses = token.user.courses;
+          session.user.subjects =token.user.subjects;
           session.user.university = token.user.university;
           session.user.id = token.user._id;
         }
