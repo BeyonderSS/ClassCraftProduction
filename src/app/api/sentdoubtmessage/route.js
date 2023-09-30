@@ -10,16 +10,17 @@ export async function POST(request) {
     const database = client.db("ClassCraft");
     const doubtsCollection = database.collection("Doubt");
 
-    const { documentObjectId, sender, message } = await request.json();
+    const { documentObjectId, sender,message } = await request.json();
 
     const query = { _id: new ObjectId(documentObjectId) };
 
     const timestamp = new Date();
+    const newSender = new ObjectId(sender); // Generate a new ObjectId for sender
 
     const update = {
       $push: {
         messages: {
-          sender,
+          sender: newSender, // Replace sender with the new ObjectId
           message,
           timestamp,
         },

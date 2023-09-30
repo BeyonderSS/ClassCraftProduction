@@ -26,8 +26,9 @@ export async function POST(request) {
 
     // Extract the 'messages' array from the document
     const messages = document.messages || [];
-
-    return NextResponse.json({ success: true, messages });
+    const status = document.status;
+    const title = document.messages[0].message;
+    return NextResponse.json({ success: true, messages,status,title });
   } catch (error) {
     console.error("Error:", error);
     return NextResponse.json({

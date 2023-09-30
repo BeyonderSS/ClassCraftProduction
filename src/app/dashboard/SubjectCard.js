@@ -28,6 +28,7 @@ const SubjectCard = ({ subjectName, role, subjectId, courseId }) => {
     setSuccessMessage("");
     // Define the data you want to send in the request
     const requestData = {
+      universityId: session?.user?.university,
       subject: subjectId, // Replace with the actual subject ID
       student: session?.user?.id, // Replace with the actual student user ID
       message: doubtQuestion, // Replace with the actual doubt message
@@ -159,7 +160,7 @@ const SubjectCard = ({ subjectName, role, subjectId, courseId }) => {
                   </Tooltip>
                 </div>
               </Link>
-              {/* <button
+              <button
                 onClick={() => setShowPopup(true)}
                 className="invite-hover "
               >
@@ -169,7 +170,7 @@ const SubjectCard = ({ subjectName, role, subjectId, courseId }) => {
                     <IoHelp className=" lg:text-3xl md:text-2xl text-2xl" />
                   </div>
                 </Tooltip>
-              </button> */}
+              </button>
             </div>
             <div className="types"></div>
           </div>
@@ -225,7 +226,18 @@ const SubjectCard = ({ subjectName, role, subjectId, courseId }) => {
 
                 {/* Success Message */}
                 {successMessage && (
-                  <div className="mt-4 text-green-500">{successMessage}</div>
+                  <div className="mt-4 text-green-500">
+                    {successMessage}{" "}
+                    <div className="text-gray-800">
+                      Head to Doubts page to check for answers or
+                      <Link href={"/dashboard/doubt"}>
+                        <span className="text-blue-700 underline">
+                          {" "}
+                          click here
+                        </span>{" "}
+                      </Link>
+                    </div>
+                  </div>
                 )}
               </div>
             </motion.div>

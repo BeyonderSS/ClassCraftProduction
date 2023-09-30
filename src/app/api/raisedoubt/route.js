@@ -10,10 +10,11 @@ export async function POST(request) {
     const database = client.db("ClassCraft");
     const doubtsCollection = database.collection("Doubt"); // Assuming the collection is named "doubt" in your database
 
-    const { subject, student,  message } = await request.json();
+    const { subject, student, message, universityId } = await request.json();
 
     // Create a new doubt document
     const newDoubt = {
+      universityId: new ObjectId(universityId),
       subject: subject, // Convert subject to ObjectId
       student: new ObjectId(student), // Convert student to ObjectId
       status: "open",

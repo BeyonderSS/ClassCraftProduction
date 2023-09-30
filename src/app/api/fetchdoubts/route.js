@@ -10,18 +10,33 @@ export async function POST(request) {
     const database = client.db("ClassCraft");
     const doubtsCollection = database.collection("Doubt");
 
-    const { student } = await request.json();
+    const { userObjectId, teacherSubjects,role ,universityId } = await request.json();
+    if (role === "Student") {
+      const query = {
+        universityId:new ObjectId(universityId),
+        student: new ObjectId(userObjectId),
+      };
+      const openDoubts = await doubtsCollection.find(query).toArray();
 
-    // Query for open doubts with a specific student ObjectId
-    const query = {
-      student: new ObjectId(student),
-      status: "open",
-    };
+      return NextResponse.json({ success: true, openDoubts });
+    } else if (role === "Teacher") {
+      const query = {
+        universityId:new ObjectId(universityId),
+        subject: { $in: teacherSubjects.map(subjectId => subjectId) },
 
-    // Fetch all documents that match the query
-    const openDoubts = await doubtsCollection.find(query).toArray();
+      };
+      const openDoubts = await doubtsCollection.find(query).toArray();
+      return NextResponse.json({ success: true, openDoubts });
+    } else {
+      const query = {
+        universityId:new ObjectId(universityId),
 
-    return NextResponse.json({ success: true, openDoubts });
+      };
+      const openDoubts = await doubtsCollection.find(query).toArray();
+
+      return NextResponse.json({ success: true, openDoubts });
+      // Handle other roles or conditions if needed
+    }
   } catch (error) {
     console.error("Error:", error);
     return NextResponse.json({

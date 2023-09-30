@@ -89,7 +89,7 @@ const SideBar = ({ role, toggle }) => {
               </Link>
             </Tooltip>
           )}
-          {/* <Tooltip text={"Doubts"}>
+          <Tooltip text={"Doubts"}>
             <Link href="/dashboard/doubt">
               <li
                 className={`sidebarTile ${
@@ -101,7 +101,7 @@ const SideBar = ({ role, toggle }) => {
                 <IoHelp className="text-3xl" />
               </li>
             </Link>
-          </Tooltip> */}
+          </Tooltip>
           {(role == "Admin" || role == "Teacher") && (
             <Tooltip text={"Host Lectures"}>
               <Link href="/dashboard/hostmeet">
