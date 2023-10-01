@@ -12,18 +12,37 @@ const SubjectId = (props) => {
   const [status, setStatus] = useState();
   const [title, setTitle] = useState();
   const [loading, setLoading] = useState(true);
+  const [messageLoding, setMessageLoding] = useState(false);
   const [error, setError] = useState(null);
+  function useChangeValuesEvery3Seconds() {
+    const [count, setCount] = useState(0);
 
+    useEffect(() => {
+      const intervalId = setInterval(() => {
+        setCount((prevCount) => prevCount + 1);
+      }, 3000);
+
+      return () => {
+        clearInterval(intervalId);
+      };
+    }, []);
+
+    return count;
+  }
+  const revalidateValue = useChangeValuesEvery3Seconds();
+  console.log(revalidateValue);
   // Define an async function to fetch data from the API
   async function fetchData() {
     try {
-      const response = await fetch("/api/fetchdoubtmessages", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ documentObjectId: props.params.subjectId }),
-      });
+      const response = await fetch(
+        `/api/fetchdoubtmessages?documentObjectId=${props.params.subjectId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -35,6 +54,7 @@ const SubjectId = (props) => {
       setTitle(data.title);
       setLoading(false);
       setError(null);
+      return data;
     } catch (error) {
       console.error("Error:", error);
       setError("An error occurred while fetching data.");
@@ -43,6 +63,7 @@ const SubjectId = (props) => {
   }
   const sendMessage = async () => {
     try {
+      setMessageLoding(true);
       const response = await fetch("/api/sentdoubtmessage", {
         method: "POST",
         headers: {
@@ -56,6 +77,7 @@ const SubjectId = (props) => {
       });
 
       if (!response.ok) {
+        setMessageLoding(false);
         throw new Error("Network response was not ok");
       }
 
@@ -65,29 +87,35 @@ const SubjectId = (props) => {
         setSendingMessage(""); // Clear the input field
         // You might also want to fetch updated messages after sending
         fetchData();
+        setMessageLoding(false);
       } else {
         setError("Failed to send the message");
+        setMessageLoding(false);
       }
-    } catch (error) { 
+    } catch (error) {
       console.error("Error:", error);
       setError("An error occurred while sending the message.");
+      setMessageLoding(false);
     }
   };
   useEffect(() => {
     // Call the fetchData function when the component mounts
     fetchData();
-  }, [props.params.subjectId]); // Re-run the effect when the subjectId changes
+  }, [props.params.subjectId, revalidateValue]); // Re-run the effect when the subjectId changes
 
   // Render loading state if data is still being fetched
   if (loading) {
-    return <div className="h-screen flex justify-center items-center "><WifiLoader text={"loading..."}/></div>;
+    return (
+      <div className="h-screen flex justify-center items-center ">
+        <WifiLoader text={"loading..."} />
+      </div>
+    );
   }
 
   // Render an error message if an error occurred
   if (error) {
     return <div className="pt-24">Error: {error}</div>;
   }
-  console.log("Status:", status, "title", title);
   return (
     <div className="flex flex-col h-screen pt-24 lg:pl-24">
       <div className="flex justify-center  ">
@@ -141,12 +169,18 @@ const SubjectId = (props) => {
               value={sendingMessage}
               onChange={(e) => setSendingMessage(e.target.value)}
             />
-            <button
-              className="bg-blue-500 text-white px-4 rounded-r-md"
-              onClick={sendMessage}
-            >
-              Send
-            </button>
+            {messageLoding ? (
+                <button className="bg-blue-500 text-white px-4 rounded-r-md">
+                  Sending...
+                </button>
+            ) : (
+              <button
+                className="bg-blue-500 text-white px-4 rounded-r-md"
+                onClick={sendMessage}
+              >
+                Send
+              </button>
+            )}
           </div>
         </div>
       ) : (
