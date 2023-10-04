@@ -62,7 +62,6 @@ console.log(selectedLecture)
       setSelectedCourseId("");
     }
   };
-
   const handleGenerateLectures = async () => {
     try {
       setProgressLoading(true);
@@ -89,9 +88,9 @@ console.log(selectedLecture)
           startTime: meetingData.startDateTime,
           endTime: meetingData.endDateTime,
           topic: meetingData.topic,
-          subjectId: null,
+          subjectId: props.params.subjects,
           semester: formattedSemester,
-          courseId: selectedCourseId,
+          courseId: props.searchParams.cid,
           meetlink: null,
           youtubeLink: meetingData.youtubeLink,
         }),
@@ -151,7 +150,6 @@ console.log(selectedLecture)
 
 
   const [databaseCourse, setDatabaseCourse] = useState();
-  console.log(session);
   useEffect(() => {
     if (!session) {
       setLoading(true);
@@ -506,7 +504,7 @@ console.log(selectedLecture)
                     onChange={handleInputChange}
                   />
                 </div>
-                <div>
+                {/* <div>
                   <select onChange={handleCourseChange}>
                     <option value="">Select a course</option>
                     {courses.map((course) => (
@@ -516,7 +514,7 @@ console.log(selectedLecture)
                     ))}
                   </select>
                   {selectedCourseId && <p>Course ID: {selectedCourseId}</p>}
-                </div>
+                </div> */}
                 {progressloading ? (
                   <button className="p-2 text-white font-semibold bg-blue-400 rounded-3xl hover:bg-blue-800 hover:text-gray-100 transition ease-in-out duration-500">
                     <BarLoader />
