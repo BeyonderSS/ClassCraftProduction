@@ -11,21 +11,21 @@ import Upload from "./Upload";
 const CourseList = () => {
   const [courses, setCourses] = useState([]);
   const { data: session } = useSession();
-  useEffect(() => {
-    if (session) {
-      console.log(session.accessToken);
+  // useEffect(() => {
+  //   if (session) {
+  //     console.log(session.accessToken);
 
-      async function getCourses(access_token) {
-        const accessToken = access_token;
-        const courses = await listCourses(accessToken);
-        console.log(courses);
-        setCourses(courses);
-      }
+  //     async function getCourses(access_token) {
+  //       const accessToken = access_token;
+  //       const courses = await listCourses(accessToken);
+  //       console.log(courses);
+  //       setCourses(courses);
+  //     }
 
-      getCourses(session.accessToken);
-    }
-  }, [session]);
-  console.log(courses);
+  //     getCourses(session.accessToken);
+  //   }
+  // }, [session]);
+  // console.log(courses);
 
   // useEffect(() => {
   //   if(session){
@@ -154,6 +154,27 @@ const CourseList = () => {
   //     })();
   //   }
   // }, [session]);
+  const apiTest = async () => {
+    try {
+      const response = await fetch('/api/testPaymentLink', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log('API Response:', data);
+      // Handle the API response here as needed
+    } catch (error) {
+      console.error('Error:', error);
+      // Handle errors here
+    }
+  };
 
   return (
     <div>
@@ -169,8 +190,9 @@ const CourseList = () => {
       {/* <UploadVideoForm />
       <button onClick={handleGenerateMeeting}>Generate Meeting</button>
       <InviteForm/> */}
-      <CustomVideoPlayer videoLink={"https://www.youtube.com/watch?v=fLh4jYrPjNM"}/>
-    <Upload/>
+      {/* <CustomVideoPlayer videoLink={"https://www.youtube.com/watch?v=fLh4jYrPjNM"}/> */}
+    {/* <Upload/> */}
+    <button onClick={apiTest}>TEST API BUTTON</button>
     </div>
   );
 };
