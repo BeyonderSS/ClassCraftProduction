@@ -6,7 +6,7 @@ export async function POST(request) {
   try {
     const paytmParams = {
       body: {
-        mid: "dUaKKK52198374876899",
+        mid: process.env.NEXT_PUBLIC_PAYTMMID,
         linkType: "GENERIC",
         linkDescription: "Test Payment",
         linkName: "Test",
@@ -17,7 +17,7 @@ export async function POST(request) {
     // Generate checksum
     const checksum = await PaytmChecksum.generateSignature(
       JSON.stringify(paytmParams.body),
-      "_uS&aZcm6m@eczGe"
+      process.env.PAYTMKEY
     );
 
     paytmParams.head = {
