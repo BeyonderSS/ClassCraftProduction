@@ -150,7 +150,7 @@ const SubjectCard = ({ subjectName, role, subjectId, courseId }) => {
                   </div>
                 </Link>
               </Tooltip>
-              <Link href={`/dashboard/lectures/${subjectId}`}>
+              <Link href={`/dashboard/lectures/${subjectId}?cid=${courseId}`}>
                 <div className="invite-hover ">
                   <Tooltip text={"Lectures"}>
                     {" "}
@@ -295,7 +295,7 @@ const SubjectCard = ({ subjectName, role, subjectId, courseId }) => {
                   </button>
                 </Tooltip>
               </div>
-              <Link href={`/dashboard/lectures/${subjectId}`}>
+              <Link href={`/dashboard/lectures/${subjectId}?cid=${courseId}`}>
                 <div className="invite-hover ">
                   <Tooltip text={"Lectures"}>
                     {" "}
