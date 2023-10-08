@@ -1,25 +1,9 @@
-"use client";
-import { useEffect } from "react";
 import ProvidersWrapper from "./ProvidersWrapper";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/react";
 
 export default function RootLayout({ children }) {
-  // Function to disable right-click
-  const disableRightClick = (e) => {
-    e.preventDefault();
-  };
-
-  // Add a right-click event listener to the body element
-  document.body.addEventListener("contextmenu", disableRightClick);
-
-  // Remove the event listener and restore inspect mode when the component unmounts
-  useEffect(() => {
-    return () => {
-      document.body.removeEventListener("contextmenu", disableRightClick);
-      document.onkeydown = null;
-    };
-  }, []);
+ 
 
   return (
     <html lang="en">
