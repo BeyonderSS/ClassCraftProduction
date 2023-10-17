@@ -20,7 +20,7 @@ async function getMongoLectures(universityId, courseIds) {
     const LecturesCollection = database.collection("Lectures");
     const lectures = await LecturesCollection.find({
       university: universityObjectId,
-      courseId: { $in: courseObjectIds },
+      // courseId: { $in: courseObjectIds },
     }).toArray();
 
     return lectures;
