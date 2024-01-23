@@ -144,8 +144,10 @@ function Dashboard() {
               />
               <div className="progressTextBox">
                 <p className="text head">Exam Portal</p>
-                <span>...</span>
-                <p className="text price"></p>
+               <Link href={"https://online-exam-portal-rose.vercel.app/"}>
+                  
+                  <p className="text price">Go To Portal</p>
+                </Link>
               </div>
             </div>
             <div className="progressCard lg:h-80 h-52 w-auto lg:w-[55vh] m-6">
